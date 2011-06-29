@@ -1,0 +1,27 @@
+h1. MVHS Zeiterfassung
+
+Das Android-Projekt wird für den Kurs "Programme entwickeln für Android Smartphones" an der Münchner Volkshochschule verwendet. Der Quellcode und die Dokumentation sind frei verfügbar. Weiterentwicklung ist erwünscht.
+
+h2. Lizenz
+
+Sowohl die Dokumentation als auch der Quellcode unterliegen der !http://i.creativecommons.org/l/by-nc/3.0/88x31.png! "CC-BY-NC Lizenz.":http://creativecommons.org/licenses/by-nc/3.0/deed.de
+
+h2. Changelog
+
+* Tag 1
+
+** Anlegen des Projektes
+
+** Entwurf der einfachen Oberfläche
+
+** Sturktur einer einfachen Datenbank entwerfen
+
+h2. Links
+
+* "Eclipse 3.7 (Indigo)":http://www.eclipse.org/downloads/
+
+* "Android SDK":http://developer.android.com/sdk/index.html
+
+* "Android Developer Toolkit":http://developer.android.com/sdk/eclipse-adt.html
+
+* Buch "Android 2":http://amzn.to/kAnQRT
