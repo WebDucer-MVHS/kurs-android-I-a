@@ -1,20 +1,10 @@
 h1. MVHS Zeiterfassung
 
-Das Android-Projekt wird f웦 den Kurs "Programme entwickeln f웦 Android Smartphones" an der M웢chner Volkshochschule verwendet. Der Quellcode und die Dokumentation sind frei verf웗bar. Weiterentwicklung ist erw웢scht.
+Das Android-Projekt wird f체r den Kurs "Programme entwickeln f체r Android Smartphones" an der M체nchner Volkshochschule verwendet. Der Quellcode und die Dokumentation sind frei verf체gbar. Weiterentwicklung ist erw체nscht.
 
 h2. Lizenz
 
 Sowohl die Dokumentation als auch der Quellcode unterliegen der !http://i.creativecommons.org/l/by-nc/3.0/88x31.png! "CC-BY-NC Lizenz.":http://creativecommons.org/licenses/by-nc/3.0/deed.de
-
-h2. Changelog
-
-* Tag 1
-
-** Anlegen des Projektes
-
-** Entwurf der einfachen Oberfl둩he
-
-** Sturktur einer einfachen Datenbank entwerfen
 
 h2. Links
 
@@ -25,3 +15,13 @@ h2. Links
 * "Android Developer Toolkit":http://developer.android.com/sdk/eclipse-adt.html
 
 * Buch "Android 2":http://amzn.to/kAnQRT
+
+h2. Changelog
+
+h3. Tag 1
+
+* Anlegen des Projektes
+
+* Entwurf der einfachen Oberfl채che
+
+* Sturktur einer einfachen Datenbank entwerfen
