@@ -4,7 +4,7 @@ Das Android-Projekt wird für den Kurs "Programme entwickeln für Android Smartp
 
 h2. Lizenz
 
-Sowohl die Dokumentation als auch der Quellcode unterliegen der !http://i.creativecommons.org/l/by-nc/3.0/88x31.png! "CC-BY-NC Lizenz.":http://creativecommons.org/licenses/by-nc/3.0/deed.de
+Sowohl die Dokumentation als auch der Quellcode unterliegen der !http://i.creativecommons.org/l/by-nc/3.0/88x31.png! " CC-BY-NC Lizenz.":http://creativecommons.org/licenses/by-nc/3.0/deed.de
 
 h2. Links
 
@@ -17,6 +17,16 @@ h2. Links
 * Buch "Android 2":http://amzn.to/kAnQRT
 
 h2. Changelog
+
+h3. Tag 2
+
+* Verbindung mit der SQLite DB herstellen
+
+* Anlegen einer SQLite DB
+
+* Anlegen / Ändern der Datensätze in der DB
+
+* Datentransfer mit DDMS Perspektive
 
 h3. Tag 1
 
