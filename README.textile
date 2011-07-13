@@ -18,6 +18,16 @@ h2. Links
 
 h2. Changelog
 
+h3. Tag 3
+
+* Lokalisierung (Deutsch)
+
+* Auflistung der Aufzeichnungen
+
+* Einbindung eines Menüs
+
+* Anpassung der Datumsformatierung
+
 h3. Tag 2
 
 * Verbindung mit der SQLite DB herstellen
