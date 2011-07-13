@@ -41,4 +41,15 @@ public class TimeTrackingTable {
 		TABLE_NAME + "(" +
 			START_TIME + ")" +
 		" VALUES(?)";
+	
+	public static final String SQL_LIST_RECORDS = "SELECT " +
+		ID + "," +
+		START_TIME + "," +
+		END_TIME +
+		" FROM " +
+		TABLE_NAME +
+		" WHERE " +
+		END_TIME + " IS NOT NULL" +
+		" ORDER BY " +
+		START_TIME + " DESC";
 }

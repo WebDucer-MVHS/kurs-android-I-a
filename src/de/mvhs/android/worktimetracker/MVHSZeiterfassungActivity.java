@@ -1,19 +1,30 @@
 package de.mvhs.android.worktimetracker;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 public class MVHSZeiterfassungActivity extends Activity {
+	
+	/*
+	 * Klassenvariablen
+	 */
+	private DateFormat _dfDate = DateFormat.getDateInstance(DateFormat.SHORT);
+	private DateFormat _dfTime = DateFormat.getTimeInstance(DateFormat.MEDIUM);
+	
     /**
      * Called when the activity is first created.
      */
@@ -49,7 +60,7 @@ public class MVHSZeiterfassungActivity extends Activity {
 			try{
 				Date dtmStartTime = sdFormat.parse(strStartTime);
 				
-				txtStartTime.setText(dtmStartTime.toString());
+				txtStartTime.setText(_dfDate.format(dtmStartTime) + " " + _dfTime.format(dtmStartTime));
 				btnStart.setEnabled(false);
 		        btnEnd.setEnabled(true);
 			}
@@ -73,7 +84,7 @@ public class MVHSZeiterfassungActivity extends Activity {
     		switch (oButton.getId()) {
 			case R.id.btnStart:
 				EditText txtStart = (EditText)findViewById(R.id.txtStartTime);
-				txtStart.setText(dtmNowTime.toString());
+				txtStart.setText(_dfDate.format(dtmNowTime) + " " + _dfTime.format(dtmNowTime));
 				oButton.setEnabled(false);
 				Button btnEnd = (Button)findViewById(R.id.btnEnd);
 				btnEnd.setEnabled(true);
@@ -88,7 +99,7 @@ public class MVHSZeiterfassungActivity extends Activity {
 
 			case R.id.btnEnd:
 				EditText txtEnd = (EditText)findViewById(R.id.txtEndTime);
-				txtEnd.setText(dtmNowTime.toString());
+				txtEnd.setText(_dfDate.format(dtmNowTime) + " " + _dfTime.format(dtmNowTime));
 				oButton.setEnabled(false);
 				Button btnStart = (Button)findViewById(R.id.btnStart);
 				btnStart.setEnabled(true);
@@ -115,5 +126,47 @@ public class MVHSZeiterfassungActivity extends Activity {
 			default:
 				break;
 			}
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+    		getMenuInflater().inflate(R.menu.main_menu, menu);
+    		
+    		return super.onCreateOptionsMenu(menu);
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    		switch (item.getItemId()) {
+			case R.id.opt_close:
+				this.finish();
+				
+				break;
+				
+			case R.id.opt_list:
+				final Intent listRecordActivity = new Intent(this, RecordList.class);
+				startActivity(listRecordActivity);
+				
+				break;
+			case R.id.opt_clear:
+				EditText txtStart = (EditText)findViewById(R.id.txtStartTime);
+				EditText txtEnd = (EditText)findViewById(R.id.txtEndTime);
+				
+				Button cmdStart = (Button)findViewById(R.id.btnStart);
+				Button cmdEnd = (Button)findViewById(R.id.btnEnd);
+				
+				txtStart.setText("");
+				txtEnd.setText("");
+				
+				cmdStart.setEnabled(true);
+				cmdEnd.setEnabled(false);
+				
+				break;
+			default:
+				break;
+			}
+    	
+    	
+    		return super.onOptionsItemSelected(item);
     }
 }

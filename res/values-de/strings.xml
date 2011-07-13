@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MVHS Arbeitszeit-Erfassung</string>
+    <string name="start_time">Start-Zeit:</string>
+    <string name="end_time">End-Zeit:</string>
+    <string name="button_start">Start</string>
+    <string name="button_end">Ende</string>
+    <string name="record_list">Aufzeichnungsliste</string>
+    
+    <!-- Menü Einträge -->
+    <string name="opt_list_records">Auflisten</string>
+    <string name="opt_close">Schließen</string>
+    <string name="opt_clear">Zurücksetzen</string>
+</resources>

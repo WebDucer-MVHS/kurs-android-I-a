@@ -5,4 +5,10 @@
     <string name="end_time">End Time:</string>
     <string name="button_start">Start</string>
     <string name="button_end">End</string>
+    <string name="record_list">List of Records</string>
+    
+    <!-- Menü Einträge -->
+    <string name="opt_list_records">List Records</string>
+    <string name="opt_close">Close</string>
+    <string name="opt_clear">Clear</string>
 </resources>
