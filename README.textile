@@ -1,4 +1,4 @@
-h1{color:red}. Der Kurs am 20. Juli 2011 fällt wegen meiner Erkrankung aus und wird zu einem späteren Zeitpunkt nachgeholt!
+h1{color:red}. Die Kurse am 20. und 27. Juli 2011 fallen wegen meiner Erkrankung aus und werden zu einem späteren Zeitpunkt (August) nachgeholt!
 
 h1. MVHS Zeiterfassung
 
