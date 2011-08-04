@@ -51,7 +51,7 @@ public class MVHSZeiterfassungActivity extends Activity {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         
-        // Auf letzten Eintrag prŸfen
+        // Auf letzten Eintrag prï¿½fen
         Cursor cursor =
 			db.rawQuery(TimeTrackingTable.SQL_LAST_UNCOMPLETED, null);
 		if (cursor.moveToNext() == true){
@@ -72,7 +72,7 @@ public class MVHSZeiterfassungActivity extends Activity {
     }
     
     /**
-     * OnClick Event fŸr Buttons
+     * OnClick Event fï¿½r Buttons
      */
     public void onButtonClick(final View vButton){
     		Date dtmNowTime = new Date();
@@ -89,7 +89,7 @@ public class MVHSZeiterfassungActivity extends Activity {
 				Button btnEnd = (Button)findViewById(R.id.btnEnd);
 				btnEnd.setEnabled(true);
 				
-				// DB Platzhalter fŸllen
+				// DB Platzhalter fï¿½llen
 				SQLiteStatement stInsert =
 						db.compileStatement(TimeTrackingTable.SQL_INSERT_START_DATE);
 				stInsert.bindString(1, sdFormat.format(dtmNowTime));
@@ -110,7 +110,7 @@ public class MVHSZeiterfassungActivity extends Activity {
 					int id = cursor.getInt(
 						cursor.getColumnIndex(TimeTrackingTable.ID));
 					
-					// Zu aktulisierende Werte fŸllen
+					// Zu aktulisierende Werte fï¿½llen
 					ContentValues updateData = new ContentValues();
 					updateData.put(TimeTrackingTable.END_TIME, sdFormat.format(dtmNowTime));
 					
@@ -144,7 +144,7 @@ public class MVHSZeiterfassungActivity extends Activity {
 				break;
 				
 			case R.id.opt_list:
-				final Intent listRecordActivity = new Intent(this, RecordList.class);
+				final Intent listRecordActivity = new Intent(this, RecordList.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);;
 				startActivity(listRecordActivity);
 				
 				break;

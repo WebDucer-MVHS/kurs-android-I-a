@@ -12,7 +12,6 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.text.format.Time;
 import android.widget.DatePicker;
 import android.widget.TabHost;
 import android.widget.TimePicker;
@@ -59,7 +58,7 @@ public class EditRecord extends TabActivity {
 	 * Daten laden
 	 */
 	private void LoadData(){
-		// Initialisierung der Oberflächenelemente
+		// Initialisierung der Oberfl√§chenelemente
 		DatePicker dpStart = (DatePicker)findViewById(R.id.startDate);
 		DatePicker dpEnd = (DatePicker)findViewById(R.id.endDate);
 		TimePicker tpStart = (TimePicker)findViewById(R.id.startTime);
@@ -72,7 +71,7 @@ public class EditRecord extends TabActivity {
 			TimeTrackingTable.SQL_SELECT_BY_ID,
 			new String[]{String.valueOf(_ID)});
 		
-		// Füllen der Elemente
+		// F√ºllen der Elemente
 		if (cursor.moveToNext() == true) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			
@@ -92,7 +91,7 @@ public class EditRecord extends TabActivity {
 			
 		}
 		
-		// Schließen der DB
+		// Schlie√üen der DB
 		db.close();
 	}
 	
@@ -100,7 +99,7 @@ public class EditRecord extends TabActivity {
 	 * Beenden der Activity
 	 */
 	@Override
-	protected void onDestroy() {
+	protected void onPause() {
 		// Auslesen der eingegebenen Daten
 		DatePicker dpStart = (DatePicker)findViewById(R.id.startDate);
 		DatePicker dpEnd = (DatePicker)findViewById(R.id.endDate);
@@ -134,9 +133,9 @@ public class EditRecord extends TabActivity {
 			TimeTrackingTable.ID + "=?",
 			new String[]{String.valueOf(_ID)});
 		
-		// DB schließen
+		// DB schlie√üen
 		db.close();
 		
-		super.onDestroy();
+		super.onPause();
 	}
 }

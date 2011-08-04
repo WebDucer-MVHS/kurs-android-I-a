@@ -34,12 +34,10 @@ public class RecordList extends ListActivity {
 		setContentView(R.layout.record_list);
 		
 		LoadData();
-		
-		registerForContextMenu(findViewById(android.R.id.list));
 	}
 	
 	/**
-	 * Kontext Menü einbinden
+	 * Kontext Men√º einbinden
 	 */
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
@@ -50,7 +48,7 @@ public class RecordList extends ListActivity {
 	}
 	
 	/**
-	 * Auswerten des Kontext Menüs
+	 * Auswerten des Kontext Men√ºs
 	 */
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
@@ -74,7 +72,7 @@ public class RecordList extends ListActivity {
 			break;
 			
 		case R.id.ctx_edit:
-			Intent intentEdit = new Intent(this, EditRecord.class);
+			Intent intentEdit = new Intent(this, EditRecord.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intentEdit.putExtra("id", id);
 			startActivity(intentEdit);
 			
@@ -110,15 +108,7 @@ public class RecordList extends ListActivity {
 		if (_Position <= cursor.getCount()) {
 			setSelection(_Position);
 		}
+		
+		registerForContextMenu(findViewById(android.R.id.list));
 	}
-	
-	/**
-	 * Daten neu laden, nach neuen Start
-	 */
-	@Override
-	protected void onResume() {
-		LoadData();
-		super.onResume();
-	}
-
 }
