@@ -72,7 +72,7 @@ public class RecordList extends ListActivity {
 			break;
 			
 		case R.id.ctx_edit:
-			Intent intentEdit = new Intent(this, EditRecord.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			Intent intentEdit = new Intent(this, EditRecord.class);
 			intentEdit.putExtra("id", id);
 			startActivity(intentEdit);
 			
