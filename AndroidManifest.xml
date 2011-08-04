@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="de.mvhs.android.worktimetracker"
-      android:versionCode="1"
+      android:versionCode="2"
       android:versionName="1.0">
     <uses-sdk android:minSdkVersion="4" />
 
@@ -13,7 +13,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RecordList" android:label="@string/record_list"/>
+        <activity android:name=".RecordList" android:label="@string/record_list" />
+        <activity android:name=".EditRecord" android:label="@string/edit_record" />
 
     </application>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 </manifest>

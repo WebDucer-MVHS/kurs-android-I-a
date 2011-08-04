@@ -1,5 +1,3 @@
-h1{color:red}. Die Kurse am 20. und 27. Juli 2011 fallen wegen meiner Erkrankung aus und werden zu einem späteren Zeitpunkt (August) nachgeholt!
-
 h1. MVHS Zeiterfassung
 
 Das Android-Projekt wird für den Kurs "Programme entwickeln für Android Smartphones" an der Münchner Volkshochschule verwendet. Der Quellcode und die Dokumentation sind frei verfügbar. Weiterentwicklung ist erwünscht.
@@ -19,6 +17,14 @@ h2. Links
 * Buch "Android 2":http://amzn.to/kAnQRT
 
 h2. Changelog
+
+h4. Tag 4
+
+* Löschen von Eiträgen
+
+* Editieren von Einträgen
+
+* Verkaufsmöglichkeiten von Apps
 
 h3. Tag 3
 

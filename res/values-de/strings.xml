@@ -6,9 +6,16 @@
     <string name="button_start">Start</string>
     <string name="button_end">Ende</string>
     <string name="record_list">Aufzeichnungsliste</string>
+    <string name="edit_record">Aufzeichnung bearbeiten</string>
+    <string name="tab_start">Start</string>
+    <string name="tab_end">Ende</string>
     
     <!-- Menü Einträge -->
     <string name="opt_list_records">Auflisten</string>
     <string name="opt_close">Schließen</string>
     <string name="opt_clear">Zurücksetzen</string>
+    
+    <!-- Kontextmenü Einträge -->
+    <string name="ctx_delete">Löschen</string>
+    <string name="ctx_edit">Bearbeiten</string>
 </resources>
