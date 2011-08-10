@@ -23,7 +23,7 @@ public class TimeTrackingTable {
 			START_TIME + " TEXT," +
 			END_TIME + " TEXT)";
 	
-	// LÃ¶schen der Tabelle
+	// Lšschen der Tabelle
 	public static final String SQL_DROP = "DROP TABLE IF EXISTS " + TABLE_NAME;
 	
 	/*

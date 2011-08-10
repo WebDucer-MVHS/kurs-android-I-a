@@ -14,8 +14,12 @@
     <string name="opt_list_records">Auflisten</string>
     <string name="opt_close">Schließen</string>
     <string name="opt_clear">Zurücksetzen</string>
+    <string name="opt_export">Export</string>
     
     <!-- Kontextmenü Einträge -->
     <string name="ctx_delete">Löschen</string>
     <string name="ctx_edit">Bearbeiten</string>
+    
+    <!-- Export Dialog -->
+    <string name="msg_exporting">Datenexport ...</string>
 </resources>
