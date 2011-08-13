@@ -38,3 +38,6 @@ Sowohl die Dokumentation als auch der Quellcode unterliegen der [![CC-BY-NC Lize
 * Anlegen des Projektes
 * Entwurf der einfachen Oberfläche
 * Sturktur einer einfachen Datenbank entwerfen
+
+##Flattr##
+[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=WebDucer&url=https://github.com/WebDucer/MVHS-Zeiterfassung&title=MVHS-Zeiterfassung&language=de_DE&tags=github&category=software)
