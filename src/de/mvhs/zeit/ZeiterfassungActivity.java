@@ -18,13 +18,13 @@ public class ZeiterfassungActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        // Initialisierung der Oberflächenelemente
+        // Initialisierung der Oberfl√§chenelemente
         Button cmdStart = (Button) findViewById(R.id.cmdStart);
         Button cmdEnd = (Button)findViewById(R.id.cmdEnd);
         EditText txtStart = (EditText)findViewById(R.id.txtStart);
         EditText txtEnd = (EditText)findViewById(R.id.txtEnd);
         
-        //  Initialisierung der Zustände
+        //  Initialisierung der Zust√§nde
         txtStart.setText("");
         txtEnd.setText("");
         cmdEnd.setEnabled(false);

@@ -1,5 +1,5 @@
 #MVHS Zeiterfassung#
-Das Android-Projekt wird f웦 den Kurs "Programme entwickeln f웦 Android Smartphones" an der M웢chner Volkshochschule verwendet. Der Quellcode und die Dokumentation sind frei verf웗bar. Weiterentwicklung ist erw웢scht.
+Das Android-Projekt wird f체r den Kurs "Programme entwickeln f체r Android Smartphones" an der M체nchner Volkshochschule verwendet. Der Quellcode und die Dokumentation sind frei verf체gbar. Weiterentwicklung ist erw체nscht.
 
 ##Lizenz##
 Sowohl die Dokumentation als auch der Quellcode unterliegen der [![CC-BY-NC Lizenz](http://i.creativecommons.org/l/by-nc/3.0/88x31.png "CC-BY-NC Lizenz") CC-BY-NC Lizenz](http://creativecommons.org/licenses/by-nc/3.0/deed.de)
@@ -14,11 +14,11 @@ Sowohl die Dokumentation als auch der Quellcode unterliegen der [![CC-BY-NC Lize
 
 ###Tag 1###
 * Anlegen des Projektes
-* Entwurf der einfachen Oberfl둩he
+* Entwurf der einfachen Oberfl채che
 
 ###Tag 2 Planung###
 * Enturf der Datenbank
-* GIT Einf웘tung
+* GIT Einf체htung
 * Auflistung der gespeicherten Daten
 
 ##Flattr##
