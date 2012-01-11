@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu
-  xmlns:android="http://schemas.android.com/apk/res/android">
-  	<item android:title="@string/opt_clear" android:id="@+id/opt_clear" android:icon="@drawable/opt_clear"></item>
-    <item android:title="@string/opt_list_records" android:id="@+id/opt_list" android:icon="@drawable/opt_records"></item>
-    <item android:title="@string/opt_close" android:id="@+id/opt_close" android:icon="@drawable/opt_close"></item>
-    
-</menu>

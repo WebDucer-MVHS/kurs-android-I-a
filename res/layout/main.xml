@@ -1,40 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    >
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content"
-    android:text="@string/start_time"/>
-<EditText
-	android:id="@+id/txtStartTime"
-	android:layout_width="fill_parent"
-	android:layout_height="wrap_content">
-</EditText>
-<TextView
-	android:text="@string/end_time"
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content">
-</TextView>
-<EditText
-	android:id="@+id/txtEndTime"
-	android:layout_width="fill_parent"
-	android:layout_height="wrap_content">
-</EditText>
-<Button
-	android:id="@+id/btnStart"
-	android:layout_width="fill_parent"
-	android:layout_height="wrap_content"
-	android:text="@string/button_start"
-	android:onClick="onButtonClick">
-</Button>
-<Button
-	android:id="@+id/btnEnd"
-	android:layout_width="fill_parent"
-	android:layout_height="wrap_content"
-	android:text="@string/button_end"
-	android:onClick="onButtonClick">
-</Button>
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/label_start"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/txtStart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:editable="false"
+        android:enabled="false"
+        android:inputType="datetime" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/label_end"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/txtEnd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:editable="false"
+        android:enabled="false"
+        android:inputType="datetime" />
+
+    <Button
+        android:id="@+id/cmdStart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/cmd_start" />
+
+    <Button
+        android:id="@+id/cmdEnd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/cmd_end" />
+
 </LinearLayout>

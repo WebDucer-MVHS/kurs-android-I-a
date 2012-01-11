@@ -1,25 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MVHS Work Time Tracker</string>
-    <string name="start_time">Start Time:</string>
-    <string name="end_time">End Time:</string>
-    <string name="button_start">Start</string>
-    <string name="button_end">End</string>
-    <string name="record_list">List of Records</string>
-    <string name="edit_record">Edit Record</string>
-    <string name="tab_start">Start</string>
-    <string name="tab_end">End</string>
-    
-    <!-- Menü Einträge -->
-    <string name="opt_list_records">List Records</string>
-    <string name="opt_close">Close</string>
-    <string name="opt_clear">Clear</string>
-    <string name="opt_export">Export</string>
-    
-    <!-- Kontextmenü Einträge -->
-    <string name="ctx_delete">Delete</string>
-    <string name="ctx_edit">Edit</string>
-    
-    <!-- Export Dialog -->
-    <string name="msg_exporting">Exporting Data ...</string>
+
+    <string name="label_start">Startzeit:</string>
+    <string name="app_name">Zeiterfassung</string>
+    <string name="label_end">Endzeit:</string>
+    <string name="cmd_start">Start</string>
+    <string name="cmd_end">Ende</string>
+
 </resources>
