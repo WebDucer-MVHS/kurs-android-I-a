@@ -1,7 +1,7 @@
 package de.mvhs.zeit;
 
 import java.util.Date;
-
+import de.mvhs.zeit.de.ZeiterfassungTable;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class ZeiterfassungActivity extends Activity {
+	private long _id = -1;
     /**
      * Called when the activity is first created.
      */
@@ -61,6 +62,10 @@ public class ZeiterfassungActivity extends Activity {
     		cmdEnd.setEnabled(true);
     		cmdStart.setEnabled(false);
     		txtEnd.setText("");
+    		
+    		// Speichern in der Datenbank
+    		ZeiterfassungTable ze = new ZeiterfassungTable(this);
+    		_id = ze.SaveStartTime(dtmNow);
     }
     
     /**
@@ -77,5 +82,9 @@ public class ZeiterfassungActivity extends Activity {
 		
 		cmdEnd.setEnabled(false);
 		cmdStart.setEnabled(true);
+		
+		// Aktualisieren in der Datenbank
+		ZeiterfassungTable ze = new ZeiterfassungTable(this);
+		ze.SaveEndTime(_id, dtmNow);
     }
 }
