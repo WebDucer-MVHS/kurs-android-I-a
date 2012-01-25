@@ -5,4 +5,12 @@
     <string name="label_end">Endzeit:</string>
     <string name="cmd_start">Start</string>
     <string name="cmd_end">Ende</string>
+    <!-- Menüeinträge -->
+    <string name="opt_list">Auflisten</string>
+    <string name="opt_exit">Beenden</string>
+    <!-- Auflistung -->
+    <string name="list_title">Auflistung</string>
+    <!-- Record List Kontextmenü -->
+    <string name="ctx_edit">Bearbeiten</string>
+    <string name="ctx_delete">Löschen</string>
 </resources>

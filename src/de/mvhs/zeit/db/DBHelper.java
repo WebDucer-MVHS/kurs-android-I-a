@@ -1,4 +1,4 @@
-package de.mvhs.zeit.de;
+package de.mvhs.zeit.db;
 
 import java.text.SimpleDateFormat;
 

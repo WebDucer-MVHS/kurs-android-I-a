@@ -32,10 +32,13 @@ Sowohl die Dokumentation als auch der Quellcode unterliegen der [![CC-BY-NC Lize
 * GIT Einfühtung
 * SQLite Einführung
 
-###Tag 3 Planung###
+###Tag 3###
 * Auflisten der gespeicherten Daten
 * Menü (Options- und Kontextmenü)
+
+###Tag 4 Planung###
 * Bearbeiten der gespeicherten Daten (editiren, löschen)
+* Hintergrundprozesse (Export)
 
 ##Flattr##
 [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=WebDucer&url=https://github.com/WebDucer/MVHS-Zeiterfassung&title=MVHS-Zeiterfassung&language=de_DE&tags=github&category=software)

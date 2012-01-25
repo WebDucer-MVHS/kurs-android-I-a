@@ -1,9 +1,10 @@
-package de.mvhs.zeit.de;
+package de.mvhs.zeit.db;
 
 import java.util.Date;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 
@@ -67,6 +68,32 @@ public class ZeiterfassungTable {
 		TABLE_ZEITERFASSUNG + " (" +
 		COLUMN_START + ") VALUES " +
 		"(?)"; // Platzhalter für den einzufügenden Wert
+	
+	/**
+	 * Auswahl eines Datensatzes
+	 */
+	private final String SELECT_RECORD_BY_ID = "SELECT " +
+		COLUMN_ID + "," +
+		COLUMN_START + "," +
+		COLUMN_END +
+		" FROM " +
+		TABLE_ZEITERFASSUNG +
+		" WHERE " +
+		COLUMN_ID + " =?";
+	
+	/**
+	 * Auswählen aller abgeschlossener Einträge
+	 */
+	private static final String _SELECT_CLOSED_RECORDS = "SELECT " +
+		COLUMN_ID + "," +
+		COLUMN_START + "," +
+		COLUMN_END +
+		" FROM " +
+		TABLE_ZEITERFASSUNG +
+		" WHERE " +
+		COLUMN_END + " IS NOT NULL " +
+		" ORDER BY " +
+		COLUMN_START;
 	
 	//
 	// Methoden
@@ -145,11 +172,6 @@ public class ZeiterfassungTable {
 		String strEnd = DBHelper.DB_DATE_FORMAT.format(dtmEnd);
 		
 		SQLiteDatabase db = _dbHelper.getWritableDatabase();
-//		SQLiteStatement update = db.compileStatement(_UPDATE_END);
-//		update.bindString(1, strEnd);
-//		update.bindLong(2, id);
-		
-//		update.execute();
 		
 		ContentValues updateValues = new ContentValues();
 		updateValues.put(COLUMN_END, strEnd);
@@ -162,5 +184,79 @@ public class ZeiterfassungTable {
 		db.close();
 		
 		return count;
+	}
+	
+	/**
+	 * Alle geschlossenen Einträge
+	 * @return
+	 * Cursor auf die Daten
+	 */
+	public Cursor GetClosedRecords()
+	{
+		SQLiteDatabase db = _dbHelper.getReadableDatabase();
+		return db.rawQuery(_SELECT_CLOSED_RECORDS, null);
+	}
+	
+	/**
+	 * Löschen eines Datensatzes
+	 * @param id
+	 * ID des zu löschenden Datensatzes
+	 */
+	public void DeleteRecord(long id)
+	{
+		SQLiteDatabase db = _dbHelper.getWritableDatabase();
+		db.delete(TABLE_ZEITERFASSUNG,
+				COLUMN_ID + " = ?",
+				new String[]{String.valueOf(id)});
+	}
+	
+	/**
+	 * Speicher des Eintrages
+	 * @param id
+	 * ID des Eintrages
+	 * @param dtmStart
+	 * Startzeit
+	 * @param dtmEnd
+	 * Endzeit
+	 * @return
+	 * Anzahl der Aktualisierungen (OK: 1)
+	 */
+	public long SaveRecord(long id, Date dtmStart, Date dtmEnd)
+	{
+		long count = 0;
+		
+		String strStart = DBHelper.DB_DATE_FORMAT.format(dtmStart);
+		String strEnd = DBHelper.DB_DATE_FORMAT.format(dtmEnd);
+		
+		SQLiteDatabase db = _dbHelper.getWritableDatabase();
+		
+		ContentValues updateValues = new ContentValues();
+		updateValues.put(COLUMN_END, strEnd);
+		updateValues.put(COLUMN_START, strStart);
+		
+		count = db.update(TABLE_ZEITERFASSUNG,
+			updateValues,
+			COLUMN_ID + "=?",
+			new String[]{String.valueOf(id)});
+		
+		db.close();
+		
+		return count;
+	}
+	
+	/**
+	 * Einen Datensatz laden
+	 * @param id
+	 * ID des Datensatzes
+	 * @return
+	 * Cursor auf den Datensatz
+	 */
+	public Cursor GetRecordById(long id)
+	{
+		SQLiteDatabase db = _dbHelper.getReadableDatabase();
+		
+		return db.rawQuery(
+				SELECT_RECORD_BY_ID,
+				new String[]{String.valueOf(id)});
 	}
 }
