@@ -9,12 +9,16 @@ Sowohl die Dokumentation als auch der Quellcode unterliegen der [![CC-BY-NC Lize
 * [Android SDK](http://developer.android.com/sdk/index.html)
 * [Android Developer Toolkit](http://developer.android.com/sdk/eclipse-adt.html)
 * [Android Design](http://developer.android.com/design/index.html)
+* [Android Dev Guides](http://developer.android.com/guide/index.html)
+* [Android Resources](http://developer.android.com/resources/browser.html)
+* [Android Reference](http://developer.android.com/reference/packages.html)
+* [Android Tutorials von Lard Vogel (englisch)](http://www.vogella.de/android.html)
 
 ##Bücher##
 
 ###Papierbücher###
-* [Buch Android 2](http://amzn.to/kAnQRT)
-* [Buch Android 3](http://amzn.to/lW7O3G)
+* [Android 2](http://amzn.to/kAnQRT)
+* [Android 3](http://amzn.to/lW7O3G)
 
 ###Kindle Ebooks###
 * [Kindle Buch: Eclipse IDE 3.7](http://www.amazon.de/gp/product/B006O1J39S?ie=UTF8&tag=webitint-21&linkCode=shr&camp=3206&creative=21426&creativeASIN=B006O1J39S&ref_=sr_1_2&qid=1326833355&sr=8-2)
