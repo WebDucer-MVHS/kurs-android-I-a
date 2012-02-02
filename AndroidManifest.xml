@@ -23,6 +23,11 @@
             android:name=".RecordListActivity" 
             android:label="@string/list_title"
             />
+        
+        <activity
+            android:name=".EditRecordActivity" 
+            android:label="@string/edit_title"
+            />
     </application>
 
 </manifest>

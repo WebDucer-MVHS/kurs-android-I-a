@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources>
+    <string name="label_start">Start Time:</string>
+    <string name="app_name">Time Tracking</string>
+    <string name="label_end">End Time:</string>
+    <string name="cmd_start">Start</string>
+    <string name="cmd_end">End</string>
+    <!-- Menüeinträge -->
+    <string name="opt_list">List</string>
+    <string name="opt_exit">Exit</string>
+    <!-- Auflistung -->
+    <string name="list_title">Listing</string>
+    <!-- Record List Kontextmenü -->
+    <string name="ctx_edit">Edit</string>
+    <string name="ctx_delete">Delete</string>
+    <!-- Bearbeitungsmenü -->
+    <string name="opt_save">Save</string>
+    <!-- Tabs im Bearbeitungsdialog -->
+    <string name="tab_start">Start Time</string>
+    <string name="tab_end">End Time</string>
+    <string name="edit_title">Edit Time</string>
+</resources>

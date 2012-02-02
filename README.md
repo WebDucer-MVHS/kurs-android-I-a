@@ -40,9 +40,15 @@ Sowohl die Dokumentation als auch der Quellcode unterliegen der [![CC-BY-NC Lize
 * Auflisten der gespeicherten Daten
 * Menü (Options- und Kontextmenü)
 
-###Tag 4 Planung###
+###Tag 4###
 * Bearbeiten der gespeicherten Daten (editiren, löschen)
-* Hintergrundprozesse (Export)
+* Lokalisierung der App
+* Perfomance Optimierungen
+
+###Tag 5 Planung###
+* Export (Hintergrundprozesse)
+* Dialoge
+* Vermarktung und Markets
 
 ##Flattr##
 [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=WebDucer&url=https://github.com/WebDucer/MVHS-Zeiterfassung&title=MVHS-Zeiterfassung&language=de_DE&tags=github&category=software)

@@ -13,4 +13,10 @@
     <!-- Record List Kontextmenü -->
     <string name="ctx_edit">Bearbeiten</string>
     <string name="ctx_delete">Löschen</string>
+    <!-- Bearbeitungsmenü -->
+    <string name="opt_save">Speichern</string>
+    <!-- Tabs im Bearbeitungsdialog -->
+    <string name="tab_start">Startzeit</string>
+    <string name="tab_end">Endzeit</string>
+    <string name="edit_title">Zeit Bearbeiten</string>
 </resources>
