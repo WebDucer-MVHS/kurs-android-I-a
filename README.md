@@ -12,7 +12,7 @@ Sowohl die Dokumentation als auch der Quellcode unterliegen der [![CC-BY-NC Lize
 * [Android Dev Guides](http://developer.android.com/guide/index.html)
 * [Android Resources](http://developer.android.com/resources/browser.html)
 * [Android Reference](http://developer.android.com/reference/packages.html)
-* [Android Tutorials von Lard Vogel (englisch)](http://www.vogella.de/android.html)
+* [Android Tutorials von Lars Vogel (englisch)](http://www.vogella.de/android.html)
 
 ##Bücher##
 
