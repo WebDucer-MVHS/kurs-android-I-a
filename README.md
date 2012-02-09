@@ -45,7 +45,7 @@ Sowohl die Dokumentation als auch der Quellcode unterliegen der [![CC-BY-NC Lize
 * Lokalisierung der App
 * Perfomance Optimierungen
 
-###Tag 5 Planung###
+###Tag 5###
 * Export (Hintergrundprozesse)
 * Dialoge
 * Vermarktung und Markets

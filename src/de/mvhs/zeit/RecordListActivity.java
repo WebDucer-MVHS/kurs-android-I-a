@@ -5,10 +5,17 @@
 package de.mvhs.zeit;
 
 import de.mvhs.zeit.db.ZeiterfassungTable;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ListActivity;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,6 +40,36 @@ public class RecordListActivity extends ListActivity {
 	 * Verwendeter Adapter für die Verwaltung der Liste
 	 */
 	private SimpleCursorAdapter _Adapter;
+	
+	/**
+	 * Ausgewähle ID
+	 */
+	private long _SelectedId = -1;
+	
+	/**
+	 * Progress Dialog
+	 */
+	private ProgressDialog _ExportDialog;
+	
+	/**
+	 * ID des Export-Dialoges
+	 */
+	private final int _ExportDialogId = 0;
+	
+	/**
+	 * Handler für den Fortschritt
+	 */
+	final Handler _handler = new Handler(){
+		public void handleMessage(Message message)
+		{
+			int total = message.arg1;
+			_ExportDialog.setProgress(total);
+			
+			if (total >= 100) {
+				_ExportDialog.dismiss();
+			}
+		}
+	};
 	
 	/**
 	 * Initialisierung der Activity
@@ -115,17 +152,80 @@ public class RecordListActivity extends ListActivity {
 			
 			break;
 		case R.id.ctx_delete:
-			_ZT.DeleteRecord(info.id); // Löschen des Datensatzes
-			_Cursor.requery(); // Aktualisieren des Cursors
-			_Adapter.notifyDataSetChanged(); // Benachrichtigen des Adapters
+			_SelectedId = info.id;
+			runDelete();
 			
 			break;
-
+		case R.id.ctx_export:
+			showDialog(_ExportDialogId);
+			
+			break;
 		default:
 			break;
 		}
 		
 		
 		return super.onContextItemSelected(item);
+	}
+	
+	/**
+	 * Löschen eines Datensatzes mit vorherigen Bestätigung
+	 */
+	private void runDelete()
+	{
+		// Dialog für die Benutzerbestätigung
+		AlertDialog.Builder confirmDialog = new AlertDialog.Builder(this);
+		// Zusammenstellen des Dialoges
+		confirmDialog.setMessage(R.string.dlg_confirm_message)
+			.setTitle(R.string.dlg_confirm_title)
+			.setPositiveButton(getString(R.string.dlg_yes), new OnClickListener() {
+				
+				public void onClick(DialogInterface dialog, int which) {
+					_ZT.DeleteRecord(_SelectedId); // Löschen des Datensatzes
+					_Cursor.requery(); // Aktualisieren des Cursors
+					_Adapter.notifyDataSetChanged(); // Benachrichtigen des Adapters
+				}
+			})
+			.setNegativeButton(getString(R.string.dlg_no), new OnClickListener() {
+				
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.cancel();
+					
+				}
+			});
+		
+		// Aufrufen des Dialoges
+		AlertDialog dialog = confirmDialog.create();
+		dialog.show();
+	}
+	
+	/**
+	 * Initialisierung des Fortschrittsdialoges
+	 */
+	protected Dialog onCreateDialog(int id)
+	{
+		if (id == _ExportDialogId) {
+			_ExportDialog = new ProgressDialog(RecordListActivity.this);
+			_ExportDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL); // Fortschritsanzeige
+			_ExportDialog.setMessage(getString(R.string.dlg_export_message));
+			
+			return _ExportDialog;
+		}
+		else {
+			return null;
+		}
+	}
+	
+	/**
+	 * Vorbereitung zum Export
+	 */
+	protected void onPrepareDialog(int id, Dialog dialog)
+	{
+		if (id == _ExportDialogId) {
+			Cursor exportData = _ZT.GetClosedRecords();
+			
+			CsvExport export = new CsvExport(_handler, exportData, "export_data.csv");
+			export.start();
+		}
 	}
 }

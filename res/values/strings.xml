@@ -13,10 +13,17 @@
     <!-- Record List Kontextmenü -->
     <string name="ctx_edit">Bearbeiten</string>
     <string name="ctx_delete">Löschen</string>
+    <string name="ctx_export">CSV Export</string>
     <!-- Bearbeitungsmenü -->
     <string name="opt_save">Speichern</string>
     <!-- Tabs im Bearbeitungsdialog -->
     <string name="tab_start">Startzeit</string>
     <string name="tab_end">Endzeit</string>
     <string name="edit_title">Zeit Bearbeiten</string>
+    <!-- Text für Bestätigungsdialog -->
+    <string name="dlg_confirm_message">Wollen Sie den Eintrag wirklich löschen?</string>
+    <string name="dlg_confirm_title">Bestätigung ...</string>
+    <string name="dlg_yes">Ja</string>
+    <string name="dlg_no">Nein</string>
+    <string name="dlg_export_message">Ich exportiere ...</string>
 </resources>
