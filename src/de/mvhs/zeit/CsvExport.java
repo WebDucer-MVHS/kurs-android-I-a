@@ -5,10 +5,8 @@ package de.mvhs.zeit;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
 import android.database.Cursor;
 import android.os.Environment;
 import android.os.Handler;
