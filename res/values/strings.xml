@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Zeiterfassung</string>
+    <string name="lbl_start_time">Startzeit</string>
+    <string name="lbl_end_time">Endzeit</string>
+    <string name="cmd_start">Starten</string>
+    <string name="cmd_end">Beenden</string>
+
+</resources>
