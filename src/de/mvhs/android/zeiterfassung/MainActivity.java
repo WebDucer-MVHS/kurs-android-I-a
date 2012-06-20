@@ -2,6 +2,8 @@ package de.mvhs.android.zeiterfassung;
 
 import java.util.Date;
 
+import de.mvhs.android.zeiterfassung.db.WorktimeTable;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -43,6 +45,10 @@ public class MainActivity extends Activity {
     		
     		// Aktuelle Datum ins Feld schreiben
     		startTime.setText(dateNow.toString());
+    		
+    		// Speichern in der Datenbank
+    		WorktimeTable table = new WorktimeTable(this);
+    		table.saveWorktime(dateNow);
     }
     
     private void runEndClick(){

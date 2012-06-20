@@ -35,5 +35,11 @@ Sowohl die Dokumentation als auch der Quellcode unterliegen der [![CC-BY-NC Lize
 * Entwurf der einfachen Oberfläche
 * Theorie zu Activities und Views
 
+###Tag 2###
+* SQL Grundlagen
+* SQLite Datenbank unter Android
+* SQLiteOpenHelper
+* Speichern der Daten in der Datenbank
+
 ##Flattr##
 [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=WebDucer&url=https://github.com/WebDucer/MVHS-Zeiterfassung&title=MVHS-Zeiterfassung&language=de_DE&tags=github&category=software)
