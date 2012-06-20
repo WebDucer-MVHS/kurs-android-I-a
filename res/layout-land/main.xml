@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/lbl_start_time"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/txt_start_time"
+        android:layout_alignParentLeft="true"
+        android:text="@string/lbl_start_time" />
+    
+    <EditText
+        android:id="@+id/txt_start_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/lbl_start_time"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
+    
+    <TextView
+        android:layout_alignBaseline="@+id/txt_end_time"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/lbl_end_time"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_end_time" />
+
+    <EditText
+        android:id="@+id/txt_end_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_start_time"
+        android:layout_toRightOf="@+id/lbl_end_time"
+        android:layout_alignParentRight="true"
+        android:ems="10" />
+    
+    <Button
+        android:id="@+id/cmd_start"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/center_help"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cmd_start" />
+    
+    <View
+        android:layout_alignParentBottom="true"
+        android:layout_height="1dp"
+        android:layout_width="5dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/center_help"/>
+
+    <Button
+        android:id="@+id/cmd_end"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/center_help"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cmd_end" />
+    
+</RelativeLayout>
