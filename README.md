@@ -41,5 +41,11 @@ Sowohl die Dokumentation als auch der Quellcode unterliegen der [![CC-BY-NC Lize
 * SQLiteOpenHelper
 * Speichern der Daten in der Datenbank
 
+###Tag 3###
+* Erstellen neuer Activities
+* Aufbau von Optionsmenüs
+* Aufbau von Context-Menüs
+* ListActivity
+
 ##Flattr##
 [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=WebDucer&url=https://github.com/WebDucer/MVHS-Zeiterfassung&title=MVHS-Zeiterfassung&language=de_DE&tags=github&category=software)

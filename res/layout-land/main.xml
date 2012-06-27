@@ -18,6 +18,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_toRightOf="@+id/lbl_start_time"
+        android:inputType="datetime"
         android:ems="10" >
 
         <requestFocus />
@@ -38,6 +39,7 @@
         android:layout_below="@+id/txt_start_time"
         android:layout_toRightOf="@+id/lbl_end_time"
         android:layout_alignParentRight="true"
+        android:inputType="datetime"
         android:ems="10" />
     
     <Button

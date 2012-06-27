@@ -1,10 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-
     <string name="app_name">Time Tracking</string>
     <string name="lbl_start_time">Start Time</string>
     <string name="lbl_end_time">End Time</string>
     <string name="cmd_start">Start</string>
     <string name="cmd_end">End</string>
-
+    <string name="ctx_edit">Edit</string>
+    <string name="opt_list_short">List</string>
+    <string name="opt_list_long">List of Records</string>
+    <string name="ctx_delete">Delete</string>
 </resources>
