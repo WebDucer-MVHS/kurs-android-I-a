@@ -1,8 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@android:id/list" >
-    
+	android:layout_height="match_parent"
+	android:orientation="vertical">
+	<LinearLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:weightSum="2"
+	    android:padding="7dp">
+	    <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:maxLines="1"
+	        android:width="0dp"
+	        android:textStyle="bold"
+	        android:gravity="center"
+	        android:text="@string/col_start" />
 
-</ListView>
+	    <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:maxLines="1"
+	        android:width="0dp"
+	        android:textStyle="bold"
+	        android:gravity="center"
+	        android:text="@string/col_end" />
+	</LinearLayout> 
+	<ListView
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:id="@android:id/list" >
+	</ListView>
+</LinearLayout>

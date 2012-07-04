@@ -1,5 +1,6 @@
 package de.mvhs.android.zeiterfassung;
 
+import java.text.DateFormat;
 import java.util.Date;
 
 import de.mvhs.android.zeiterfassung.db.WorktimeTable;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class MainActivity extends Activity {
+	private static final DateFormat			_TFmedium			= DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT);
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,7 +50,7 @@ public class MainActivity extends Activity {
     	Button startButton = (Button)findViewById(R.id.cmd_start);
 		Button endButton = (Button)findViewById(R.id.cmd_end);
 		
-		// PrŸfen, ob ein offener Eintrag vorhanden ist
+		// PrÃ¼fen, ob ein offener Eintrag vorhanden ist
     	WorktimeTable table = new WorktimeTable(this);
     	long id = table.getOpenWorktime();
     	if (id > 0) {
@@ -56,7 +58,7 @@ public class MainActivity extends Activity {
 			endButton.setEnabled(true);
 			Date start = table.getStartDate(id);
 			EditText startTime = (EditText)findViewById(R.id.txt_start_time);
-			startTime.setText(start.toString());
+			startTime.setText(_TFmedium.format(start));
 		}
     	else {
     		startButton.setEnabled(true);
@@ -90,7 +92,7 @@ public class MainActivity extends Activity {
     		Date dateNow = new Date();
     		
     		// Aktuelle Datum ins Feld schreiben
-    		startTime.setText(dateNow.toString());
+    		startTime.setText(_TFmedium.format(dateNow));
     		startButton.setEnabled(false);
     		endButton.setEnabled(true);
     		
@@ -108,7 +110,7 @@ public class MainActivity extends Activity {
 		Date dateNow = new Date();
 		
 		// Aktuelle Datum ins Feld schreiben
-		endTime.setText(dateNow.toString());
+		endTime.setText(_TFmedium.format(dateNow));
 		startButton.setEnabled(true);
 		endButton.setEnabled(false);
 		

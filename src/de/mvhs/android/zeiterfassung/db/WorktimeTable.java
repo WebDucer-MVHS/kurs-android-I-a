@@ -266,4 +266,51 @@ public class WorktimeTable {
 		
 		return returnValue;
 	}
+	
+	/**
+	 * Endzeit des Datensatzes holen
+	 * @param id
+	 * ID des Datensatzes
+	 * @return
+	 * Enddatum, null wenn keins gefunden wurde
+	 */
+	public Date getEndDate(long id){
+		Date returnValue = null;
+		
+		DBHelper helper = new DBHelper(_CONTEXT);
+		SQLiteDatabase db = helper.getReadableDatabase();
+		
+		// Builder initialisieren
+		SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+		// Tabelle binden
+		builder.setTables(WorktimeTable.TABLE_NAME);
+		// Bedingung binden
+		builder.appendWhere(WorktimeTable.COLUMN_ID + " =? ");
+		// Holen der Daten
+		Cursor data = builder.query(
+			db, // Datenbank
+			new String[]{WorktimeTable.COLUMN_END_TIME}, // Spalten
+			null, // Bedingung
+			new String[]{String.valueOf(id)}, // Parameter
+			null, // Group Bedingung
+			null, // Having Bedingung
+			null); // Sortierung
+		
+		if (data != null && data.moveToFirst()) {
+			String dbValue = data.getString(data.getColumnIndex(WorktimeTable.COLUMN_END_TIME));
+			try {
+				returnValue = DBHelper.DB_DATE_FORMAT.parse(dbValue);
+			} catch (ParseException e) {
+				// Keine Behandlung der Ausnahme
+				returnValue = null;
+			}
+		}
+		
+		// Datenbank Schlie§en
+		data.close();
+		db.close();
+		helper.close();
+		
+		return returnValue;
+	}
 }

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/lbl_start_time"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/txt_start_time"
+        android:layout_alignParentLeft="true"
+        android:text="@string/lbl_start_time" />
+    
+    <EditText
+        android:id="@+id/txt_start_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/lbl_start_time"
+        android:inputType="datetime"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
+    
+    <TextView
+        android:layout_alignBaseline="@+id/txt_end_time"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/lbl_end_time"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_end_time" />
+
+    <EditText
+        android:id="@+id/txt_end_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_start_time"
+        android:layout_toRightOf="@+id/lbl_end_time"
+        android:layout_alignParentRight="true"
+        android:inputType="datetime"
+        android:ems="10" />
+    
+</RelativeLayout>
