@@ -2,7 +2,9 @@ package de.mvhs.android.zeiterfassung;
 
 import de.mvhs.android.zeiterfassung.db.DBHelper;
 import de.mvhs.android.zeiterfassung.db.WorktimeTable;
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -74,7 +76,7 @@ public class RecordListActivity extends ListActivity {
 		// Adapter initialisieren
 		SimpleCursorAdapter adapter = new SimpleCursorAdapter(
 			this, // Context
-			R.layout.row_2_cols, // layout f�r die Darstellung einer Zeile
+			R.layout.row_2_cols, // layout für die Darstellung einer Zeile
 			_Cursor, // Daten, die dargestellt werden sollen
 			new String[]{ // Spalten, die darhestellet werden sollen
 				WorktimeTable.COLUMN_START_TIME,
@@ -90,7 +92,7 @@ public class RecordListActivity extends ListActivity {
 	
 	@Override
 	protected void onStop() {
-		// Datenbank sauber schlie�en
+		// Datenbank sauber schließen
 		setListAdapter(null);
 		unregisterForContextMenu(getListView());
 		
@@ -125,10 +127,33 @@ public class RecordListActivity extends ListActivity {
 		
 		switch (item.getItemId()) {
 		case R.id.ctx_delete:
-			WorktimeTable table = new WorktimeTable(this);
-			table.deleteWorktime(info.id);
+			// Abfrage, ob wirklich gelöscht werden soll
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			
-			loadData();
+			builder.setTitle(R.string.dlg_confirm_title)
+				.setMessage(R.string.dlg_confirm_message)
+				.setIcon(R.drawable.ic_menu_delete)
+				.setNegativeButton(R.string.dlg_cancel,
+					new DialogInterface.OnClickListener() {
+					
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}
+				})
+				.setPositiveButton(R.string.dlg_delete,
+					new DialogInterface.OnClickListener() {
+					
+					public void onClick(DialogInterface dialog, int which) {
+						WorktimeTable table = new WorktimeTable(RecordListActivity.this);
+						table.deleteWorktime(info.id);
+						
+						loadData();
+					}
+				});
+			
+			builder.create().show();
+			
+			
 			
 			break;
 		case R.id.ctx_edit:
@@ -136,6 +161,18 @@ public class RecordListActivity extends ListActivity {
 			editIntent.putExtra(RecordEditActivity.ID_KEY, info.id);
 			// Übergeben der ID an die neue Activity
 			startActivity(editIntent);
+			
+			break;
+			
+		case R.id.ctx_export:
+			CSVExporter export = new CSVExporter("export");
+			WorktimeTable table = new WorktimeTable(this);
+			
+			// Daten aus der DB lesen
+			Cursor data = table.getExportList();
+			
+			// Export der Daten
+			export.execute(new Cursor[]{data});
 			
 			break;
 		default:

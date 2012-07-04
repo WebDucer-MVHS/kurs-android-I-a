@@ -313,4 +313,21 @@ public class WorktimeTable {
 		
 		return returnValue;
 	}
+	
+	public Cursor getExportList(){
+		Cursor returnValue = null;
+		DBHelper helper = new DBHelper(_CONTEXT);
+		SQLiteDatabase db = helper.getReadableDatabase();
+		
+		returnValue = db.query(
+			WorktimeTable.TABLE_NAME, // Tabellenname
+			null, // Spalten
+			null, // Bedingung
+			null, // Parameter
+			null, // Gruppierung
+			null, // Having
+			null); // Sortierung
+		
+		return returnValue;
+	}
 }

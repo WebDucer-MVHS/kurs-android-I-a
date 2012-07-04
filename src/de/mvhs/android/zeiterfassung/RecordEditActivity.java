@@ -6,6 +6,8 @@ import java.util.Date;
 import de.mvhs.android.zeiterfassung.db.WorktimeTable;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -20,7 +22,8 @@ public class RecordEditActivity extends Activity {
 	private Date _StartTime;
 	private Date _EndTime;
 	private WorktimeTable _Table = new WorktimeTable(this);
-	private static final DateFormat			_TFmedium			= DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT);
+	private static final DateFormat			_TFmedium			=
+			DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT);
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +89,28 @@ public class RecordEditActivity extends Activity {
 			break;
 			
 		case R.id.opt_delete:
-			// TODO: Sicherheitsabfrage vor dem Löschen des Datensatzes
-			_Table.deleteWorktime(_ID);
+			// Abfrage, ob wirklich gelöscht werden soll
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			
+			builder.setTitle(R.string.dlg_confirm_title)
+				.setMessage(R.string.dlg_confirm_message)
+				.setIcon(R.drawable.ic_menu_delete)
+				.setNegativeButton(R.string.dlg_cancel,
+					new DialogInterface.OnClickListener() {
+					
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}
+				})
+				.setPositiveButton(R.string.dlg_delete,
+					new DialogInterface.OnClickListener() {
+					
+					public void onClick(DialogInterface dialog, int which) {
+						_Table.deleteWorktime(_ID);
+					}
+				});
+			
+			builder.create().show();
 			
 			break;
 			

@@ -10,6 +10,10 @@
         android:title="@string/ctx_delete">
         
     </item>
+    <item
+        android:id="@+id/ctx_export"
+        android:title="@string/ctx_export"
+        android:titleCondensed="@string/ctx_export"></item>
     
 
 </menu>
