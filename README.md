@@ -13,7 +13,7 @@ Sowohl die Dokumentation als auch der Quellcode unterliegen der [![CC-BY-NC Lize
 * [Android Developer Toolkit](http://developer.android.com/sdk/eclipse-adt.html)
 * [Android Design](http://developer.android.com/design/index.html)
 * [Android Dev Guides](http://developer.android.com/guide/index.html)
-* [Android Resources](http://developer.android.com/resources/browser.html)
+* [Android Resources](http://developer.android.com/training/index.html)
 * [Android Reference](http://developer.android.com/reference/packages.html)
 * [Android Tutorials von Lars Vogel (englisch)](http://www.vogella.de/android.html)
 
