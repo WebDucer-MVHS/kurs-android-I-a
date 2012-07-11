@@ -23,6 +23,10 @@
             android:name=".RecordListActivity" >
             
         </activity>
+        <activity
+            android:name=".RecordEditActivity" >
+            
+        </activity>
     </application>
 
 </manifest>
