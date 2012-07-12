@@ -5,7 +5,7 @@ Das Android-Projekt wird für den Kurs "Programme entwickeln für Android Smartp
 Sowohl die Dokumentation als auch der Quellcode unterliegen der [![CC-BY-NC Lizenz](http://i.creativecommons.org/l/by-nc/3.0/88x31.png "CC-BY-NC Lizenz") CC-BY-NC Lizenz](http://creativecommons.org/licenses/by-nc/3.0/deed.de)
 
 ##Downloads##
-* [Dokumentation (Stand: 05.07.2012)](https://github.com/downloads/WebDucer/MVHS-Zeiterfassung/MVHS%20Zeiterfassung.pdf)
+* [Dokumentation (Stand: 12.07.2012)](https://github.com/downloads/WebDucer/MVHS-Zeiterfassung/MVHS%20Zeiterfassung.pdf)
 
 ##Links##
 * [Eclipse 3.7 (Indigo)](http://www.eclipse.org/downloads/)
@@ -50,6 +50,11 @@ Sowohl die Dokumentation als auch der Quellcode unterliegen der [![CC-BY-NC Lize
 ###Tag 4###
 * Dialoge
 * Hintergrundprozesse mit AsyncTask
+
+###Tag 5###
+* Alternative Vertriebsmöglichkeiten
+* Codeoptimierungen
+* Google Play-Store
 
 ##Flattr##
 [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=WebDucer&url=https://github.com/WebDucer/MVHS-Zeiterfassung&title=MVHS-Zeiterfassung&language=de_DE&tags=github&category=software)
