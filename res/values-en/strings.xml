@@ -1,12 +1,37 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<!-- Globale Übersetzung -->
     <string name="app_name">Time Tracking</string>
+    
+    <!-- Startbildschirm -->
     <string name="lbl_start_time">Start Time</string>
     <string name="lbl_end_time">End Time</string>
     <string name="cmd_start">Start</string>
     <string name="cmd_end">End</string>
-    <string name="ctx_edit">Edit</string>
+    <!-- Ausflistung -->
+    <string name="col_start">Start Time</string>
+    <string name="col_end">End Time</string>
+    <!-- Menüs -->
+    <!-- Startbildschirm -->
+    <string name="opt_list_long">List of records</string>
     <string name="opt_list_short">List</string>
-    <string name="opt_list_long">List of Records</string>
+    <!-- Auflistung -->
+    <string name="ctx_edit">Edit</string>
     <string name="ctx_delete">Delete</string>
+    <string name="ctx_export">CSV Export</string>
+    <string name="dlg_export_title">Export . . .</string>
+    <string name="dlg_export_message">Data are exporting . . .</string>
+    <!-- Bearbeitung -->
+    <string name="opt_save_short">Save</string>
+    <string name="opt_save_long">Save record</string>
+    <string name="opt_cancel_short">Cancel</string>
+    <string name="opt_cancel_long">Cancel edition</string>
+    <string name="opt_delete_short">Delete</string>
+    <string name="opt_delete_long">Delete record</string>
+    <!-- Dialoge -->
+    <string name="dlg_confirm_title">Delete confirmation</string>
+    <string name="dlg_confirm_message">Are you sure you want delete the record?</string>
+    <string name="dlg_cancel">Cancel</string>
+    <string name="dlg_delete">Delete</string>
+
 </resources>

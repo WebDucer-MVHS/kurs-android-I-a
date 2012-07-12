@@ -19,6 +19,8 @@
     <string name="ctx_edit">Bearbeiten</string>
     <string name="ctx_delete">Löschen</string>
     <string name="ctx_export">CSV Export</string>
+    <string name="dlg_export_title">Export . . .</string>
+    <string name="dlg_export_message">Daten werden exportiert . . .</string>
     <!-- Bearbeitung -->
     <string name="opt_save_short">Speichern</string>
     <string name="opt_save_long">Eintrag speichern</string>
@@ -28,7 +30,7 @@
     <string name="opt_delete_long">Eintrag löschen</string>
     <!-- Dialoge -->
     <string name="dlg_confirm_title">Löschbestätigung</string>
-    <string name="dlg_confirm_message">Wollen Sie den eintrag wirklich löschen?</string>
+    <string name="dlg_confirm_message">Wollen Sie den Eintrag wirklich löschen?</string>
     <string name="dlg_cancel">Abbrechen</string>
     <string name="dlg_delete">Löschen</string>
 

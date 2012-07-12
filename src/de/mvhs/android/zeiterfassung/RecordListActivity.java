@@ -4,6 +4,7 @@ import de.mvhs.android.zeiterfassung.db.DBHelper;
 import de.mvhs.android.zeiterfassung.db.WorktimeTable;
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -165,7 +166,25 @@ public class RecordListActivity extends ListActivity {
 			break;
 			
 		case R.id.ctx_export:
-			CSVExporter export = new CSVExporter("export");
+			// Fortschrittsdialog erzeugen
+			final ProgressDialog dialog = new ProgressDialog(this);
+			dialog.setTitle(R.string.dlg_export_title);
+			dialog.setMessage(getString(R.string.dlg_export_message));
+			dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+			
+			final CSVExporter export = new CSVExporter("export", dialog);
+			
+			dialog.setCancelable(true);
+			dialog.setButton(
+				ProgressDialog.BUTTON_NEGATIVE,
+				getString(R.string.dlg_cancel),
+				new DialogInterface.OnClickListener() {
+				
+				public void onClick(DialogInterface dialog, int which) {
+					export.cancel(true);
+				}
+			});
+						
 			WorktimeTable table = new WorktimeTable(this);
 			
 			// Daten aus der DB lesen
