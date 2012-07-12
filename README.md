@@ -17,6 +17,11 @@ Sowohl die Dokumentation als auch der Quellcode unterliegen der [![CC-BY-NC Lize
 * [Android Reference](http://developer.android.com/reference/packages.html)
 * [Android Tutorials von Lars Vogel (englisch)](http://www.vogella.de/android.html)
 
+##Nützliche Bibliotheken von Drittherstellern für Android##
+* [Zubhium Beta-Deployment und Crash-Reporting](https://www.zubhium.com/)
+* [ACRA - Application Crash Report for Android](http://code.google.com/p/acra/)
+* [ActionBar Sherlock - ActionBar für Android ab Version 2.1](http://actionbarsherlock.com/)
+
 ##Bücher##
 
 ###Papierbücher###
