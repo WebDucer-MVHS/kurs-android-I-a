@@ -4,6 +4,7 @@ import java.util.Date;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -16,19 +17,20 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        // Initialisierung der Buttons für die Listener-Zuweisung
-        Button cmdStart = (Button)findViewById(R.id.starten);
-        Button cmdEnde = (Button)findViewById(R.id.beenden);
+        // Referenz auf die Buttons im Layout suchen
+        Button starten = (Button)findViewById(R.id.starten);
+        Button beenden = (Button)findViewById(R.id.beenden);
         
-        // Zuweisung der Click-Listener
-        cmdStart.setOnClickListener(new OnClickListener() {
+        // Listener für "Starten"-Button definieren
+        starten.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
 				onStarten();
 			}
 		});
         
-        cmdEnde.setOnClickListener(new OnClickListener() {
+        // Listener für "Beenden"-Button definieren
+        beenden.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
 				onBeenden();
@@ -36,29 +38,25 @@ public class MainActivity extends Activity {
 		});
     }
     
-    /**
-     * Aufnahme der Startzeit
-     */
     private void onStarten(){
-    		EditText txtStartzeit = (EditText)findViewById(R.id.startzeit);
+    		// Textfeld Referenz im Layout suchen
+    		EditText startzeit = (EditText)findViewById(R.id.startzeit);
     		
-    		// Aktuelle Uhrzeit
+    		// Aktuelle zeit bestimmen
     		Date jetzt = new Date();
     		
-    		// Ausgabe der Zeit
-    		txtStartzeit.setText(jetzt.toString());
+    		// Zeit ausgeben
+    		startzeit.setText(jetzt.toString());
     }
     
-    /**
-     * Aufnahme der Endzeit
-     */
     private void onBeenden(){
-    		EditText txtEndzeit = (EditText)findViewById(R.id.endzeit);
+    		// Textfeld Referenz im Layout suchen
+    		EditText endzeit = (EditText)findViewById(R.id.endzeit);
     		
-    		// Aktuelle Uhrzeit
+    		// Aktuelle Zeit bestimmen
     		Date jetzt = new Date();
     		
-    		// Ausgabe der Zeit
-    		txtEndzeit.setText(jetzt.toString());
+    		// Zeit ausgeben
+    		endzeit.setText(jetzt.toString());
     }
 }

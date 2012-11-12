@@ -33,12 +33,12 @@
         android:id="@+id/starten"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/cmd_start" />
+        android:text="@string/cmd_starten" />
 
     <Button
         android:id="@+id/beenden"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/cmd_ende" />
+        android:text="@string/cmd_beenden" />
 
 </LinearLayout>
