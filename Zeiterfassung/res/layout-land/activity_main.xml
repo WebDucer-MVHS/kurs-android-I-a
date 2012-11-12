@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent" >
+
+	<EditText
+		android:id="@+id/startzeit"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignLeft="@+id/endzeit"
+		android:layout_alignParentRight="true"
+		android:layout_alignParentTop="true"
+		android:ems="10" >
+
+		<requestFocus />
+	</EditText>
+
+	<TextView
+		android:id="@+id/textView1"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignBaseline="@+id/startzeit"
+		android:layout_alignBottom="@+id/startzeit"
+		android:layout_alignParentLeft="true"
+		android:text="Startzeit:" />
+
+	<EditText
+		android:id="@+id/endzeit"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignLeft="@+id/beenden"
+		android:layout_alignParentRight="true"
+		android:layout_below="@+id/startzeit"
+		android:ems="10" />
+
+	<TextView
+		android:id="@+id/textView2"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignBaseline="@+id/endzeit"
+		android:layout_alignBottom="@+id/endzeit"
+		android:layout_alignParentLeft="true"
+		android:text="Endzeit:" />
+
+	<Button
+		android:id="@+id/starten"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_alignRight="@+id/textView3"
+		android:layout_below="@+id/endzeit"
+		android:text="Starten" />
+
+	<Button
+		android:id="@+id/beenden"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignBaseline="@+id/starten"
+		android:layout_alignBottom="@+id/starten"
+		android:layout_alignLeft="@+id/textView3"
+		android:layout_alignParentRight="true"
+		android:text="Beenden" />
+
+	<TextView
+		android:id="@+id/textView3"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/beenden"
+		android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
