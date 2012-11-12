@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+// test
 
 public class MainActivity extends Activity {
 
@@ -16,7 +17,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        // Initialisierung der Buttons fŸr die Listener-Zuweisung
+        // Initialisierung der Buttons fï¿½r die Listener-Zuweisung
         Button cmdStart = (Button)findViewById(R.id.starten);
         Button cmdEnde = (Button)findViewById(R.id.beenden);
         
