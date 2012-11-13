@@ -4,7 +4,7 @@ import java.util.Date;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -17,20 +17,19 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        // Referenz auf die Buttons im Layout suchen
-        Button starten = (Button)findViewById(R.id.starten);
-        Button beenden = (Button)findViewById(R.id.beenden);
+        // Initialisierung der Buttons für die Listener-Zuweisung
+        Button cmdStart = (Button)findViewById(R.id.starten);
+        Button cmdEnde = (Button)findViewById(R.id.beenden);
         
-        // Listener für "Starten"-Button definieren
-        starten.setOnClickListener(new OnClickListener() {
+        // Zuweisung der Click-Listener
+        cmdStart.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
 				onStarten();
 			}
 		});
         
-        // Listener für "Beenden"-Button definieren
-        beenden.setOnClickListener(new OnClickListener() {
+        cmdEnde.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
 				onBeenden();
@@ -38,25 +37,39 @@ public class MainActivity extends Activity {
 		});
     }
     
+    /**
+     * Aufnahme der Startzeit
+     */
     private void onStarten(){
-    		// Textfeld Referenz im Layout suchen
-    		EditText startzeit = (EditText)findViewById(R.id.startzeit);
+    		EditText txtStartzeit = (EditText)findViewById(R.id.startzeit);
     		
-    		// Aktuelle zeit bestimmen
+    		// Aktuelle Uhrzeit
     		Date jetzt = new Date();
     		
-    		// Zeit ausgeben
-    		startzeit.setText(jetzt.toString());
+    		// Ausgabe der Zeit
+    		txtStartzeit.setText(jetzt.toString());
+    		
+    		// Speichern der zeit in der Datenbank
+    		DBHelper helper = new DBHelper(this);
+    		SQLiteDatabase db = helper.getWritableDatabase();
+    		
+    		ZeitTabelle.SpeichereStartzeit(db, jetzt);
+    		
+    		// Ressourcen schließen
+    		db.close();
+    		helper.close();
     }
     
+    /**
+     * Aufnahme der Endzeit
+     */
     private void onBeenden(){
-    		// Textfeld Referenz im Layout suchen
-    		EditText endzeit = (EditText)findViewById(R.id.endzeit);
+    		EditText txtEndzeit = (EditText)findViewById(R.id.endzeit);
     		
-    		// Aktuelle Zeit bestimmen
+    		// Aktuelle Uhrzeit
     		Date jetzt = new Date();
     		
-    		// Zeit ausgeben
-    		endzeit.setText(jetzt.toString());
+    		// Ausgabe der Zeit
+    		txtEndzeit.setText(jetzt.toString());
     }
 }

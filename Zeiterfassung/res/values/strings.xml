@@ -6,7 +6,7 @@
     <string name="title_activity_main">Zeiterfassung</string>
     <string name="lbl_startzeit">Startzeit:</string>
     <string name="lbl_endzeit">Endzeit:</string>
-    <string name="cmd_starten">Starten</string>
-    <string name="cmd_beenden">Beenden</string>
+    <string name="cmd_start">Start</string>
+    <string name="cmd_ende">Ende</string>
 
 </resources>
