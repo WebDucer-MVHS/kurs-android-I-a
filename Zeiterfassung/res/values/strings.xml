@@ -8,5 +8,6 @@
     <string name="lbl_endzeit">Endzeit:</string>
     <string name="cmd_start">Start</string>
     <string name="cmd_ende">Ende</string>
+    <string name="opt_liste">Auflistung</string>
 
 </resources>

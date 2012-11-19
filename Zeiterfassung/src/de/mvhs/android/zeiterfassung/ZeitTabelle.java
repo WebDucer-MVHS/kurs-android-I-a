@@ -17,9 +17,11 @@ public class ZeitTabelle {
 	
 	private final static String _DROP_TABLE = "DROP TABLE IF EXISTS zeit";
 	
-	private final static String _SQL_EMPTY_ENDTIME = "SELECT _id FROM zeit WHERE IFNULL(endzeit,'') = ''";
+	private final static String _SQL_EMPTY_ENDTIME =
+			"SELECT _id FROM zeit WHERE IFNULL(endzeit,'') = ''";
 	
-	private final static String _SQL_UPDATE_ENDTIME = "UPDATE zeit SET endzeit = ?1 WHERE  _id = ?2";
+	private final static String _SQL_UPDATE_ENDTIME =
+			"UPDATE zeit SET endzeit = ?1 WHERE  _id = ?2";
 	
 	/**
 	 * Tabellenname
@@ -97,7 +99,7 @@ public class ZeitTabelle {
 		updateStatement.bindLong(2, id);
 		
 		// Aktualisierung durchführen
-		updateStatement.executeUpdateDelete();
+		returnValue = updateStatement.executeUpdateDelete();
 		
 		return returnValue;
 	}
@@ -156,5 +158,16 @@ public class ZeitTabelle {
 		}
 		
 		return returnValue;
+	}
+	
+	public static Cursor LiefereAlleDaten(SQLiteDatabase db){
+		return db.query(
+				TABELLENNAME,
+				null,
+				null,
+				null,
+				null,
+				null,
+				STARTZEIT + " DESC");
 	}
 }

@@ -6,14 +6,21 @@ import java.util.Date;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
-	private final DateFormat _DTF = SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT);
+	private final DateFormat _DTF =
+			SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT,
+					SimpleDateFormat.SHORT);
 	private EditText _Startzeit;
 	private EditText _Endzeit;
 	private Button _Start;
@@ -53,6 +60,39 @@ public class MainActivity extends Activity {
         
         pruefeZustand();
     }
+    
+    /**
+     * Aufbau des Menüs (ActionBar)
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    		MenuInflater inflater = getMenuInflater();
+    		inflater.inflate(R.menu.main_menu, menu);
+    		return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    		switch (item.getItemId()) {
+			case R.id.opt_liste:
+//				Toast.makeText(
+//						this,
+//						"Auflistung kommt!",
+//						Toast.LENGTH_LONG).show();
+				
+				Intent listIntent =
+					new Intent(this, ListeActivity.class);
+				this.startActivity(listIntent);
+				
+				break;
+
+			default:
+				break;
+			}
+    	
+    		return super.onOptionsItemSelected(item);
+    }
+    
     
     /**
      * Aufnahme der Startzeit
