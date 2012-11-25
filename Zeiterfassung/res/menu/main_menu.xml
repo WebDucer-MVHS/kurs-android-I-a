@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/opt_liste" android:title="@string/opt_liste" android:showAsAction="ifRoom"></item>
-    
+
+	<item
+		android:id="@+id/opt_liste"
+		android:icon="@drawable/ic_menu_find_holo_dark"
+		android:showAsAction="ifRoom"
+		android:title="@string/opt_liste"/>
+	<item
+		android:id="@+id/opt_close"
+		android:icon="@drawable/ic_menu_close_clear_cancel"
+		android:showAsAction="ifRoom"
+		android:title="@string/opt_close">
+	</item>
 
 </menu>

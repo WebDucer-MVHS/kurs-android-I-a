@@ -9,5 +9,11 @@
     <string name="cmd_start">Start</string>
     <string name="cmd_ende">Ende</string>
     <string name="opt_liste">Auflistung</string>
+    <string name="opt_close">Schließen</string>
+    <string name="col_start">Startzeit</string>
+    <string name="col_ende">Endzeit</string>
+    <string name="ctx_edit">Bearbeiten</string>
+    <string name="ctx_delete">Löschen</string>
+    <string name="ctx_export">Exportieren</string>
 
 </resources>
