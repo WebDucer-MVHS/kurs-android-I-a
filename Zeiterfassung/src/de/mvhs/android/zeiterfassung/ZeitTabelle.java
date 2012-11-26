@@ -174,4 +174,12 @@ public class ZeitTabelle {
   public static Cursor LiefereAlleDaten(SQLiteDatabase db) {
     return db.query(TABELLENNAME, null, null, null, null, null, STARTZEIT + " DESC");
   }
+
+  public static int LoescheDatensatz(SQLiteDatabase db, long id) {
+    int returnValue = 0;
+
+    returnValue = db.delete(TABELLENNAME, ID + "=?", new String[] { String.valueOf(id) });
+
+    return returnValue;
+  }
 }
