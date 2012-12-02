@@ -62,7 +62,7 @@ public class EditActivity extends Activity {
   private OnDateSetListener   _StartDateSet      = new OnDateSetListener() {
 
                                                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                                     _StartDate = new Date(year - 1970, monthOfYear, dayOfMonth, _StartDate.getHours(), _StartDate.getMinutes());
+                                                     _StartDate = new Date(year + 1900, monthOfYear, dayOfMonth, _StartDate.getHours(), _StartDate.getMinutes());
                                                      _StartDatum.setText(_DF.format(_StartDate));
                                                    }
                                                  };
@@ -76,7 +76,7 @@ public class EditActivity extends Activity {
   private OnDateSetListener   _EndDateSet        = new OnDateSetListener() {
 
                                                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                                     _EndDate = new Date(year - 1970, monthOfYear, dayOfMonth, _EndDate.getHours(), _EndDate.getMinutes());
+                                                     _EndDate = new Date(year + 1900, monthOfYear, dayOfMonth, _EndDate.getHours(), _EndDate.getMinutes());
                                                      _EndDatum.setText(_DF.format(_EndDate));
                                                    }
                                                  };
@@ -232,7 +232,7 @@ public class EditActivity extends Activity {
    * @return
    */
   private boolean onStartDateClicked() {
-    DatePickerDialog dpd = new DatePickerDialog(this, _StartDateSet, _StartDate.getYear() + 1970, _StartDate.getMonth(), _StartDate.getDate());
+    DatePickerDialog dpd = new DatePickerDialog(this, _StartDateSet, _StartDate.getYear() - 1900, _StartDate.getMonth(), _StartDate.getDate());
     dpd.show();
     return true;
   }
@@ -255,7 +255,7 @@ public class EditActivity extends Activity {
    * @return
    */
   private boolean onEndDateClicked() {
-    DatePickerDialog dpd = new DatePickerDialog(this, _EndDateSet, _EndDate.getYear() + 1970, _EndDate.getMonth(), _EndDate.getDate());
+    DatePickerDialog dpd = new DatePickerDialog(this, _EndDateSet, _EndDate.getYear() - 1900, _EndDate.getMonth(), _EndDate.getDate());
     dpd.show();
     return true;
   }
