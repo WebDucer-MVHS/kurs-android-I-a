@@ -52,8 +52,8 @@ public class MainActivity extends Activity {
     });
 
     // Editierbarkeit der Felder deaktivieren
-    _Startzeit.setEnabled(false);
-    _Endzeit.setEnabled(false);
+    _Startzeit.setKeyListener(null);
+    _Endzeit.setKeyListener(null);
 
     pruefeZustand();
   }

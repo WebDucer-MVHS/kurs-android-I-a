@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<previews>
+
+	<preview
+		name="A233"
+		config="layout-sw320dp-w320dp-h480dp-normal-long-port-notnight-hdpi-finger-keyssoft-nokeys-navhidden-trackball-720x480-v10"
+		device="Nexus One"
+		devicestate="Portrait"
+		target="Android 2.3.3"
+		theme="@style/AppTheme" >
+	</preview>
+
+</previews>

@@ -26,6 +26,10 @@
 		<activity
 			android:name=".ListeActivity"
 			android:launchMode="singleTask" />
+		<activity
+			android:name="EditActivity"
+			android:launchMode="singleTask" >
+		</activity>
 	</application>
 
 </manifest>

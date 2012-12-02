@@ -97,19 +97,22 @@ public class ListeActivity extends ListActivity {
 
     switch (item.getItemId()) {
       case R.id.ctx_edit:
+        Intent editIntent = new Intent(this, EditActivity.class);
+        editIntent.putExtra(EditActivity.KEY_ID, info.id);
+        startActivity(editIntent);
 
         break;
       case R.id.ctx_delete:
         // Abfrage, ob wirklich gelöscht werden soll
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setTitle("Löschen ...").setMessage("Wollen Sie den Datenasatz wirklich löschen?")
-                .setNegativeButton("NEIN!", new DialogInterface.OnClickListener() {
+        builder.setTitle(R.string.title_delete).setMessage(R.string.delete_confirmation)
+                .setNegativeButton(R.string.cmd_no, new DialogInterface.OnClickListener() {
 
                   public void onClick(DialogInterface dialog, int which) {
                     dialog.cancel();
                   }
-                }).setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+                }).setPositiveButton(R.string.cmd_yes, new DialogInterface.OnClickListener() {
 
                   public void onClick(DialogInterface dialog, int which) {
                     ZeitTabelle.LoescheDatensatz(_Db, info.id);
@@ -124,14 +127,14 @@ public class ListeActivity extends ListActivity {
       case R.id.ctx_export:
         // Fortschrittsdialog erzeugen
         final ProgressDialog dialog = new ProgressDialog(this);
-        dialog.setTitle("Exportiere ...");
-        dialog.setMessage("Daten werden auf SD-Karten exportiet!");
+        dialog.setTitle(R.string.title_export);
+        dialog.setMessage(getString(R.string.export_message));
         dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 
         final CSVExporter export = new CSVExporter("export", dialog);
 
         dialog.setCancelable(true);
-        dialog.setButton(ProgressDialog.BUTTON_NEGATIVE, "Abbrechen", new DialogInterface.OnClickListener() {
+        dialog.setButton(ProgressDialog.BUTTON_NEGATIVE, getString(R.string.cmd_cancel), new DialogInterface.OnClickListener() {
 
           public void onClick(DialogInterface dialog, int which) {
             export.cancel(true);
