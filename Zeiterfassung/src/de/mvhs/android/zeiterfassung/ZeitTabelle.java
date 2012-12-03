@@ -7,7 +7,6 @@ import java.util.Date;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
 
 public class ZeitTabelle {
   // Konstanten
@@ -101,14 +100,19 @@ public class ZeitTabelle {
     int returnValue = 0;
 
     // Vorkompiliertes SQL erzeugen
-    SQLiteStatement updateStatement = db.compileStatement(_SQL_UPDATE_ENDTIME);
+    // SQLiteStatement updateStatement = db.compileStatement(_SQL_UPDATE_ENDTIME);
+    //
+    // // Parameter an das SQL binden
+    // updateStatement.bindString(1, _DF.format(endZeit));
+    // updateStatement.bindLong(2, id);
+    //
+    // // Aktualisierung durchführen
+    // returnValue = updateStatement.executeUpdateDelete();
 
-    // Parameter an das SQL binden
-    updateStatement.bindString(1, _DF.format(endZeit));
-    updateStatement.bindLong(2, id);
-
-    // Aktualisierung durchführen
-    returnValue = updateStatement.executeUpdateDelete();
+    /* Kompabilitätskorrektur für Android 2.3.3 */
+    ContentValues values = new ContentValues();
+    values.put(ENDZEIT, _DF.format(endZeit));
+    returnValue = db.update(TABELLENNAME, values, ID + "=?", new String[] { String.valueOf(id) });
 
     return returnValue;
   }
@@ -117,15 +121,21 @@ public class ZeitTabelle {
     int returnValue = 0;
 
     // Vorkompiliertes SQL erzeugen
-    SQLiteStatement updateStatement = db.compileStatement(_SQL_UPDATE_ALL);
+    // SQLiteStatement updateStatement = db.compileStatement(_SQL_UPDATE_ALL);
+    //
+    // // Parameter an das SQL binden
+    // updateStatement.bindString(1, _DF.format(startZeit));
+    // updateStatement.bindString(2, _DF.format(endZeit));
+    // updateStatement.bindLong(3, id);
+    //
+    // // Aktualisierung durchführen
+    // returnValue = updateStatement.executeUpdateDelete();
 
-    // Parameter an das SQL binden
-    updateStatement.bindString(1, _DF.format(startZeit));
-    updateStatement.bindString(2, _DF.format(endZeit));
-    updateStatement.bindLong(3, id);
-
-    // Aktualisierung durchführen
-    returnValue = updateStatement.executeUpdateDelete();
+    /* Kompabilitätskorrektur für Android 2.3.3 */
+    ContentValues values = new ContentValues();
+    values.put(ENDZEIT, _DF.format(endZeit));
+    values.put(STARTZEIT, _DF.format(startZeit));
+    returnValue = db.update(TABELLENNAME, values, ID + "=?", new String[] { String.valueOf(id) });
 
     return returnValue;
   }

@@ -62,8 +62,9 @@ public class ListeActivity extends ListActivity {
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    getActionBar().setHomeButtonEnabled(true);
-    getActionBar().setDisplayHomeAsUpEnabled(true);
+    /* Kompabilitätskorrektur für Android 2.3.3 */
+    // getActionBar().setHomeButtonEnabled(true);
+    // getActionBar().setDisplayHomeAsUpEnabled(true);
     return super.onCreateOptionsMenu(menu);
   }
 
@@ -158,12 +159,13 @@ public class ListeActivity extends ListActivity {
   private void LoadData() {
     _Cursor = ZeitTabelle.LiefereAlleDaten(_Db);
 
+    /* Kompabilitätskorrektur für Android 2.3.3 */
     SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, // Context
             R.layout.list_row2, // Layout für die Zeile
             _Cursor, // Daten
             new String[] { ZeitTabelle.STARTZEIT, ZeitTabelle.ENDZEIT }, // Anzuzeigende Spalten
-            new int[] { R.id.start, R.id.ende }, // IDs der Views, in die die Daten der Spalten platziert werden
-            0); // Flag
+            new int[] { R.id.start, R.id.ende } // IDs der Views, in die die Daten der Spalten platziert werden
+    ); // Flag
 
     setListAdapter(adapter);
   }
