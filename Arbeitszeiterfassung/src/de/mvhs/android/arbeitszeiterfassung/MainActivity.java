@@ -22,7 +22,7 @@ public class MainActivity extends Activity {
     final Button cmdStartEnd = (Button) findViewById(R.id.cmd_start_stop);
     final EditText txtStartTime = (EditText) findViewById(R.id.txt_start_time);
     final EditText txtEndTime = (EditText) findViewById(R.id.txt_end_time);
-
+    
     if (_IsOpen) {
       cmdStartEnd.setText(R.string.cmd_end);
     } else {
