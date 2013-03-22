@@ -1,25 +1,26 @@
-JM 6870: Programme entwickeln für Android-Smartphones
-=====================================================
+JM 6870: Programme entwickeln für Android- Geräte
+=================================================
 Voraussetzung
 -------------
 - einfache Programmierkenntnisse in Java
-- XML-Grundkenntnisse
-- Kenntnisse des Aufbaus von relationalen Datenbanken
+- XML-Grundkenntnisse und
+- Grundkenntnisse relationaler Datenbanken und SQL (SELECT, INSERT, UPDATE, DELETE)
 
 Kursinhalt
 ----------
 - Übersicht über Android-Versionen und unterschiedliche Hardware
-- Erstellung eines mittelschweren Programms (Zeiterfassung):
+- Erstellung eines mittelschweren Programms (Zeiterfassung) unter Android 4.1:
     - Programmdefinition
     - Datenbankentwurf
-    - Besonderheiten bei Mobilen-Programmierungen (Threads, Performance-Optimierungen usw.)
-    - Layouterstellung
-    - Datenbankprogrammierung
+    - Besonderheiten bei Mobilen-Programmierungen (Hintergrundprozesse, Performance-Optimierungen usw.)
+    - Layouterstellung (visuell und XML)
+    - Nutzung von Fragmenten
+    - Datenbankprogrammierung unter Android
     - Lebenszyklen bei Android-Programmen
-    - Logikprogrammierung
-- Programmtest
-- Informationen zur Veröffentlichung der Programme in Google Market
-- Debuggen auf dem Emulator und richtigem Android-Gerät.
+    - Logikprogrammierung (Java)
+    - Programmtest im Emulator oder auf dem mitgebrachten Smartphone/Pad
+    - debuggen. 
+    - Informationen zur Veröffentlichung im Google Play Store.
 
 Dauer
 -----
