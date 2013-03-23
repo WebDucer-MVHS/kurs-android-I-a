@@ -6,5 +6,6 @@
     <string name="lbl_end_time">Endzeit:</string>
     <string name="cmd_start">Start</string>
     <string name="cmd_end">Ende</string>
-
+    <string name="lbl_pause_duration">Pausezeit:</string>
+	<string name="lbl_comment">Kommentar:</string>
 </resources>
