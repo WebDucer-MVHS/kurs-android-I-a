@@ -14,7 +14,7 @@ public class ZeitabschnittTabelle {
    * SQL-Script zum Erstellen einer neuen Tabelle
    */
   private final static String _CREATE    = "CREATE  TABLE zeitabschnitt (" + "_id INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL ," + "start TEXT NOT NULL,"
-                                                 + "stop TEXT," + "pause INTEGER NOT NULL  DEFAULT 0," + "kommentar TEXT)";
+                                                 + "stop TEXT," + "pause INTEGER NOT NULL DEFAULT 0," + "kommentar TEXT)";
 
   /**
    * SQL-Script zum Löschen der Tabelle

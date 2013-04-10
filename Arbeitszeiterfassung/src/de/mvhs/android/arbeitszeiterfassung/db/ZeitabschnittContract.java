@@ -65,11 +65,11 @@ public class ZeitabschnittContract {
      */
     public static interface Columns extends BaseColumns {
       /**
-       * Startzeit in ISO-8061 Format (z.B.: 2013-03-21T18:00) [String]
+       * Startzeit in ISO-8601 Format (z.B.: 2013-03-21T18:00) [String]
        */
       public final static String START   = "start";
       /**
-       * Endzeit in ISO-8061 Format (z.B.: 2013-03-21T20:35) [String]
+       * Endzeit in ISO-8601 Format (z.B.: 2013-03-21T20:35) [String]
        */
       public final static String STOP    = "stop";
       /**
