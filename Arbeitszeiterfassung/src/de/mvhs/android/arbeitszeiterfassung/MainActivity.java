@@ -2,7 +2,11 @@ package de.mvhs.android.arbeitszeiterfassung;
 
 import java.util.Date;
 
+import de.mvhs.android.arbeitszeiterfassung.db.ZeitabschnittContract;
+
 import android.app.Activity;
+import android.content.ContentValues;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -44,6 +48,16 @@ public class MainActivity extends Activity {
           _IsOpen = true;
           cmdStartEnd.setText(R.string.cmd_end);
           txtEndTime.setText("");
+          
+          // Speichern der Daten in die Datenbank
+          ContentValues values = new ContentValues();
+          values.put(
+        		  ZeitabschnittContract.Zeitabschnitte.Columns.START, // Spalte Start
+        		  dtmNow.toString()); // Aktueller Zeitpiunkt
+          
+          Uri uri = getContentResolver().insert(
+        		  ZeitabschnittContract.Zeitabschnitte.CONTENT_URI,
+        		  values);
         }
       }
     });

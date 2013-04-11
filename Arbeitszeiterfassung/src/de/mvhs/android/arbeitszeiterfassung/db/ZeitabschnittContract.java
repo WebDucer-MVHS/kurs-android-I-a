@@ -37,23 +37,23 @@ public class ZeitabschnittContract {
     /**
      * Unterverzeichnis der Tabelle innerhalb des Content Providers
      */
-    private final static String _DIRECTORY        = "zeit";
+    public final static String DIRECTORY        = "zeit";
 
     // Public Fields
     /**
      * URI für den Zugriff auf die Tabelle
      */
-    public final static Uri     CONTENT_URI       = Uri.withAppendedPath(AUTHORITY_URI, _DIRECTORY);
+    public final static Uri     CONTENT_URI       = Uri.withAppendedPath(AUTHORITY_URI, DIRECTORY);
 
     /**
      * Datentyp für die Auflistung
      */
-    public final static String  CONTENT_TYPE      = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + _DIRECTORY;
+    public final static String  CONTENT_TYPE      = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + DIRECTORY;
 
     /**
      * Datentyp für einen einzelnen Eintrag
      */
-    public final static String  CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + _DIRECTORY;
+    public final static String  CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + DIRECTORY;
 
     // Initialisierung verhindern
     private Zeitabschnitte() {

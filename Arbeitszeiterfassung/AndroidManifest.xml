@@ -22,6 +22,15 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+		
+		<!-- Provider -->
+		<provider
+		    android:name="de.mvhs.android.arbeitszeiterfassung.db.ZeitabschnittProvider"
+		    android:authorities="de.mvhs.android.arbeitszeiterfassung.provider"
+		    android:exported="false"
+		    android:enabled="true"
+		     />
+		
 	</application>
 
 </manifest>
