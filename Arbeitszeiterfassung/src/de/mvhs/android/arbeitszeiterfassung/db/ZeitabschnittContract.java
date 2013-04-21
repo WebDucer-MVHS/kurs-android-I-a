@@ -1,5 +1,9 @@
 package de.mvhs.android.arbeitszeiterfassung.db;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
@@ -11,18 +15,25 @@ public class ZeitabschnittContract {
   /**
    * Basisname für den Content Provider
    */
-  private final static String _BASE_PATH    = "de.mvhs.android.arbeitszeiterfassung.provider";
+  private final static String    _BASE_PATH        = "de.mvhs.android.arbeitszeiterfassung.provider";
 
   /* Public Fields */
   /**
    * Authority des Content Providers
    */
-  public final static String  AUTHORITY     = _BASE_PATH;
+  public final static String     AUTHORITY         = _BASE_PATH;
 
   /**
    * Basis URI für den Content Provider
    */
-  public final static Uri     AUTHORITY_URI = Uri.parse("content://" + AUTHORITY);
+  public final static Uri        AUTHORITY_URI     = Uri.parse("content://" + AUTHORITY);
+
+  private final static String    _DB_DATE_PATTERN  = "yyyy-MM-dd'T'HH:mm";
+  /**
+   * Formatierung für Speicherung/Konvertierung eines Datums in/aus die/der Datenbank
+   */
+  @SuppressLint("SimpleDateFormat")
+  public final static DateFormat DB_DATE_FORMATTER = new SimpleDateFormat(_DB_DATE_PATTERN);
 
   // Initialisierung der Klasse verhindern
   private ZeitabschnittContract() {
@@ -37,23 +48,23 @@ public class ZeitabschnittContract {
     /**
      * Unterverzeichnis der Tabelle innerhalb des Content Providers
      */
-    public final static String DIRECTORY        = "zeit";
+    public final static String DIRECTORY         = "zeit";
 
     // Public Fields
     /**
      * URI für den Zugriff auf die Tabelle
      */
-    public final static Uri     CONTENT_URI       = Uri.withAppendedPath(AUTHORITY_URI, DIRECTORY);
+    public final static Uri    CONTENT_URI       = Uri.withAppendedPath(AUTHORITY_URI, DIRECTORY);
 
     /**
      * Datentyp für die Auflistung
      */
-    public final static String  CONTENT_TYPE      = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + DIRECTORY;
+    public final static String CONTENT_TYPE      = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + DIRECTORY;
 
     /**
      * Datentyp für einen einzelnen Eintrag
      */
-    public final static String  CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + DIRECTORY;
+    public final static String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + DIRECTORY;
 
     // Initialisierung verhindern
     private Zeitabschnitte() {
