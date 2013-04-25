@@ -5,10 +5,14 @@ import java.util.Calendar;
 import android.app.Activity;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -19,8 +23,10 @@ import de.mvhs.android.arbeitszeiterfassung.db.ZeitabschnittContract.Zeitabschni
 
 public class MainActivity extends Activity {
   // Klassen-Variablen
-  private final static String[] _PROJECTION = new String[] { BaseColumns._ID, Zeitabschnitte.Columns.START };
-  private final static String   _SELECTION  = "IFNULL(TRIM(" + Zeitabschnitte.Columns.STOP + "),'')=''";
+  private final static String[] _PROJECTION =
+		  new String[] { BaseColumns._ID, Zeitabschnitte.Columns.START };
+  private final static String   _SELECTION  =
+		  "IFNULL(TRIM(" + Zeitabschnitte.Columns.STOP + "),'')=''";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +55,17 @@ public class MainActivity extends Activity {
     final EditText txtEnd = (EditText) findViewById(R.id.txt_end_time);
 
     // Prüfen, ob ein unvollständiger Datensatz in der Datenbank vorliegt (ohne Endzeit)
-    Cursor data = getContentResolver().query(Zeitabschnitte.CONTENT_URI, _PROJECTION, _SELECTION, null, null);
+    Cursor data = getContentResolver().query(
+    		Zeitabschnitte.CONTENT_URI, _PROJECTION, _SELECTION, null, null);
 
     if (data != null && data.moveToFirst()) {
       // Offener Datensatz vorhanden
       cmdStartEnd.setText(R.string.cmd_end);
       txtEnd.setText("");
 
-      String startTime = data.getString(data.getColumnIndex(Zeitabschnitte.Columns.START));
+      int startIndex = data.getColumnIndex(Zeitabschnitte.Columns.START);
+      
+      String startTime = data.getString(startIndex);
       txtStart.setText(startTime);
     } else {
       // Kein offenter Datensatz gefunden
@@ -66,15 +75,48 @@ public class MainActivity extends Activity {
     }
   }
 
-  private void onButtonClicked() {
+  @Override
+public boolean onCreateOptionsMenu(Menu menu) {
+	  MenuInflater inflater = getMenuInflater();
+	  // Menü entfalten
+	  inflater.inflate(R.menu.main_menu, menu);
+	return super.onCreateOptionsMenu(menu);
+}
+
+@Override
+public boolean onOptionsItemSelected(MenuItem item) {
+	switch (item.getItemId()) {
+	case R.id.mnu_list:
+		Intent listActivity = new Intent(this, AuflistungActivity.class);
+		listActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		
+		startActivity(listActivity);
+		
+//		Toast.makeText(
+//				this,
+//				"Auflistung noch nicht implementiert!",
+//				Toast.LENGTH_LONG)
+//			.show();
+		break;
+
+	default:
+		break;
+	}
+	
+	return super.onOptionsItemSelected(item);
+}
+
+private void onButtonClicked() {
     // UI Elemente binden
     final Button cmdStartEnd = (Button) findViewById(R.id.cmd_start_stop);
     final EditText txtStart = (EditText) findViewById(R.id.txt_start_time);
     final EditText txtEnd = (EditText) findViewById(R.id.txt_end_time);
 
     // Prüfen, ob ein unvollständiger Datensatz in der Datenbank vorliegt (ohne Endzeit)
-    String jetzt = ZeitabschnittContract.DB_DATE_FORMATTER.format(Calendar.getInstance().getTime());
-    Cursor data = getContentResolver().query(Zeitabschnitte.CONTENT_URI, _PROJECTION, _SELECTION, null, null);
+    String jetzt = ZeitabschnittContract.DB_DATE_FORMATTER.format(
+    		Calendar.getInstance().getTime());
+    Cursor data = getContentResolver().query(
+    		Zeitabschnitte.CONTENT_URI, _PROJECTION, _SELECTION, null, null);
 
     if (data != null && data.moveToFirst()) {
       // Offener Datensatz bereits vorhanden, Datensatz mit Enddatum aktualisieren

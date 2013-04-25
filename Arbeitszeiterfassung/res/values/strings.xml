@@ -12,5 +12,6 @@
 	<!-- Edit -->
 	<string name="lbl_pause">Pause:</string>
 	<string name="lbl_comment">Kommentar:</string>
+	<string name="mnu_list">Auflistung</string>
 
 </resources>

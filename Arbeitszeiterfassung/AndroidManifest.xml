@@ -24,12 +24,13 @@
 		</activity>
 		
 		<!-- Provider -->
-		<provider
+		<activity android:name="AuflistungActivity"></activity><provider
 		    android:name="de.mvhs.android.arbeitszeiterfassung.db.ZeitabschnittProvider"
 		    android:authorities="de.mvhs.android.arbeitszeiterfassung.provider"
 		    android:exported="false"
 		    android:enabled="true"
 		     />
+		
 		
 	</application>
 

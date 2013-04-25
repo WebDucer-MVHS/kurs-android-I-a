@@ -33,7 +33,8 @@ public class ZeitabschnittContract {
    * Formatierung für Speicherung/Konvertierung eines Datums in/aus die/der Datenbank
    */
   @SuppressLint("SimpleDateFormat")
-  public final static DateFormat DB_DATE_FORMATTER = new SimpleDateFormat(_DB_DATE_PATTERN);
+  public final static DateFormat DB_DATE_FORMATTER =
+  		new SimpleDateFormat(_DB_DATE_PATTERN);
 
   // Initialisierung der Klasse verhindern
   private ZeitabschnittContract() {
