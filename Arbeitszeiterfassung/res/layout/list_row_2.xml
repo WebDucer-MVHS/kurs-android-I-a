@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content" >
+
+	<View
+		android:id="@+id/center_helper"
+		android:layout_width="@dimen/column_border"
+		android:layout_height="wrap_content"
+		android:layout_centerHorizontal="true"
+		android:background="@color/col_separator" />
+
+	<TextView
+		android:id="@+id/txt_start_time"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentTop="true"
+		android:layout_toLeftOf="@+id/center_helper"
+		android:padding="@dimen/column_margin"
+		android:textIsSelectable="false" />
+
+	<TextView
+		android:id="@+id/txt_end_time"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentRight="true"
+		android:layout_alignParentTop="true"
+		android:layout_toRightOf="@+id/center_helper"
+		android:padding="@dimen/column_margin"
+		android:textIsSelectable="false" />
+
+</RelativeLayout>

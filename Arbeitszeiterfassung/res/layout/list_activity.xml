@@ -1,14 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+	android:layout_width="match_parent"
+	android:layout_height="match_parent" >
 
-    <ListView
-        android:id="@android:id/list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" >
-    </ListView>
+	<View
+		android:id="@+id/center_helper"
+		android:layout_width="@dimen/column_border"
+		android:layout_height="wrap_content"
+		android:layout_centerHorizontal="true"
+		android:background="@color/col_separator" />
+
+	<TextView
+		android:id="@+id/lbl_start_time"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentTop="true"
+		android:layout_toLeftOf="@+id/center_helper"
+		android:gravity="center"
+		android:padding="@dimen/header_margin"
+		android:text="@string/cmd_start"
+		android:textIsSelectable="false"
+		android:textStyle="bold" />
+
+	<TextView
+		android:id="@+id/lbl_end_time"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentRight="true"
+		android:layout_alignParentTop="true"
+		android:layout_toRightOf="@+id/center_helper"
+		android:gravity="center"
+		android:padding="@dimen/header_margin"
+		android:text="@string/cmd_end"
+		android:textIsSelectable="false"
+		android:textStyle="bold" />
+
+	<View
+		android:id="@+id/header_sep"
+		android:layout_width="match_parent"
+		android:layout_height="@dimen/separator_border"
+		android:layout_alignParentLeft="true"
+		android:layout_below="@+id/lbl_start_time"
+		android:background="@color/col_separator" />
+
+	<ListView
+		android:id="@android:id/list"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_below="@+id/header_sep" >
+	</ListView>
 
 </RelativeLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<dimen name="header_margin">5dp</dimen>
+	<dimen name="separator_border">3dp</dimen>
+	<dimen name="column_border">1dp</dimen>
+	<dimen name="column_margin">3dp</dimen>
+
+</resources>

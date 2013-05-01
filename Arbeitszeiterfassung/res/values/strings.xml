@@ -12,6 +12,15 @@
 	<!-- Edit -->
 	<string name="lbl_pause">Pause:</string>
 	<string name="lbl_comment">Kommentar:</string>
+	<!-- Auflistung -->
+	<string name="col_start">Start</string>
+	<string name="col_end">Ende</string>
+	<!-- Menu Items -->
 	<string name="mnu_list">Auflistung</string>
+	<string name="mnu_show">Anzeigen</string>
+	<string name="mnu_edit">Bearbeiten</string>
+	<string name="mnu_delete">Löschen</string>
+	<string name="mnu_save">Speichern</string>
+	<string name="mnu_cancel">Abbrechen</string>
 
 </resources>
