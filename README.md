@@ -1,5 +1,10 @@
 JM 6870: Programme entwickeln für Android- Geräte
 =================================================
+!!! Nachholstunde !!!
+---------------------
+### 17. Mail 2013 18:00 - 21:00
+_Bitte um Rückmeldung, ob der Termin passt an <android@webducer.de> !!!_
+
 Voraussetzung
 -------------
 - einfache Programmierkenntnisse in Java
