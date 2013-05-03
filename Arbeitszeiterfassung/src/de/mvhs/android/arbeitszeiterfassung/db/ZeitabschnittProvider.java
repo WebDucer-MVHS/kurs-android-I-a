@@ -61,6 +61,10 @@ public class ZeitabschnittProvider extends ContentProvider {
 			throw new IllegalArgumentException("Uri nicht bekannt!");
 		}
 		
+		if (returnValue > 0) {
+			getContext().getContentResolver().notifyChange(uri, null);
+		}
+		
 		return returnValue;
 	}
 
@@ -108,6 +112,10 @@ public class ZeitabschnittProvider extends ContentProvider {
 
 		default:
 			throw new IllegalArgumentException("Uri nicht bekannt!");
+		}
+		
+		if (returnValue != null) {
+			getContext().getContentResolver().notifyChange(uri, null);
 		}
 		
 		return returnValue;
@@ -160,6 +168,10 @@ public class ZeitabschnittProvider extends ContentProvider {
 		default:
 			throw new IllegalArgumentException("Uri nicht bekannt!");
 		}
+		
+		if (returnValue != null) {
+			returnValue.setNotificationUri(getContext().getContentResolver(), uri);
+		}
 				
 		return returnValue;
 	}
@@ -198,6 +210,10 @@ public class ZeitabschnittProvider extends ContentProvider {
 			break;
 		default:
 			throw new IllegalArgumentException("Uri nicht bekannt!");
+		}
+		
+		if (returnValue > 0) {
+			getContext().getContentResolver().notifyChange(uri, null);
 		}
 		
 		return returnValue;

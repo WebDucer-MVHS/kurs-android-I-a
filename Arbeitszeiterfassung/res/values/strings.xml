@@ -22,5 +22,9 @@
 	<string name="mnu_delete">Löschen</string>
 	<string name="mnu_save">Speichern</string>
 	<string name="mnu_cancel">Abbrechen</string>
+	<string name="dlg_delete_title">Löschen ...</string>
+	<string name="dlg_delete_message">Wollen Sie den Datensatz wirklich löschen?</string>
+	<string name="dlg_delte_delete">Löschen</string>
+	<string name="dlg_delete_cancel">Abbrechen</string>
 
 </resources>
