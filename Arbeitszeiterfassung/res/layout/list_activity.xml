@@ -19,7 +19,7 @@
 		android:layout_toLeftOf="@+id/center_helper"
 		android:gravity="center"
 		android:padding="@dimen/header_margin"
-		android:text="@string/cmd_start"
+		android:text="@string/col_start"
 		android:textIsSelectable="false"
 		android:textStyle="bold" />
 
@@ -32,7 +32,7 @@
 		android:layout_toRightOf="@+id/center_helper"
 		android:gravity="center"
 		android:padding="@dimen/header_margin"
-		android:text="@string/cmd_end"
+		android:text="@string/col_end"
 		android:textIsSelectable="false"
 		android:textStyle="bold" />
 

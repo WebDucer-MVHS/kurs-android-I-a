@@ -17,7 +17,7 @@
 	<string name="col_end">End</string>
 	<!-- Menu Items -->
 	<string name="mnu_list">List</string>
-	<string name="mnu_show">Schow</string>
+	<string name="mnu_show">Show</string>
 	<string name="mnu_edit">Edit</string>
 	<string name="mnu_delete">Delete</string>
 	<string name="mnu_save">Save</string>

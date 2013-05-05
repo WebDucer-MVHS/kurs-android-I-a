@@ -20,148 +20,133 @@ import de.mvhs.android.arbeitszeiterfassung.db.ZeitabschnittContract;
 
 public class AuflistungActivity extends ListActivity {
 
-	// Variablen
-	private SimpleCursorAdapter _Adapter = null;
+  // Variablen
+  private SimpleCursorAdapter _Adapter = null;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.list_activity);
+    setContentView(R.layout.list_activity);
 
-		_Adapter = new SimpleCursorAdapter(
-				this, // Context
-				R.layout.list_row_2, // Layout für eine Zeile
-				null, // Cursor
-				new String[] { // Spalten, die in der Liste angezeigt werden
-								// sollen
-				ZeitabschnittContract.Zeitabschnitte.Columns.START,
-						ZeitabschnittContract.Zeitabschnitte.Columns.STOP },
-				new int[] { // Layout IDs, in denen die
-							// Werte der Spalten angezeigt
-							// werden sollen
-						R.id.txt_start_time, R.id.txt_end_time }, 1); // FLAG
+    _Adapter = new SimpleCursorAdapter(this, // Context
+            R.layout.list_row_2, // Layout für eine Zeile
+            null, // Cursor
+            new String[] { // Spalten, die in der Liste angezeigt werden
+            // sollen
+                ZeitabschnittContract.Zeitabschnitte.Columns.START, ZeitabschnittContract.Zeitabschnitte.Columns.STOP }, new int[] { // Layout IDs, in denen die
+            // Werte der Spalten angezeigt
+            // werden sollen
+                R.id.txt_start_time, R.id.txt_end_time }, SimpleCursorAdapter.FLAG_AUTO_REQUERY); // FLAG
 
-		setListAdapter(_Adapter);
+    // Aktuallisierung der Liste erfolgt automatsch bei FLAG_REGISTER_CONTENT_OBSERVER nur wenn die Daten über Loader geladen werden.
+    // In anderen Fällen soll mit FLAG_AUTO_REQUERY (verlatet) weiter gearbeitet werden.
 
-		// Home Button aktivieren
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setDisplayShowHomeEnabled(true);
-	}
+    setListAdapter(_Adapter);
 
-	@Override
-	protected void onStart() {
-		super.onStart();
+    // Home Button aktivieren
+    getActionBar().setDisplayHomeAsUpEnabled(true);
+    getActionBar().setDisplayShowHomeEnabled(true);
+  }
 
-		Cursor data = getContentResolver().query(
-				ZeitabschnittContract.Zeitabschnitte.CONTENT_URI, // URI zur
-																	// Tabelle
-				new String[] { BaseColumns._ID,
-						ZeitabschnittContract.Zeitabschnitte.Columns.START,
-						ZeitabschnittContract.Zeitabschnitte.Columns.STOP },
-				null, null, null);
+  @Override
+  protected void onStart() {
+    super.onStart();
 
-		_Adapter.swapCursor(data);
+    Cursor data = getContentResolver().query(
+            ZeitabschnittContract.Zeitabschnitte.CONTENT_URI, // URI zur
+            // Tabelle
+            new String[] { BaseColumns._ID, ZeitabschnittContract.Zeitabschnitte.Columns.START, ZeitabschnittContract.Zeitabschnitte.Columns.STOP }, null,
+            null, null);
 
-		// Liste für Kontext-Menü registrieren
-		registerForContextMenu(getListView());
-	}
+    _Adapter.swapCursor(data);
 
-	@Override
-	protected void onStop() {
-		super.onStop();
+    // Liste für Kontext-Menü registrieren
+    registerForContextMenu(getListView());
+  }
 
-		_Adapter.swapCursor(null);
+  @Override
+  protected void onStop() {
+    super.onStop();
 
-		// Liste für Kontextmenü deregistrieren
-		unregisterForContextMenu(getListView());
-	}
+    _Adapter.swapCursor(null);
 
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
+    // Liste für Kontextmenü deregistrieren
+    unregisterForContextMenu(getListView());
+  }
 
-		if (v == getListView()) {
-			MenuInflater inflater = getMenuInflater();
-			inflater.inflate(R.menu.menu_list, menu);
-		}
+  @Override
+  public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 
-		super.onCreateContextMenu(menu, v, menuInfo);
-	}
+    if (v == getListView()) {
+      MenuInflater inflater = getMenuInflater();
+      inflater.inflate(R.menu.menu_list, menu);
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			Intent homeIntent = new Intent(this, MainActivity.class);
-			homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			startActivity(homeIntent);
-			break;
+    super.onCreateContextMenu(menu, v, menuInfo);
+  }
 
-		default:
-			break;
-		}
-		return super.onOptionsItemSelected(item);
-	}
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case android.R.id.home:
+        Intent homeIntent = new Intent(this, MainActivity.class);
+        homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(homeIntent);
+        break;
 
-	@Override
-	public boolean onContextItemSelected(final MenuItem item) {
-		final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
-				.getMenuInfo();
+      default:
+        break;
+    }
+    return super.onOptionsItemSelected(item);
+  }
 
-		switch (item.getItemId()) {
-		case R.id.mnu_delete:
-			// Nachfrage-Dialog aufbauen
-			AlertDialog.Builder delDialog = new AlertDialog.Builder(this);
-			delDialog
-					.setTitle(R.string.dlg_delete_title)
-					.setMessage(R.string.dlg_delete_message)
-					.setPositiveButton(R.string.dlg_delte_delete,
-							new DialogInterface.OnClickListener() {
+  @Override
+  public boolean onContextItemSelected(final MenuItem item) {
+    final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
-								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
-									// Löschen des Datensatzes
-									Uri uri = ContentUris
-											.withAppendedId(
-													ZeitabschnittContract.Zeitabschnitte.CONTENT_URI,
-													info.id);
+    switch (item.getItemId()) {
+      case R.id.mnu_delete:
+        // Nachfrage-Dialog aufbauen
+        AlertDialog.Builder delDialog = new AlertDialog.Builder(this);
+        delDialog.setTitle(R.string.dlg_delete_title).setMessage(R.string.dlg_delete_message)
+                .setPositiveButton(R.string.dlg_delte_delete, new DialogInterface.OnClickListener() {
 
-									getContentResolver()
-											.delete(uri, null, null);
-								}
-							})
-					.setNegativeButton(R.string.dlg_delete_cancel,
-							new DialogInterface.OnClickListener() {
+                  @Override
+                  public void onClick(DialogInterface dialog, int which) {
+                    // Löschen des Datensatzes
+                    Uri uri = ContentUris.withAppendedId(ZeitabschnittContract.Zeitabschnitte.CONTENT_URI, info.id);
 
-								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
-									dialog.dismiss();
-								}
-							}).create().show();
+                    getContentResolver().delete(uri, null, null);
+                  }
+                }).setNegativeButton(R.string.dlg_delete_cancel, new DialogInterface.OnClickListener() {
 
-			break;
+                  @Override
+                  public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                  }
+                }).create().show();
 
-		case R.id.mnu_show:
+        break;
 
-			break;
+      case R.id.mnu_show:
 
-		case R.id.mnu_edit:
-			Intent editIntent = new Intent(this, EditActivity.class);
-			editIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        break;
 
-			// ID an die Nachricht anhängen
-			editIntent.putExtra("ID", info.id);
+      case R.id.mnu_edit:
+        Intent editIntent = new Intent(this, EditActivity.class);
+        editIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-			startActivity(editIntent);
+        // ID an die Nachricht anhängen
+        editIntent.putExtra("ID", info.id);
 
-			break;
+        startActivity(editIntent);
 
-		default:
-			break;
-		}
-		return super.onContextItemSelected(item);
-	}
+        break;
+
+      default:
+        break;
+    }
+    return super.onContextItemSelected(item);
+  }
 }
