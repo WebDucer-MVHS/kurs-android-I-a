@@ -17,11 +17,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.SimpleCursorAdapter;
 import de.mvhs.android.arbeitszeiterfassung.db.ZeitabschnittContract;
+import de.mvhs.android.arbeitszeiterfassung.db.ZeitabschnittContract.Zeitabschnitte;
 
 public class AuflistungActivity extends ListActivity {
 
   // Variablen
-  private SimpleCursorAdapter _Adapter = null;
+  private SimpleCursorAdapter _Adapter  = null;
+  private final static String _FullData = "IFNULL(" + Zeitabschnitte.Columns.STOP + ",'')<>''";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +58,8 @@ public class AuflistungActivity extends ListActivity {
     Cursor data = getContentResolver().query(
             ZeitabschnittContract.Zeitabschnitte.CONTENT_URI, // URI zur
             // Tabelle
-            new String[] { BaseColumns._ID, ZeitabschnittContract.Zeitabschnitte.Columns.START, ZeitabschnittContract.Zeitabschnitte.Columns.STOP }, null,
-            null, null);
+            new String[] { BaseColumns._ID, ZeitabschnittContract.Zeitabschnitte.Columns.START, ZeitabschnittContract.Zeitabschnitte.Columns.STOP }, _FullData,
+            null, Zeitabschnitte.Columns.START + " DESC");
 
     _Adapter.swapCursor(data);
 
@@ -130,7 +132,13 @@ public class AuflistungActivity extends ListActivity {
         break;
 
       case R.id.mnu_show:
+        Intent showIntent = new Intent(this, EditActivity.class);
+        showIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
+        // ID an die Nachricht anhängen
+        showIntent.putExtra("ID", info.id);
+
+        startActivity(showIntent);
         break;
 
       case R.id.mnu_edit:
@@ -139,6 +147,7 @@ public class AuflistungActivity extends ListActivity {
 
         // ID an die Nachricht anhängen
         editIntent.putExtra("ID", info.id);
+        editIntent.putExtra("ReadOnly", false);
 
         startActivity(editIntent);
 

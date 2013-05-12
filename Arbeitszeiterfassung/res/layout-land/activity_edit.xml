@@ -16,19 +16,24 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:labelFor="@+id/txt_start_time"
+			android:labelFor="@+id/txt_start"
 			android:text="@string/lbl_start_time" />
+
+		<EditText
+			android:id="@+id/txt_start"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:ems="10"
+			android:inputType="text" />
 
 		<EditText
 			android:id="@+id/txt_start_time"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
-			android:layout_weight="2"
+			android:layout_weight="1"
 			android:ems="10"
-			android:inputType="text" >
-
-			<requestFocus />
-		</EditText>
+			android:inputType="text" />
 	</LinearLayout>
 
 	<LinearLayout
@@ -44,14 +49,22 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:labelFor="@+id/txt_end_time"
+			android:labelFor="@+id/txt_end"
 			android:text="@string/lbl_end_time" />
+
+		<EditText
+			android:id="@+id/txt_end"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:ems="10"
+			android:inputType="text" />
 
 		<EditText
 			android:id="@+id/txt_end_time"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
-			android:layout_weight="2"
+			android:layout_weight="1"
 			android:ems="10"
 			android:inputType="text" />
 	</LinearLayout>
