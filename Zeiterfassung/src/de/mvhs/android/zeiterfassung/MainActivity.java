@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import de.mvhs.android.zeiterfassung.db.DBHelper;
 
 public class MainActivity extends Activity {
   private boolean _IsStarted = false;
@@ -45,6 +46,10 @@ public class MainActivity extends Activity {
     // Aktivieren / Deaktivieren
     _IsStarted = savedInstanceState == null ? false : savedInstanceState.getBoolean("IsStarted", false);
     changeButtonState();
+
+    DBHelper helper = new DBHelper(this);
+    helper.getReadableDatabase();
+    helper.close();
   }
 
   @Override
