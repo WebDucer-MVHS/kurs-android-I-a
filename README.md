@@ -1,6 +1,10 @@
 JM 6784: Programme entwickeln für Android- Geräte
 =================================================
 
+!!! Achtung !!!
+---------------
+**Wegen der Ferien treffen wir uns das nächste Mal erst am 4. November (und nicht bereits am 28. Oktober).**
+
 Voraussetzung
 -------------
 - einfache Programmierkenntnisse in
