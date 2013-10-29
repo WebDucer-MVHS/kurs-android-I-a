@@ -11,7 +11,8 @@ import android.widget.EditText;
 import de.mvhs.android.zeiterfassung.db.DBHelper;
 
 public class MainActivity extends Activity {
-  private boolean _IsStarted = false;
+  private boolean             _IsStarted      = false;
+  private final static String _IS_STARTED_KEY = "IsStarted";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -22,29 +23,12 @@ public class MainActivity extends Activity {
     Button starten = (Button) findViewById(R.id.button_start);
     Button beenden = (Button) findViewById(R.id.button_end);
 
-    // Zuordnen des Listneners zum Element
-    starten.setOnClickListener(new OnClickListener() {
-
-      @Override
-      public void onClick(View v) {
-        onStartClicked();
-      }
-    });
-
-    beenden.setOnClickListener(new OnClickListener() {
-
-      @Override
-      public void onClick(View v) {
-        onEndClicked();
-      }
-    });
-
     // Alternative
-    // starten.setOnClickListener(onClicked);
-    // beenden.setOnClickListener(onClicked);
+    starten.setOnClickListener(onClicked);
+    beenden.setOnClickListener(onClicked);
 
     // Aktivieren / Deaktivieren
-    _IsStarted = savedInstanceState == null ? false : savedInstanceState.getBoolean("IsStarted", false);
+    _IsStarted = savedInstanceState == null ? false : savedInstanceState.getBoolean(_IS_STARTED_KEY, false);
     changeButtonState();
 
     DBHelper helper = new DBHelper(this);
@@ -54,38 +38,8 @@ public class MainActivity extends Activity {
 
   @Override
   protected void onSaveInstanceState(Bundle outState) {
-    outState.putBoolean("IsStarted", _IsStarted);
+    outState.putBoolean(_IS_STARTED_KEY, _IsStarted);
     super.onSaveInstanceState(outState);
-  }
-
-  // Was passiert, wenn Start Button geclickt wird
-  private void onStartClicked() {
-    // Textbox suchen
-    EditText start_zeit = (EditText) findViewById(R.id.text_start_time);
-
-    // Aktuelle Uhrzeit bestimmen
-    Date jetzt = new Date();
-
-    // Ausgabe der aktuellen Zeit
-    start_zeit.setText(jetzt.toString());
-
-    _IsStarted = true;
-    changeButtonState();
-  }
-
-  // Was passiert, wenn Beenden Button geclickt wird
-  private void onEndClicked() {
-    // Textbox suchen
-    EditText end_zeit = (EditText) findViewById(R.id.text_end_time);
-
-    // Aktuelle Uhrzeit bestimmen
-    Date jetzt = new Date();
-
-    // Ausgabe der aktuellen Zeit
-    end_zeit.setText(jetzt.toString());
-
-    _IsStarted = false;
-    changeButtonState();
   }
 
   private void changeButtonState() {
@@ -104,26 +58,26 @@ public class MainActivity extends Activity {
   }
 
   // Alternative
-  // private OnClickListener onClicked = new OnClickListener() {
-  //
-  // @Override
-  // public void onClick(View v) {
-  // // Aktuelle Uhrzeit bestimmen
-  // Date jetzt = new Date();
-  //
-  // // Textbox
-  // EditText ausgabe = null;
-  //
-  // if (v.getId() == R.id.button_start) {
-  // ausgabe = (EditText) findViewById(R.id.text_start_time);
-  // _IsStarted = true;
-  // } else if (v.getId() == R.id.button_end) {
-  // ausgabe = (EditText) findViewById(R.id.text_end_time);
-  // _IsStarted = false;
-  // }
-  //
-  // ausgabe.setText(jetzt.toString());
-  // changeButtonState();
-  // }
-  // };
+  private OnClickListener onClicked = new OnClickListener() {
+
+                                      @Override
+                                      public void onClick(View v) {
+                                        // Aktuelle Uhrzeit bestimmen
+                                        Date jetzt = new Date();
+
+                                        // Textbox
+                                        EditText ausgabe = null;
+
+                                        if (v.getId() == R.id.button_start) {
+                                          ausgabe = (EditText) findViewById(R.id.text_start_time);
+                                          _IsStarted = true;
+                                        } else if (v.getId() == R.id.button_end) {
+                                          ausgabe = (EditText) findViewById(R.id.text_end_time);
+                                          _IsStarted = false;
+                                        }
+
+                                        ausgabe.setText(jetzt.toString());
+                                        changeButtonState();
+                                      }
+                                    };
 }
