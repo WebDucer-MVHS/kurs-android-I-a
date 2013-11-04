@@ -22,6 +22,11 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+		<provider
+		    android:authorities="de.mvhs.android.zeiterfassung.zeitprovider"
+		    android:name=".db.ZeitProvider"
+		    android:exported="false" />
+		<activity android:name="EditActivity"></activity>
 	</application>
 
 </manifest>
