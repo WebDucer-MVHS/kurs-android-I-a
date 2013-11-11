@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/mnu_list" android:title="@string/mnu_list" android:showAsAction="ifRoom"></item>
+    <item android:id="@+id/mnu_add" android:title="@string/mnu_add" android:showAsAction="ifRoom"></item>
+    <item android:id="@+id/mnu_edit" android:title="@string/mnu_edit" android:showAsAction="ifRoom"></item>
+    <item android:id="@+id/mnu_exit" android:title="@string/mnu_exit" android:showAsAction="ifRoom"></item>
+    
+
+</menu>

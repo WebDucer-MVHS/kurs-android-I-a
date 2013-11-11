@@ -27,6 +27,7 @@
 		    android:name=".db.ZeitProvider"
 		    android:exported="false" />
 		<activity android:name="EditActivity"></activity>
+		<activity android:name="EntryListActivity"></activity>
 	</application>
 
 </manifest>

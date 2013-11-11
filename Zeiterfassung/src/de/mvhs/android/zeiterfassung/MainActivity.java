@@ -7,10 +7,13 @@ import java.util.Date;
 import android.app.Activity;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -73,6 +76,37 @@ public class MainActivity extends Activity {
     ende.setText(_EMPTY);
 
     changeButtonState();
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    this.getMenuInflater().inflate(R.menu.main_menu, menu);
+    return super.onCreateOptionsMenu(menu);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.mnu_add:
+        Intent addIntent = new Intent(this, EditActivity.class);
+        addIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        this.startActivity(addIntent);
+        break;
+
+      case R.id.mnu_exit:
+        this.finish();
+        break;
+
+      case R.id.mnu_list:
+        Intent listIntent = new Intent(this, EntryListActivity.class);
+        listIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        this.startActivity(listIntent);
+        break;
+
+      default:
+        break;
+    }
+    return super.onOptionsItemSelected(item);
   }
 
   private void changeButtonState() {
