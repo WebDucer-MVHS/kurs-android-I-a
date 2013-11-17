@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content" >
+
+	<View
+		android:id="@+id/CenterHelper"
+		android:layout_width="@dimen/cell_rule_width"
+		android:layout_height="match_parent"
+		android:layout_centerHorizontal="true"
+		android:background="@color/cell_rule_color" />
+
+	<TextView
+		android:id="@+id/StartDateText"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_toLeftOf="@+id/CenterHelper"
+		android:gravity="center"
+		android:padding="@dimen/row_cell_padding" />
+
+	<TextView
+		android:id="@+id/EndDateText"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_alignParentRight="true"
+		android:layout_toRightOf="@+id/CenterHelper"
+		android:gravity="center"
+		android:padding="@dimen/row_cell_padding" />
+
+</RelativeLayout>

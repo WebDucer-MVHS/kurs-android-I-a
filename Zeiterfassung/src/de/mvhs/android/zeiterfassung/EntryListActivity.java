@@ -9,7 +9,8 @@ import android.widget.SimpleCursorAdapter;
 import de.mvhs.android.zeiterfassung.db.ZeitProvider;
 
 public class EntryListActivity extends ListActivity {
-  private SimpleCursorAdapter _Adapter = null;
+  private SimpleCursorAdapter _Adapter    = null;
+  private final static String _SORT_ORDER = ZeitProvider.Columns.START + " DESC";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -17,17 +18,10 @@ public class EntryListActivity extends ListActivity {
     setContentView(R.layout.activity_entry_list);
 
     _Adapter = new SimpleCursorAdapter(this, // Context
-            android.R.layout.simple_list_item_2, // Layout für Zeile
+            R.layout.row_with_2_values, // Layout für Zeile
             null, // Daten als Cursor
             new String[] { ZeitProvider.Columns.START, ZeitProvider.Columns.END }, // Darzustellende Spalten
-            new int[] { android.R.id.text1, android.R.id.text2 }, // In
-            // welchen
-            // Zeilen-Elementen
-            // diese
-            // Daten
-            // dargestellt
-            // werden
-            // sollen
+            new int[] { R.id.StartDateText, R.id.EndDateText }, // In welchen Zeilen-Elementen diese Daten dargestellt werden sollen
             0);
 
     this.setListAdapter(_Adapter);
@@ -45,7 +39,7 @@ public class EntryListActivity extends ListActivity {
             null, // Auszuwählende Spalten
             null, // Bedingung
             null, // Parameter der Bedingung
-            null); // Sortierung
+            _SORT_ORDER); // Sortierung
 
     _Adapter.swapCursor(data);
   }

@@ -10,5 +10,11 @@
 	<string name="end_button">Beenden</string>
 	<string name="pause_label">Pause:</string>
 	<string name="comment_label">Kommentar:</string>
+	<string name="mnu_list">Liste</string>
+	<string name="mnu_add">Hinzufügen</string>
+	<string name="mnu_edit">Bearbeiten</string>
+	<string name="mnu_exit">Schließen</string>
+	<string name="col_header_start">Start</string>
+	<string name="col_header_end">Ende</string>
 
 </resources>
