@@ -1,5 +1,12 @@
 JM 6784: Programme entwickeln für Android- Geräte
 =================================================
+---
+---
+
+###! ! ! Der Kurs am 25.11.2013 fällt wegen Krankheit aus ! ! !
+
+---
+---
 
 Voraussetzung
 -------------
