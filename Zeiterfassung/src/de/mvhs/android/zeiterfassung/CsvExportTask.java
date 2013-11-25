@@ -11,118 +11,148 @@ import android.os.AsyncTask;
 import android.os.Environment;
 
 public class CsvExportTask extends AsyncTask<Cursor, Integer, Void> {
-	private final ProgressDialog _Dialog;
+  private final ProgressDialog _Dialog;
 
-	public CsvExportTask(ProgressDialog progressDialog) {
-		_Dialog = progressDialog;
-	}
+  public CsvExportTask(ProgressDialog progressDialog) {
+    _Dialog = progressDialog;
+  }
 
-	@Override
-	protected void onPreExecute() {
-		if (_Dialog != null) {
-			_Dialog.show();
-		}
-		super.onPreExecute();
-	}
+  /*
+   * Wird in UI-Thread ausgeführt, bevor die Methode doInBackground ausgeführt wird
+   */
+  @Override
+  protected void onPreExecute() {
+    if (_Dialog != null) {
+      _Dialog.show();
+    }
+    super.onPreExecute();
+  }
 
-	@Override
-	protected void onPostExecute(Void result) {
-		if (_Dialog != null) {
-			_Dialog.dismiss();
-		}
-		super.onPostExecute(result);
-	}
+  /*
+   * Wird in UI-Thread ausgeführt, nachdem die Methode doInBackground beendet wurde
+   */
+  @Override
+  protected void onPostExecute(Void result) {
+    if (_Dialog != null) {
+      _Dialog.dismiss();
+    }
+    super.onPostExecute(result);
+  }
 
-	@Override
-	protected void onProgressUpdate(Integer... values) {
-		if (values != null && values.length == 1 && _Dialog != null) {
-			_Dialog.setProgress(values[0]);
-		}
-		super.onProgressUpdate(values);
-	}
+  /*
+   * Wir in UI-Thread ausgeführt, wenn aus der Methode doInBackground die Methode publichSprogress aufgerufen wird
+   */
+  @Override
+  protected void onProgressUpdate(Integer... values) {
+    if (values != null && values.length == 1 && _Dialog != null) {
+      _Dialog.setProgress(values[0]);
+    }
+    super.onProgressUpdate(values);
+  }
 
-	@Override
-	protected Void doInBackground(Cursor... exportCursor) {
-		// Prüfung des Parameters
-		if (exportCursor != null && exportCursor.length == 1) {
-			Cursor data = exportCursor[0];
+  /*
+   * Wird in UI-Thread aufgerufen, wenn die Methode cancel() auferufen wurde und die Methode doInBackground beendet wurde
+   */
+  @Override
+  protected void onCancelled() {
+    super.onCancelled();
+    // Prüfen, ob die Operation abgebrochen wurde
+    if (isCancelled()) {
+      // Löschen aller bsi jetzt erzegter Daten
+      File externalDirectory = Environment.getExternalStorageDirectory();
+      File exportDirectory = new File(externalDirectory, "export");
+      File exportFile = new File(exportDirectory, "zeit.csv");
+      if (exportFile.exists()) {
+        exportFile.delete();
+      }
+    }
+  }
 
-			publishProgress(0);
+  /*
+   * Operationen, die im Hintergrund-Thread ausgeführt werden sollen
+   */
+  @Override
+  protected Void doInBackground(Cursor... exportCursor) {
+    // Prüfung des Parameters
+    if (exportCursor != null && exportCursor.length == 1) {
+      Cursor data = exportCursor[0];
 
-			// Dateinamen für den Export definieren
-			File externalDirectory = Environment.getExternalStorageDirectory();
-			File exportDirectory = new File(externalDirectory, "export");
-			File exportFile = new File(exportDirectory, "zeit.csv");
+      publishProgress(0);
 
-			if (externalDirectory.exists()) {
-				BufferedWriter writer = null;
+      // Dateinamen für den Export definieren
+      File externalDirectory = Environment.getExternalStorageDirectory();
+      File exportDirectory = new File(externalDirectory, "export");
+      File exportFile = new File(exportDirectory, "zeit.csv");
 
-				try {
-					exportDirectory.mkdirs();
+      if (externalDirectory.exists() && isCancelled() == false) {
+        BufferedWriter writer = null;
 
-					writer = new BufferedWriter(new FileWriter(exportFile));
+        try {
+          exportDirectory.mkdirs();
 
-					String[] columnNames = data.getColumnNames();
-					StringBuilder line = new StringBuilder();
+          writer = new BufferedWriter(new FileWriter(exportFile));
 
-					// Spaltenüberschriften ausgeben
-					for (String column : columnNames) {
-						if (line.length() > 0) {
-							line.append(";");
-						}
-						line.append(column);
-					}
-					// Neue Zeile einfügen
-					line.append("\n");
+          String[] columnNames = data.getColumnNames();
+          StringBuilder line = new StringBuilder();
 
-					// Speichern in die Datei
-					writer.append(line);
+          // Spaltenüberschriften ausgeben
+          for (String column : columnNames) {
+            if (line.length() > 0) {
+              line.append(";");
+            }
+            line.append(column);
+          }
+          // Neue Zeile einfügen
+          line.append("\n");
 
-					// Cursor zurücksetzen
-					data.moveToPosition(-1);
-					while (data.moveToNext()) {
-						// Zurücksetzen des String Builders
-						line.delete(0, line.length());
+          // Speichern in die Datei
+          writer.append(line);
 
-						// Spaltenwerte ausgeben
-						for (int i = 0; i < columnNames.length; i++) {
-							if (line.length() > 0) {
-								line.append(";");
-							}
+          // Cursor zurücksetzen
+          data.moveToPosition(-1);
+          while (data.moveToNext() && isCancelled() == false) {
+            // Zurücksetzen des String Builders
+            line.delete(0, line.length());
 
-							if (data.isNull(i)) {
-								// Nichts tun
-							} else {
-								// Wert ausgeben
-								line.append(data.getString(i));
-							}
-						}
+            // Spaltenwerte ausgeben
+            for (int i = 0; i < columnNames.length; i++) {
+              if (line.length() > 0) {
+                line.append(";");
+              }
 
-						// Neue Zeile hinzufügen
-						line.append("\n");
+              if (data.isNull(i)) {
+                // Nichts tun
+              } else {
+                // Wert ausgeben
+                line.append(data.getString(i));
+              }
+            }
 
-						// Daten Speichern
-						writer.append(line);
+            // Neue Zeile hinzufügen
+            line.append("\n");
 
-						publishProgress(data.getPosition() + 1);
-					}
+            // Daten Speichern
+            writer.append(line);
 
-				} catch (IOException e) {
-					e.printStackTrace();
-				} finally {
-					// Datei wieder freigeben
-					if (writer != null) {
-						try {
-							writer.flush();
-							writer.close();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-				}
-			}
-		}
-		return null;
-	}
+            publishProgress(data.getPosition() + 1);
+          }
+
+        } catch (IOException e) {
+          e.printStackTrace();
+        } finally {
+          // Datei wieder freigeben
+          if (writer != null) {
+            try {
+              writer.flush();
+              writer.close();
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
+          }
+        }
+      }
+    }
+    return null;
+  }
 
 }

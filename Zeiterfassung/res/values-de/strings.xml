@@ -16,5 +16,8 @@
 	<string name="mnu_exit">Schließen</string>
 	<string name="col_header_start">Start</string>
 	<string name="col_header_end">Ende</string>
+	<string name="mnu_export">Export</string>
+	<string name="mnu_delete">Löschen</string>
+	<string name="cancel_button">Abbrechen</string>
 
 </resources>

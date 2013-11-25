@@ -18,5 +18,6 @@
 	<string name="col_header_end">End</string>
 	<string name="mnu_export">Export</string>
 	<string name="mnu_delete">Delete</string>
+	<string name="cancel_button">Cancel</string>
 
 </resources>
