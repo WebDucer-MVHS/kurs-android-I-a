@@ -3,60 +3,57 @@ package de.mvhs.android.zeiterfassung.db;
 import android.database.sqlite.SQLiteDatabase;
 
 public class ZeitenTable {
-	/* Statische Felder */
-	/**
-	 * Tabellenname
-	 */
-	public final static String TABLE_NAME = "zeiten";
+  /* Statische Felder */
+  /**
+   * Tabellenname
+   */
+  public final static String  TABLE_NAME          = "zeiten";
 
-	public final static int ITEMS = 100;
+  public final static int     ITEMS               = 100;
 
-	public final static int ITEM_ID = 110;
+  public final static int     ITEM_ID             = 110;
 
-	/**
-	 * ID Spalte
-	 */
-	public final static String ID = "_id";
+  /**
+   * Kommentar Spalte für den Eintrag
+   */
+  public final static String  COMMENT             = "comment";
 
-	/**
-	 * Startzeit Spalte im Format "2013-10-37T18:17"
-	 */
-	public final static String START = "start";
+  private final static String _CREATE_TABLE       = "CREATE TABLE zeiten " + "(_id INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL ," + "start TEXT NOT NULL ,"
+                                                          + "end TEXT," + "pause INTEGER NOT NULL DEFAULT 0," + "comment TEXT)";
 
-	/**
-	 * Endzeit Spalte im Format "2013-10-37T18:17"
-	 */
-	public final static String END = "end";
+  private final static String _ADD_PAUSE_COLUMN   = "ALTER TABLE zeiten " + "ADD COLUMN pause INTEGER NOT NULL DEFAULT 0";
+  private final static String _ADD_COMMENT_COLUMN = "ALTER TABLE zeiten " + "ADD COLUMN comment TEXT";
 
-	private final static String _CREATE_TABLE = "CREATE TABLE zeiten "
-			+ "(_id INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL ,"
-			+ "start TEXT NOT NULL ," + "end TEXT)";
+  /**
+   * Erstellen der Tabelle
+   * 
+   * @param db
+   *          Datenbak
+   */
+  public static void onCreate(SQLiteDatabase db) {
+    db.execSQL(_CREATE_TABLE);
+  }
 
-	private final static String _DROP_TABLE = "DROP TABLE " + TABLE_NAME;
+  /**
+   * Aktualisieren der Tabelle
+   * 
+   * @param db
+   *          Datenbank
+   * @param oldVersion
+   *          aktueller Version der Datenbank
+   * @param newVersion
+   *          benötigte Version der Datenbank
+   */
+  public static void onUpdate(SQLiteDatabase db, int oldVersion, int newVersion) {
+    // Migrationspfad
+    switch (oldVersion) {
+      case 1:
+        db.execSQL(_ADD_PAUSE_COLUMN);
+        db.execSQL(_ADD_COMMENT_COLUMN);
 
-	/**
-	 * Erstellen der Tabelle
-	 * 
-	 * @param db
-	 *            Datenbak
-	 */
-	public static void onCreate(SQLiteDatabase db) {
-		db.execSQL(_CREATE_TABLE);
-	}
-
-	/**
-	 * Aktualisieren der Tabelle
-	 * 
-	 * @param db
-	 *            Datenbank
-	 * @param oldVersion
-	 *            aktueller Version der Datenbank
-	 * @param newVersion
-	 *            benötigte Version der Datenbank
-	 */
-	public static void onUpdate(SQLiteDatabase db, int oldVersion,
-			int newVersion) {
-		db.execSQL(_DROP_TABLE);
-		onCreate(db);
-	}
+      case 2:
+        // Zweite Version
+        break;
+    }
+  }
 }

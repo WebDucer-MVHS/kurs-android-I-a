@@ -13,12 +13,13 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.SimpleCursorAdapter;
-import de.mvhs.android.zeiterfassung.db.ZeitProvider;
+import de.mvhs.android.zeiterfassung.db.ZeitContract.Zeit;
 
 public class EntryListActivity extends ListActivity {
   private SimpleCursorAdapter _Adapter    = null;
-  private final static String _SORT_ORDER = ZeitProvider.Columns.START + " DESC";
+  private final static String _SORT_ORDER = Zeit.Columns.START + " DESC";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +29,7 @@ public class EntryListActivity extends ListActivity {
     _Adapter = new SimpleCursorAdapter(this, // Context
             R.layout.row_with_2_values, // Layout für Zeile
             null, // Daten als Cursor
-            new String[] { ZeitProvider.Columns.START, ZeitProvider.Columns.END }, // Darzustellende Spalten
+            new String[] { Zeit.Columns.START, Zeit.Columns.END }, // Darzustellende Spalten
             new int[] { R.id.StartDateText, R.id.EndDateText }, // In
             // welchen
             // Zeilen-Elementen
@@ -50,15 +51,19 @@ public class EntryListActivity extends ListActivity {
   protected void onStart() {
     super.onStart();
 
-    Cursor data = getContentResolver().query(ZeitProvider.CONTENT_URI, // URI
+    loadData();
+
+    registerForContextMenu(getListView());
+  }
+
+  private void loadData() {
+    Cursor data = getContentResolver().query(Zeit.CONTENT_URI, // URI
             null, // Auszuwählende Spalten
             null, // Bedingung
             null, // Parameter der Bedingung
             _SORT_ORDER); // Sortierung
 
     _Adapter.swapCursor(data);
-
-    registerForContextMenu(getListView());
   }
 
   @Override
@@ -93,7 +98,7 @@ public class EntryListActivity extends ListActivity {
         dialog.setCancelable(true);
 
         final CsvExportTask task = new CsvExportTask(dialog);
-        Cursor data = getContentResolver().query(ZeitProvider.CONTENT_URI, null, null, null, _SORT_ORDER);
+        Cursor data = getContentResolver().query(Zeit.CONTENT_URI, null, null, null, _SORT_ORDER);
 
         // Max setzen
         dialog.setMax(data.getCount());
@@ -127,11 +132,18 @@ public class EntryListActivity extends ListActivity {
   @Override
   public boolean onContextItemSelected(MenuItem item) {
     long id = -1; // ID des ausgewählten Eintrages
+
+    // Bestimmen der ID des ausgewählten Eintrages in der Liste
+    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+
+    id = info.id;
+
     switch (item.getItemId()) {
       case R.id.mnu_edit:
         Intent editIntent = new Intent(this, EditActivity.class);
         editIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         // ID an die Nachricht anhängen
+        editIntent.putExtra("ID", id);
 
         // Nachricht absenden
         startActivity(editIntent);
@@ -139,9 +151,11 @@ public class EntryListActivity extends ListActivity {
 
       case R.id.mnu_delete:
         // Uri für das zu löschende Element generieren
-        Uri entryToDelete = ContentUris.withAppendedId(ZeitProvider.CONTENT_URI, id);
+        Uri entryToDelete = ContentUris.withAppendedId(Zeit.CONTENT_URI, id);
         // Element über Content-Provider löschen
         getContentResolver().delete(entryToDelete, null, null);
+        // Nachladen der Daten, da diese momentan nicht über Loader geladen werden (dann geschieht so etwas automatisch)
+        loadData();
         break;
 
       default:

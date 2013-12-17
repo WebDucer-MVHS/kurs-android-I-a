@@ -20,7 +20,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import de.mvhs.android.zeiterfassung.db.DBHelper;
-import de.mvhs.android.zeiterfassung.db.ZeitProvider;
+import de.mvhs.android.zeiterfassung.db.ZeitContract;
+import de.mvhs.android.zeiterfassung.db.ZeitContract.Zeit;
 
 public class MainActivity extends Activity {
   private boolean                 _IsStarted      = false;
@@ -50,8 +51,8 @@ public class MainActivity extends Activity {
   protected void onStart() {
     super.onStart();
 
-    String where = "IFNULL(" + ZeitProvider.Columns.END + ", '') = ''";
-    Cursor data = getContentResolver().query(ZeitProvider.CONTENT_URI, null, where, null, null);
+    String where = "IFNULL(" + Zeit.Columns.END + ", '') = ''";
+    Cursor data = getContentResolver().query(Zeit.CONTENT_URI, null, where, null, null);
 
     EditText start = (EditText) findViewById(R.id.text_start_time);
     EditText ende = (EditText) findViewById(R.id.text_end_time);
@@ -59,8 +60,8 @@ public class MainActivity extends Activity {
     if (data != null && data.moveToFirst()) {
       // Ein leerer Eintrag gefunden
       try {
-        String startZeit = data.getString(data.getColumnIndex(ZeitProvider.Columns.START));
-        Date startTime = ZeitProvider.DB_DATE_FORMAT.parse(startZeit);
+        String startZeit = data.getString(data.getColumnIndex(Zeit.Columns.START));
+        Date startTime = ZeitContract.DB_DATE_FORMAT.parse(startZeit);
         start.setText(_DateTimeFormat.format(startTime));
       } catch (ParseException e) {
         e.printStackTrace();
@@ -133,9 +134,9 @@ public class MainActivity extends Activity {
     _IsStarted = true;
     // Daten in die Datenbank spiechern
     ContentValues values = new ContentValues();
-    values.put(ZeitProvider.Columns.START, ZeitProvider.DB_DATE_FORMAT.format(jetzt));
+    values.put(Zeit.Columns.START, ZeitContract.DB_DATE_FORMAT.format(jetzt));
 
-    Uri insert = getContentResolver().insert(ZeitProvider.CONTENT_URI, values);
+    Uri insert = getContentResolver().insert(Zeit.CONTENT_URI, values);
 
     if (insert == null) {
       Toast.makeText(this, "Insert of new Entry failed", Toast.LENGTH_LONG).show();
@@ -155,16 +156,16 @@ public class MainActivity extends Activity {
     _IsStarted = false;
 
     // Datensatz suchen
-    String where = "IFNULL(" + ZeitProvider.Columns.END + ", '') = ''";
-    Cursor data = getContentResolver().query(ZeitProvider.CONTENT_URI, new String[] { BaseColumns._ID }, where, null, null);
+    String where = "IFNULL(" + Zeit.Columns.END + ", '') = ''";
+    Cursor data = getContentResolver().query(Zeit.CONTENT_URI, new String[] { BaseColumns._ID }, where, null, null);
 
     if (data != null && data.moveToFirst()) {
       long id = data.getLong(0);
 
       // Daten in die Datenbank aktualisieren
       ContentValues values = new ContentValues();
-      values.put(ZeitProvider.Columns.END, ZeitProvider.DB_DATE_FORMAT.format(jetzt));
-      Uri insertUri = ContentUris.withAppendedId(ZeitProvider.CONTENT_URI, id);
+      values.put(Zeit.Columns.END, ZeitContract.DB_DATE_FORMAT.format(jetzt));
+      Uri insertUri = ContentUris.withAppendedId(Zeit.CONTENT_URI, id);
 
       int updated = getContentResolver().update(insertUri, values, null, null);
 
