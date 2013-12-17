@@ -19,5 +19,9 @@
 	<string name="mnu_export">Export</string>
 	<string name="mnu_delete">Löschen</string>
 	<string name="cancel_button">Abbrechen</string>
+	<string name="save_title">Speichern …</string>
+	<string name="save_button">Speichern</string>
+	<string name="not_save_button">Nicht speichern</string>
+	<string name="save_dilog_message">Wollen Sie den aktuellen Eintrag speichern?</string>
 
 </resources>

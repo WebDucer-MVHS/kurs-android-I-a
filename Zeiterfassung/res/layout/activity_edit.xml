@@ -104,7 +104,9 @@
 		android:layout_height="match_parent"
 		android:layout_alignParentLeft="true"
 		android:layout_below="@+id/CommentLabel"
+		android:gravity="top"
 		android:inputType="textMultiLine"
-		android:minLines="3" />
+		android:minLines="3"
+		android:singleLine="false" />
 
 </RelativeLayout>
