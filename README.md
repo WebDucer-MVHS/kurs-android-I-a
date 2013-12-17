@@ -1,13 +1,5 @@
 JM 6784: Programme entwickeln für Android- Geräte
 =================================================
----
----
-
-###! ! ! Nachhohltermin ist der 16. Dezember 2013 ! ! !
-
----
----
-
 Voraussetzung
 -------------
 - einfache Programmierkenntnisse in
