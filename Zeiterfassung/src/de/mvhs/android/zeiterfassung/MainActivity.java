@@ -4,8 +4,10 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.provider.BaseColumns;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -13,88 +15,120 @@ import android.widget.EditText;
 import de.mvhs.android.zeiterfassung.db.DBHelper;
 
 public class MainActivity extends Activity {
-	private boolean _IsStarted = false;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+  private boolean _IsStarted = false;
 
-		setContentView(R.layout.activity_main);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
 
-		if (savedInstanceState != null) {
-			_IsStarted = savedInstanceState.getBoolean("CurrentState", false);
-		}
+    setContentView(R.layout.activity_main);
 
-		setButtonState();
-	}
+    if (savedInstanceState != null) {
+      _IsStarted = savedInstanceState.getBoolean("CurrentState", false);
+    }
 
-	@Override
-	protected void onStart() {
-		super.onStart();
+    setButtonState();
+  }
 
-		// Buttons registrieren
-		Button commandStart = (Button) findViewById(R.id.StartCommand);
-		Button commandEnd = (Button) findViewById(R.id.EndCommand);
+  @Override
+  protected void onStart() {
+    super.onStart();
 
-		// Click Event registrieren
-		commandStart.setOnClickListener(new OnClickListener() {
+    // Buttons registrieren
+    Button commandStart = (Button) findViewById(R.id.StartCommand);
+    Button commandEnd = (Button) findViewById(R.id.EndCommand);
 
-			@Override
-			public void onClick(View v) {
-				// Verhalten beim Klick auf den Strat Button
-				EditText startTime = (EditText) findViewById(R.id.StartTime);
-				startTime.setText(new Date().toString());
-				_IsStarted = true;
-				setButtonState();
+    // Click Event registrieren
+    commandStart.setOnClickListener(new OnStartButtonClicked());
 
-				DBHelper helper = new DBHelper(MainActivity.this);
-				SQLiteDatabase db = helper.getWritableDatabase();
+    commandEnd.setOnClickListener(new OnEndButtonClicked());
+  }
 
-				ContentValues values = new ContentValues();
-				values.put("start_time", new Date().toString());
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+    outState.putBoolean("CurrentState", _IsStarted);
+    super.onSaveInstanceState(outState);
+  }
 
-				db.insert("zeit", null, values);
+  @Override
+  protected void onStop() {
+    // Buttons registrieren
+    Button commandStart = (Button) findViewById(R.id.StartCommand);
+    Button commandEnd = (Button) findViewById(R.id.EndCommand);
 
-				db.close();
-			}
-		});
+    // Click Event deregistrieren
+    commandStart.setOnClickListener(null);
+    commandEnd.setOnClickListener(null);
+    super.onStop();
+  }
 
-		commandEnd.setOnClickListener(new OnClickListener() {
+  private void setButtonState() {
+    Button commandStart = (Button) findViewById(R.id.StartCommand);
+    Button commandEnd = (Button) findViewById(R.id.EndCommand);
 
-			@Override
-			public void onClick(View v) {
-				// Verhalten beim Click auf den Ende-Button
-				EditText endTime = (EditText) findViewById(R.id.EndTime);
-				endTime.setText(new Date().toString());
-				_IsStarted = false;
-				setButtonState();
-			}
-		});
-	}
+    commandStart.setEnabled(_IsStarted == false);
+    commandEnd.setEnabled(_IsStarted);
+  }
 
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		outState.putBoolean("CurrentState", _IsStarted);
-		super.onSaveInstanceState(outState);
-	}
+  private final class OnEndButtonClicked implements OnClickListener {
+    @Override
+    public void onClick(View v) {
+      // Verhalten beim Click auf den Ende-Button
+      EditText endTime = (EditText) findViewById(R.id.EndTime);
+      endTime.setText(new Date().toString());
+      _IsStarted = false;
+      setButtonState();
 
-	@Override
-	protected void onStop() {
-		// Buttons registrieren
-		Button commandStart = (Button) findViewById(R.id.StartCommand);
-		Button commandEnd = (Button) findViewById(R.id.EndCommand);
+      DBHelper helper = new DBHelper(MainActivity.this);
+      SQLiteDatabase db = helper.getReadableDatabase();
+      Cursor data = db.query("zeit", // Tabelle
+              new String[] { BaseColumns._ID }, // Spalten
+              "IFNULL(end_time,'')=''", // Bedingung
+              null, // Argumente für die bedingung
+              null, // Grupierung
+              null, // Having
+              null); // Sortierung
+      if (data != null && data.moveToFirst()) {
+        // Datensatz gefunden, kann aktualisiert werden
+        SQLiteDatabase updateDb = helper.getWritableDatabase();
+        long id = data.getLong(0);
 
-		// Click Event deregistrieren
-		commandStart.setOnClickListener(null);
-		commandEnd.setOnClickListener(null);
-		super.onStop();
-	}
+        ContentValues values = new ContentValues();
+        values.put("end_time", new Date().toString());
 
-	private void setButtonState() {
-		Button commandStart = (Button) findViewById(R.id.StartCommand);
-		Button commandEnd = (Button) findViewById(R.id.EndCommand);
+        updateDb.update("zeit", values, "_id=?", new String[] { String.valueOf(id) });
 
-		commandStart.setEnabled(_IsStarted == false);
-		commandEnd.setEnabled(_IsStarted);
-	}
+        updateDb.close();
+      }
+
+      // Alles schließen
+      if (data != null) {
+        data.close();
+      }
+      db.close();
+      helper.close();
+    }
+  }
+
+  private final class OnStartButtonClicked implements OnClickListener {
+    @Override
+    public void onClick(View v) {
+      // Verhalten beim Klick auf den Strat Button
+      EditText startTime = (EditText) findViewById(R.id.StartTime);
+      startTime.setText(new Date().toString());
+      _IsStarted = true;
+      setButtonState();
+
+      DBHelper helper = new DBHelper(MainActivity.this);
+      SQLiteDatabase db = helper.getWritableDatabase();
+
+      ContentValues values = new ContentValues();
+      values.put("start_time", new Date().toString());
+
+      db.insert("zeit", null, values);
+
+      db.close();
+    }
+  }
 }
