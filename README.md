@@ -29,33 +29,34 @@ Dauer
 
 Bücher
 ------
-- [Android 2: Grundlagen und Programmierung (ISBN: 978-3898646772)](http://amzn.to/kAnQRT)
-- [Android 3: Apps entwickeln mit dem Android SDK (ISBN: 978-3836216975)](http://amzn.to/lW7O3G)
-- [Android 4: Apps entwickeln mit dem Android SDK (ISBN: 978-3836219488)](http://amzn.to/OyoHRP)
+- [Android 4.4: Programmieren für Smartphones und Tablets - Grundlagen und fortgeschrittene Techniken](http://bit.ly/AndProg44)
+- [Android 3: Apps entwickeln mit dem Android SDK](http://bit.ly/AndGal3)
+- [Android 4: Apps entwickeln mit dem Android SDK](http://bit.ly/AndGal4)
+- [Android-Apps entwickeln für Einsteiger](http://bit.ly/AndEinst)
 - [Eclipse IDE 3.7 (Kindle Edition)](http://amzn.to/QtZNhH)
-- [Android SQLite and ContentProvider (Kindle Edition)](http://amzn.to/ZL5HAf)
+- Java ist auch eine Insel [Online](http://openbook.galileocomputing.de/javainsel/) oder als [Buch](http://bit.ly/JaInsel)
 
 Links
 -----
 ### Downloads
-- Eclipse Juno 4.3 <http://www.eclipse.org/downloads/>
-- Android Bundle (Eclipse + ADT + SDK) <http://developer.android.com/sdk/index.html>
+- [Android Bundle (Eclipse + ADT + SDK)](http://developer.android.com/sdk/index.html)
+- [Eclipse](http://www.eclipse.org/downloads/)
 
 ### Blogbeisträge
-- Android: Eclipse installieren und einrichten <http://wp.me/pNSaO-2o>
-- Android: Neues Android Projekt anlegen <http://wp.me/pNSaO-2m>
-- Android: Erste App (Währungsrechner) - Teil 1 <http://wp.me/pNSaO-2l>
-- Android: Erste App (Währungsrechner) – Teil 2 <http://wp.me/pNSaO-3N>
-- Android Tutorials von Lars Vogel (Englisch) <http://www.vogella.com/android.html>
+- [Android: Eclipse installieren und einrichten](http://wp.me/pNSaO-2o)
+- [Android: Neues Android Projekt anlegen](http://wp.me/pNSaO-2m)
+- [Android: Erste App (Währungsrechner) - Teil 1](http://wp.me/pNSaO-2l)
+- [Android: Erste App (Währungsrechner) – Teil 2](http://wp.me/pNSaO-3N)
+- [Android Tutorials von Lars Vogel (Englisch)](http://www.vogella.com/android.html)
 
 ### Anlaufstellen bei Android-Fragen
-- Android Developer <http://developer.android.com>
-- Android Developer Trainings <http://developer.android.com/training/>
-- Android Developer Guides <http://developer.android.com/guide/>
-- Android API Dokumentation <http://developer.android.com/reference/>
-- Android Design Patterns <http://developer.android.com/design/>
-- Android Asset Studio (Icon und Theme Generatoren) <http://android-ui-utils.googlecode.com/hg/asset-studio/dist/index.html>
-- Stackoverflow (FAQ Community für Programmierer) <http://stackoverflow.com>
+- [Android Developer](http://developer.android.com)
+- [Android Developer Trainings](http://developer.android.com/training/)
+- [Android Developer Guides](http://developer.android.com/guide/)
+- [Android API Dokumentation](http://developer.android.com/reference/)
+- [Android Design Patterns](http://developer.android.com/design/)
+- [Android Asset Studio (Icon und Theme Generatoren)](http://android-ui-utils.googlecode.com/hg/asset-studio/dist/index.html)
+- [Stackoverflow (FAQ Community für Programmierer)](http://stackoverflow.com)
 
 Lizenz
 ------
