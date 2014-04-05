@@ -3,140 +3,131 @@ package de.mvhs.android.zeiterfassung;
 import java.util.Date;
 
 import android.app.Activity;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
-import android.provider.BaseColumns;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import de.mvhs.android.zeiterfassung.db.DBHelper;
 import de.mvhs.android.zeiterfassung.db.ZeitContracts;
 
 public class MainActivity extends Activity {
 
-	private boolean _IsStarted = false;
+  private boolean               _IsStarted         = false;
+  private Button                _StartCommand      = null;
+  private Button                _StopCommand       = null;
+  private EditText              _StartTime         = null;
+  private EditText              _EndTime           = null;
+  private long                  _CurrentId         = -1;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+  private final static String[] _SEARCH_PROJECTION = { ZeitContracts.Zeit.Columns._ID, ZeitContracts.Zeit.Columns.START };
+  private final static String   _SEARCH_SELECTION  = "IFNULL(" + ZeitContracts.Zeit.Columns.START + ",'')=''";
 
-		setContentView(R.layout.activity_main);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
 
-		if (savedInstanceState != null) {
-			_IsStarted = savedInstanceState.getBoolean("CurrentState", false);
-		}
+    setContentView(R.layout.activity_main);
+  }
 
-		setButtonState();
-	}
+  @Override
+  protected void onStart() {
+    super.onStart();
 
-	@Override
-	protected void onStart() {
-		super.onStart();
+    // UI Elemente initialisieren
+    _StartCommand = (Button) findViewById(R.id.StartCommand);
+    _StopCommand = (Button) findViewById(R.id.EndCommand);
+    _StartTime = (EditText) findViewById(R.id.StartTime);
+    _EndTime = (EditText) findViewById(R.id.EndTime);
 
-		// Buttons registrieren
-		Button commandStart = (Button) findViewById(R.id.StartCommand);
-		Button commandEnd = (Button) findViewById(R.id.EndCommand);
+    // Click Event registrieren
+    _StartCommand.setOnClickListener(new OnStartButtonClicked());
+    _StopCommand.setOnClickListener(new OnEndButtonClicked());
 
-		// Click Event registrieren
-		commandStart.setOnClickListener(new OnStartButtonClicked());
+    // Bearbeitung in den Textfeldern verbieten
+    _StartTime.setKeyListener(null);
+    _EndTime.setKeyListener(null);
 
-		commandEnd.setOnClickListener(new OnEndButtonClicked());
-	}
+    // Prüfen, ob ein angefangener Eintrag in der Datenbank vorliegt
+    checkTrackState();
+  }
 
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		outState.putBoolean("CurrentState", _IsStarted);
-		super.onSaveInstanceState(outState);
-	}
+  @Override
+  protected void onStop() {
+    // Click Event deregistrieren
+    _StartCommand.setOnClickListener(null);
+    _StopCommand.setOnClickListener(null);
 
-	@Override
-	protected void onStop() {
-		// Buttons registrieren
-		Button commandStart = (Button) findViewById(R.id.StartCommand);
-		Button commandEnd = (Button) findViewById(R.id.EndCommand);
+    super.onStop();
+  }
 
-		// Click Event deregistrieren
-		commandStart.setOnClickListener(null);
-		commandEnd.setOnClickListener(null);
-		super.onStop();
-	}
+  private void setButtonState() {
 
-	private void setButtonState() {
-		Button commandStart = (Button) findViewById(R.id.StartCommand);
-		Button commandEnd = (Button) findViewById(R.id.EndCommand);
+    _StartCommand.setEnabled(_IsStarted == false);
+    _StopCommand.setEnabled(_IsStarted);
+  }
 
-		commandStart.setEnabled(_IsStarted == false);
-		commandEnd.setEnabled(_IsStarted);
-	}
+  private void checkTrackState() {
+    Cursor data = getContentResolver().query(ZeitContracts.Zeit.CONTENT_URI, _SEARCH_PROJECTION, _SEARCH_SELECTION, null, null);
 
-	private final class OnEndButtonClicked implements OnClickListener {
-		@Override
-		public void onClick(View v) {
-			// Verhalten beim Click auf den Ende-Button
-			EditText endTime = (EditText) findViewById(R.id.EndTime);
-			endTime.setText(new Date().toString());
-			_IsStarted = false;
-			setButtonState();
+    if (data != null && data.moveToFirst()) {
+      // Ein Eintrag gefunden
+      _CurrentId = data.getLong(0);
 
-			DBHelper helper = new DBHelper(MainActivity.this);
-			SQLiteDatabase db = helper.getReadableDatabase();
-			Cursor data = db.query("zeit", // Tabelle
-					new String[] { BaseColumns._ID }, // Spalten
-					"IFNULL(end_time,'')=''", // Bedingung
-					null, // Argumente für die bedingung
-					null, // Grupierung
-					null, // Having
-					null); // Sortierung
-			if (data != null && data.moveToFirst()) {
-				// Datensatz gefunden, kann aktualisiert werden
-				SQLiteDatabase updateDb = helper.getWritableDatabase();
-				long id = data.getLong(0);
+      String startDate = data.getString(1);
 
-				ContentValues values = new ContentValues();
-				values.put("end_time", new Date().toString());
+      _StartTime.setText(startDate);
+      _EndTime.setText("");
 
-				updateDb.update("zeit", values, "_id=?",
-						new String[] { String.valueOf(id) });
+      _IsStarted = true;
+    } else {
+      // Keine Einträge gefunden
+      _StartTime.setText("");
+      _EndTime.setText("");
 
-				updateDb.close();
-			}
+      _IsStarted = false;
+    }
 
-			// Alles schließen
-			if (data != null) {
-				data.close();
-			}
-			db.close();
-			helper.close();
-		}
-	}
+    setButtonState();
+  }
 
-	private final class OnStartButtonClicked implements OnClickListener {
-		@Override
-		public void onClick(View v) {
-			// Verhalten beim Klick auf den Strat Button
-			EditText startTime = (EditText) findViewById(R.id.StartTime);
-			startTime.setText(new Date().toString());
-			_IsStarted = true;
-			setButtonState();
+  private final class OnEndButtonClicked implements OnClickListener {
+    @Override
+    public void onClick(View v) {
+      // Verhalten beim Click auf den Ende-Button
+      Date currentTime = new Date();
+      _EndTime.setText(currentTime.toString());
 
-			// DBHelper helper = new DBHelper(MainActivity.this);
-			// SQLiteDatabase db = helper.getWritableDatabase();
-			//
-			// ContentValues values = new ContentValues();
-			// values.put("start_time", new Date().toString());
-			//
-			// db.insert("zeit", null, values);
-			//
-			// db.close();
+      ContentValues values = new ContentValues();
+      values.put(ZeitContracts.Zeit.Columns.END, currentTime.toString());
 
-			ContentValues values = new ContentValues();
-			values.put(ZeitContracts.Zeit.Columns.START, new Date().toString());
+      Uri updateUri = ContentUris.withAppendedId(ZeitContracts.Zeit.CONTENT_URI, _CurrentId);
 
-			getContentResolver().insert(ZeitContracts.Zeit.CONTENT_URI, values);
-		}
+      getContentResolver().update(updateUri, values, null, null);
 
-	}
+      _IsStarted = false;
+      setButtonState();
+    }
+  }
+
+  private final class OnStartButtonClicked implements OnClickListener {
+    @Override
+    public void onClick(View v) {
+      // Verhalten beim Klick auf den Strat Button
+      Date currentTime = new Date();
+      _StartTime.setText(currentTime.toString());
+
+      ContentValues values = new ContentValues();
+      values.put(ZeitContracts.Zeit.Columns.START, currentTime.toString());
+
+      getContentResolver().insert(ZeitContracts.Zeit.CONTENT_URI, values);
+
+      _IsStarted = true;
+      setButtonState();
+    }
+
+  }
 }
