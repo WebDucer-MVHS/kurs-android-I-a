@@ -1,5 +1,8 @@
 package de.mvhs.android.zeiterfassung.db;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
@@ -15,6 +18,14 @@ public final class ZeitContracts {
 	 * Betriebssystems
 	 */
 	public final static Uri AUTHORITY_URI = Uri.parse("content://" + BASE_PATH);
+
+	public final static class Converters {
+		// Format Pattern
+		private final static String _DB_DATE_PATTERN = "yyyy-MM-dd'T'HH:mm";
+
+		public final static DateFormat DB_FORMATTER = new SimpleDateFormat(
+				_DB_DATE_PATTERN);
+	}
 
 	/**
 	 * Klasse für die Beschreibung der Tabelle

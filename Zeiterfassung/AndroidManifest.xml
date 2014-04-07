@@ -21,6 +21,7 @@
         <provider
             android:name=".db.ZeitProvider"
              android:authorities="de.mvhs.android.zeiterfassung.zeitprovider" />
+        <activity android:name="AuflistungActivity"></activity>
     </application>
 
 </manifest>
