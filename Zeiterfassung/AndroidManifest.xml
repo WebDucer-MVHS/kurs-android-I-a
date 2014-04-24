@@ -1,27 +1,33 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="de.mvhs.android.zeiterfassung"
-    android:versionCode="1"
-    android:versionName="1.0" >
+	package="de.mvhs.android.zeiterfassung"
+	android:versionCode="1"
+	android:versionName="1.0" >
 
-    <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="19" />
+	<uses-sdk
+		android:minSdkVersion="14"
+		android:targetSdkVersion="19" />
 
-    <application
-        android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-        <activity android:name="MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-        <provider
-            android:name=".db.ZeitProvider"
-             android:authorities="de.mvhs.android.zeiterfassung.zeitprovider" />
-        <activity android:name="AuflistungActivity"></activity>
-    </application>
+	<application
+		android:allowBackup="true"
+		android:icon="@drawable/ic_launcher"
+		android:label="@string/app_name"
+		android:theme="@style/AppTheme" >
+		<activity android:name="MainActivity" >
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
+		<provider
+			android:name=".db.ZeitProvider"
+			android:authorities="de.mvhs.android.zeiterfassung.zeitprovider" />
+
+		<activity android:name="AuflistungActivity" >
+		</activity>
+		<activity android:name="EditActivity" >
+		</activity>
+	</application>
 
 </manifest>

@@ -9,5 +9,8 @@
 	<string name="PauseLabel">Pause:</string>
 	<string name="CommentLabel">Kommentar:</string>
 	<string name="mnu_list">Auflistung</string>
+	<string name="col_start">Start</string>
+	<string name="col_end">Ende</string>
+	<string name="mnu_add">Hinzufügen</string>
 
 </resources>

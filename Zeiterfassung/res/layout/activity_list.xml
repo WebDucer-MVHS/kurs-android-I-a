@@ -1,8 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@android:id/list" >
-    
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	android:padding="@dimen/activity_margin" >
 
-</ListView>
+	<View
+		android:id="@+id/CenterHelper"
+		android:layout_width="@dimen/cell_rule_width"
+		android:layout_height="match_parent"
+		android:layout_centerHorizontal="true"
+		android:background="@color/cell_rule_color" />
+
+	<TextView
+		android:id="@+id/StartLabel"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_toLeftOf="@+id/CenterHelper"
+		android:gravity="center"
+		android:padding="@dimen/row_cell_padding"
+		android:text="@string/col_start"
+		android:textSize="@dimen/header_text_size"
+		android:textStyle="bold" />
+
+	<TextView
+		android:id="@+id/EndLabel"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_alignParentRight="true"
+		android:layout_toRightOf="@+id/CenterHelper"
+		android:gravity="center"
+		android:padding="@dimen/row_cell_padding"
+		android:text="@string/col_end"
+		android:textSize="@dimen/header_text_size"
+		android:textStyle="bold" />
+
+	<View
+		android:id="@+id/HRule"
+		android:layout_width="match_parent"
+		android:layout_height="@dimen/list_rule_height"
+		android:layout_below="@+id/StartLabel"
+		android:background="@color/cell_rule_color" />
+
+	<ListView
+		android:id="@android:id/list"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_below="@+id/HRule" >
+	</ListView>
+
+</RelativeLayout>

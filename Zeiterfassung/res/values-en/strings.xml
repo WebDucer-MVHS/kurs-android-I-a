@@ -8,5 +8,9 @@
 	<string name="EndButton">END</string>
 	<string name="PauseLabel">Pause:</string>
 	<string name="CommentLabel">Comment:</string>
+	<string name="mnu_list">List</string>
+	<string name="col_start">Start</string>
+	<string name="col_end">End</string>
+	<string name="mnu_add">Add</string>
 
 </resources>

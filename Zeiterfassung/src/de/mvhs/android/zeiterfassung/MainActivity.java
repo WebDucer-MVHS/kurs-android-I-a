@@ -21,169 +21,164 @@ import de.mvhs.android.zeiterfassung.db.ZeitContracts;
 
 public class MainActivity extends Activity {
 
-	private boolean _IsStarted = false;
-	private Button _StartCommand = null;
-	private Button _StopCommand = null;
-	private EditText _StartTime = null;
-	private EditText _EndTime = null;
-	private long _CurrentId = -1;
+  private boolean                 _IsStarted         = false;
+  private Button                  _StartCommand      = null;
+  private Button                  _StopCommand       = null;
+  private EditText                _StartTime         = null;
+  private EditText                _EndTime           = null;
+  private long                    _CurrentId         = -1;
 
-	private final static String[] _SEARCH_PROJECTION = {
-			ZeitContracts.Zeit.Columns._ID, ZeitContracts.Zeit.Columns.START };
-	private final static String _SEARCH_SELECTION = "IFNULL("
-			+ ZeitContracts.Zeit.Columns.END + ",'')=''";
+  private final static String[]   _SEARCH_PROJECTION = { ZeitContracts.Zeit.Columns._ID, ZeitContracts.Zeit.Columns.START };
+  private final static String     _SEARCH_SELECTION  = "IFNULL(" + ZeitContracts.Zeit.Columns.END + ",'')=''";
 
-	private final static DateFormat _UI_DATE_FORMATTER = DateFormat
-			.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+  private final static DateFormat _UI_DATE_FORMATTER = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_main);
-	}
+    setContentView(R.layout.activity_main);
+  }
 
-	@Override
-	protected void onStart() {
-		super.onStart();
+  @Override
+  protected void onStart() {
+    super.onStart();
 
-		// UI Elemente initialisieren
-		_StartCommand = (Button) findViewById(R.id.StartCommand);
-		_StopCommand = (Button) findViewById(R.id.EndCommand);
-		_StartTime = (EditText) findViewById(R.id.StartTime);
-		_EndTime = (EditText) findViewById(R.id.EndTime);
+    // UI Elemente initialisieren
+    _StartCommand = (Button) findViewById(R.id.StartCommand);
+    _StopCommand = (Button) findViewById(R.id.EndCommand);
+    _StartTime = (EditText) findViewById(R.id.StartTime);
+    _EndTime = (EditText) findViewById(R.id.EndTime);
 
-		// Click Event registrieren
-		_StartCommand.setOnClickListener(new OnStartButtonClicked());
-		_StopCommand.setOnClickListener(new OnEndButtonClicked());
+    // Click Event registrieren
+    _StartCommand.setOnClickListener(new OnStartButtonClicked());
+    _StopCommand.setOnClickListener(new OnEndButtonClicked());
 
-		// Bearbeitung in den Textfeldern verbieten
-		_StartTime.setKeyListener(null);
-		_EndTime.setKeyListener(null);
+    // Bearbeitung in den Textfeldern verbieten
+    _StartTime.setKeyListener(null);
+    _EndTime.setKeyListener(null);
 
-		// Prüfen, ob ein angefangener Eintrag in der Datenbank vorliegt
-		checkTrackState();
-	}
+    // Prüfen, ob ein angefangener Eintrag in der Datenbank vorliegt
+    checkTrackState();
+  }
 
-	@Override
-	protected void onStop() {
-		// Click Event deregistrieren
-		_StartCommand.setOnClickListener(null);
-		_StopCommand.setOnClickListener(null);
+  @Override
+  protected void onStop() {
+    // Click Event deregistrieren
+    _StartCommand.setOnClickListener(null);
+    _StopCommand.setOnClickListener(null);
 
-		super.onStop();
-	}
+    super.onStop();
+  }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main_menu, menu);
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.main_menu, menu);
 
-		return super.onCreateOptionsMenu(menu);
-	}
+    return super.onCreateOptionsMenu(menu);
+  }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
 
-		// Menüpunkt herausfinden
-		switch (item.getItemId()) {
-		case R.id.mnu_list:
-			// Aktion für unser List-Menü-Eintrag
-			Intent listIntent = new Intent(this, AuflistungActivity.class);
-			startActivity(listIntent);
-			break;
+    // Menüpunkt herausfinden
+    switch (item.getItemId()) {
+      case R.id.mnu_list:
+        // Aktion für unser List-Menü-Eintrag
+        Intent listIntent = new Intent(this, AuflistungActivity.class);
+        startActivity(listIntent);
+        break;
 
-		default:
-			break;
-		}
+      case R.id.mnu_add:
+        Intent editIntent = new Intent(this, EditActivity.class);
+        startActivity(editIntent);
+        break;
 
-		return super.onOptionsItemSelected(item);
-	}
+      default:
+        break;
+    }
 
-	private void setButtonState() {
+    return super.onOptionsItemSelected(item);
+  }
 
-		_StartCommand.setEnabled(_IsStarted == false);
-		_StopCommand.setEnabled(_IsStarted);
-	}
+  private void setButtonState() {
 
-	private void checkTrackState() {
-		Cursor data = getContentResolver().query(
-				ZeitContracts.Zeit.CONTENT_URI, _SEARCH_PROJECTION,
-				_SEARCH_SELECTION, null, null);
+    _StartCommand.setEnabled(_IsStarted == false);
+    _StopCommand.setEnabled(_IsStarted);
+  }
 
-		if (data != null && data.moveToFirst()) {
-			// Ein Eintrag gefunden
-			_CurrentId = data.getLong(0);
+  private void checkTrackState() {
+    Cursor data = getContentResolver().query(ZeitContracts.Zeit.CONTENT_URI, _SEARCH_PROJECTION, _SEARCH_SELECTION, null, null);
 
-			String startDate = data.getString(1);
+    if (data != null && data.moveToFirst()) {
+      // Ein Eintrag gefunden
+      _CurrentId = data.getLong(0);
 
-			try {
-				// Konvertierung des Datums aus der Datenbank
-				Date startTime = ZeitContracts.Converters.DB_FORMATTER
-						.parse(startDate);
+      String startDate = data.getString(1);
 
-				// Ausgabe an der UI
-				_StartTime.setText(_UI_DATE_FORMATTER.format(startTime));
+      try {
+        // Konvertierung des Datums aus der Datenbank
+        Date startTime = ZeitContracts.Converters.DB_FORMATTER.parse(startDate);
 
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+        // Ausgabe an der UI
+        _StartTime.setText(_UI_DATE_FORMATTER.format(startTime));
 
-			_EndTime.setText("");
+      } catch (ParseException e) {
+        e.printStackTrace();
+      }
 
-			_IsStarted = true;
-		} else {
-			// Keine Einträge gefunden
-			_StartTime.setText("");
-			_EndTime.setText("");
+      _EndTime.setText("");
 
-			_IsStarted = false;
-		}
+      _IsStarted = true;
+    } else {
+      // Keine Einträge gefunden
+      _StartTime.setText("");
+      _EndTime.setText("");
 
-		setButtonState();
-	}
+      _IsStarted = false;
+    }
 
-	private final class OnEndButtonClicked implements OnClickListener {
-		@Override
-		public void onClick(View v) {
-			// Verhalten beim Click auf den Ende-Button
-			Date currentTime = new Date();
-			_EndTime.setText(_UI_DATE_FORMATTER.format(currentTime));
+    setButtonState();
+  }
 
-			ContentValues values = new ContentValues();
-			values.put(ZeitContracts.Zeit.Columns.END,
-					ZeitContracts.Converters.DB_FORMATTER.format(currentTime));
+  private final class OnEndButtonClicked implements OnClickListener {
+    @Override
+    public void onClick(View v) {
+      // Verhalten beim Click auf den Ende-Button
+      Date currentTime = new Date();
+      _EndTime.setText(_UI_DATE_FORMATTER.format(currentTime));
 
-			Uri updateUri = ContentUris.withAppendedId(
-					ZeitContracts.Zeit.CONTENT_URI, _CurrentId);
+      ContentValues values = new ContentValues();
+      values.put(ZeitContracts.Zeit.Columns.END, ZeitContracts.Converters.DB_FORMATTER.format(currentTime));
 
-			getContentResolver().update(updateUri, values, null, null);
+      Uri updateUri = ContentUris.withAppendedId(ZeitContracts.Zeit.CONTENT_URI, _CurrentId);
 
-			_CurrentId = -1;
+      getContentResolver().update(updateUri, values, null, null);
 
-			_IsStarted = false;
-			setButtonState();
-		}
-	}
+      _CurrentId = -1;
 
-	private final class OnStartButtonClicked implements OnClickListener {
-		@Override
-		public void onClick(View v) {
-			// Verhalten beim Klick auf den Strat Button
-			Date currentTime = new Date();
-			_StartTime.setText(_UI_DATE_FORMATTER.format(currentTime));
+      _IsStarted = false;
+      setButtonState();
+    }
+  }
 
-			ContentValues values = new ContentValues();
-			values.put(ZeitContracts.Zeit.Columns.START,
-					ZeitContracts.Converters.DB_FORMATTER.format(currentTime));
+  private final class OnStartButtonClicked implements OnClickListener {
+    @Override
+    public void onClick(View v) {
+      // Verhalten beim Klick auf den Strat Button
+      Date currentTime = new Date();
+      _StartTime.setText(_UI_DATE_FORMATTER.format(currentTime));
 
-			Uri insertUri = getContentResolver().insert(
-					ZeitContracts.Zeit.CONTENT_URI, values);
+      ContentValues values = new ContentValues();
+      values.put(ZeitContracts.Zeit.Columns.START, ZeitContracts.Converters.DB_FORMATTER.format(currentTime));
 
-			_CurrentId = ContentUris.parseId(insertUri);
+      Uri insertUri = getContentResolver().insert(ZeitContracts.Zeit.CONTENT_URI, values);
 
-			_IsStarted = true;
-			setButtonState();
-		}
+      _CurrentId = ContentUris.parseId(insertUri);
 
-	}
+      _IsStarted = true;
+      setButtonState();
+    }
+
+  }
 }

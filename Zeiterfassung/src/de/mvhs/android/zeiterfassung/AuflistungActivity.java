@@ -8,58 +8,55 @@ import android.widget.SimpleCursorAdapter;
 import de.mvhs.android.zeiterfassung.db.ZeitContracts;
 
 public class AuflistungActivity extends ListActivity {
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_list);
+    setContentView(R.layout.activity_list);
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setDisplayShowHomeEnabled(true);
-	}
+    getActionBar().setDisplayHomeAsUpEnabled(true);
+    getActionBar().setDisplayShowHomeEnabled(true);
+  }
 
-	@Override
-	protected void onStart() {
-		super.onStart();
+  @Override
+  protected void onStart() {
+    super.onStart();
 
-		// Laden der Daten
-		// -- Einen Adapter initialisieren
-		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, // Context
-				android.R.layout.simple_list_item_2, // Layout für die Zeile
-				null, // Cursor Daten
-				new String[] { ZeitContracts.Zeit.Columns.START,
-						ZeitContracts.Zeit.Columns.END }, new int[] {
-						android.R.id.text1, android.R.id.text2 }, // UI-Elemente
-																	// in denen
-																	// diese
-																	// Werte
-																	// dargestellt
-																	// werden
-																	// sollen
-				0);
+    // Laden der Daten
+    // -- Einen Adapter initialisieren
+    SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, // Context
+            R.layout.row_list, // Layout für die Zeile
+            null, // Cursor Daten
+            new String[] { ZeitContracts.Zeit.Columns.START, ZeitContracts.Zeit.Columns.END }, new int[] { R.id.Text1, R.id.Text2 }, // UI-Elemente
+            // in denen
+            // diese
+            // Werte
+            // dargestellt
+            // werden
+            // sollen
+            0);
 
-		// Laden der Daten
-		Cursor data = getContentResolver().query(
-				ZeitContracts.Zeit.CONTENT_URI, null, null, null, null);
+    // Laden der Daten
+    Cursor data = getContentResolver().query(ZeitContracts.Zeit.CONTENT_URI, null, null, null, null);
 
-		// Zuordnung des Adapters zur Liste
-		getListView().setAdapter(adapter);
+    // Zuordnung des Adapters zur Liste
+    getListView().setAdapter(adapter);
 
-		// Daten an Adapter übergeben
-		adapter.swapCursor(data);
-	}
+    // Daten an Adapter übergeben
+    adapter.swapCursor(data);
+  }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			this.finish();
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case android.R.id.home:
+        this.finish();
 
-			break;
+        break;
 
-		default:
-			break;
-		}
-		return super.onOptionsItemSelected(item);
-	}
+      default:
+        break;
+    }
+    return super.onOptionsItemSelected(item);
+  }
 }
