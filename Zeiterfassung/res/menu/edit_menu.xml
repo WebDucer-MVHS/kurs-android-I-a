@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+	<item
+		android:id="@+id/mnu_save"
+		android:icon="@drawable/ic_menu_save"
+		android:showAsAction="ifRoom|withText"
+		android:title="@string/mnu_save">
+	</item>
+	<item
+		android:id="@+id/mnu_cancel"
+		android:icon="@drawable/ic_menu_close_clear_cancel"
+		android:showAsAction="ifRoom|withText"
+		android:title="@string/mnu_cancel">
+	</item>
+	<item
+		android:id="@+id/mnu_delete"
+		android:icon="@drawable/ic_menu_delete"
+		android:showAsAction="ifRoom|withText"
+		android:title="@string/mnu_delete">
+	</item>
+
+</menu>

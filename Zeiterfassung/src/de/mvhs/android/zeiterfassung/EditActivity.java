@@ -1,61 +1,116 @@
 package de.mvhs.android.zeiterfassung;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.Date;
+
 import android.app.Activity;
 import android.content.ContentUris;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import de.mvhs.android.zeiterfassung.db.ZeitContracts;
 
 public class EditActivity extends Activity {
-	private long _Id = -1;
+  public final static String ID_KEY         = "ID";
+  private long               _Id            = -1;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+  private final DateFormat   _DateFormatter = DateFormat.getDateInstance(DateFormat.SHORT);
+  private final DateFormat   _TimeFormatter = DateFormat.getTimeInstance(DateFormat.SHORT);
 
-		setContentView(R.layout.activity_edit);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setDisplayShowHomeEnabled(true);
+    setContentView(R.layout.activity_edit);
 
-		if (getIntent().getExtras() != null) {
-			_Id = getIntent().getLongExtra("ID", -1);
-		}
+    getActionBar().setDisplayHomeAsUpEnabled(true);
+    getActionBar().setDisplayShowHomeEnabled(true);
 
-		if (_Id > 0) {
-			loadData();
-		}
-	}
+    // Auslesen der ID, falls diese übergeben wurde
+    if (getIntent().getExtras() != null) {
+      _Id = getIntent().getLongExtra(ID_KEY, -1);
+    }
 
-	private void loadData() {
-		Uri dataUri = ContentUris.withAppendedId(
-				ZeitContracts.Zeit.CONTENT_URI, _Id);
-		Cursor data = getContentResolver().query(dataUri, null, null, null,
-				null);
+    if (_Id > 0) {
+      loadData();
+    }
+  }
 
-		if (data != null && data.moveToFirst()) {
-			String startValue = data.getString(data
-					.getColumnIndex(ZeitContracts.Zeit.Columns.START));
+  private void loadData() {
+    Uri dataUri = ContentUris.withAppendedId(ZeitContracts.Zeit.CONTENT_URI, _Id);
+    Cursor data = getContentResolver().query(dataUri, null, null, null, null);
 
-			EditText startDate = (EditText) findViewById(R.id.StartDate);
-			startDate.setText(startValue);
-		}
-	}
+    if (data != null && data.moveToFirst()) {
+      String startValue = data.getString(data.getColumnIndex(ZeitContracts.Zeit.Columns.START));
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			this.finish();
+      EditText startDate = (EditText) findViewById(R.id.StartDate);
+      EditText startTime = (EditText) findViewById(R.id.StartTime);
+      EditText endDate = (EditText) findViewById(R.id.EndDate);
+      EditText endTime = (EditText) findViewById(R.id.EndTime);
 
-			break;
+      // Konvertieren der Startzeit
+      try {
+        Date startDateTime = ZeitContracts.Converters.DB_FORMATTER.parse(startValue);
+        startDate.setText(_DateFormatter.format(startDateTime));
+        startTime.setText(_TimeFormatter.format(startDateTime));
 
-		default:
-			break;
-		}
-		return super.onOptionsItemSelected(item);
-	}
+      } catch (ParseException e) {
+        startDate.setText("");
+        startTime.setText("");
+      }
+
+      // Prüfen, ob die Endzeit eingertagen ist
+      if (!data.isNull(data.getColumnIndex(ZeitContracts.Zeit.Columns.END))) {
+        String endValue = data.getString(data.getColumnIndex(ZeitContracts.Zeit.Columns.END));
+
+        try {
+          Date endDateTime = ZeitContracts.Converters.DB_FORMATTER.parse(endValue);
+          endDate.setText(_DateFormatter.format(endDateTime));
+          endTime.setText(_TimeFormatter.format(endDateTime));
+        } catch (ParseException e) {
+          endDate.setText("");
+          endTime.setText("");
+        }
+      } else {
+        endDate.setText("");
+        endTime.setText("");
+      }
+    }
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.edit_menu, menu);
+    return super.onCreateOptionsMenu(menu);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case android.R.id.home:
+      case R.id.mnu_cancel:
+        this.finish();
+        break;
+
+      case R.id.mnu_delete:
+        if (_Id > 0) {
+          Uri deleteUri = ContentUris.withAppendedId(ZeitContracts.Zeit.CONTENT_URI, _Id);
+          getContentResolver().delete(deleteUri, null, null);
+        }
+        this.finish();
+        break;
+
+      case R.id.mnu_save:
+        // TO DO
+        break;
+
+      default:
+        break;
+    }
+    return super.onOptionsItemSelected(item);
+  }
 }

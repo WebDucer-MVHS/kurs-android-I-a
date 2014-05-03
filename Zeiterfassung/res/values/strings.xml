@@ -14,5 +14,8 @@
 	<string name="mnu_add">Hinzufügen</string>
 	<string name="mnu_edit">Bearbeiten</string>
 	<string name="mnu_export">Export</string>
+	<string name="mnu_save">Speichern</string>
+	<string name="mnu_cancel">Abbrechen</string>
+	<string name="mnu_delete">Löschen</string>
 
 </resources>

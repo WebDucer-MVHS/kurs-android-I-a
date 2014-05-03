@@ -12,5 +12,10 @@
 	<string name="col_start">Start</string>
 	<string name="col_end">End</string>
 	<string name="mnu_add">Add</string>
+	<string name="mnu_edit">Edit</string>
+	<string name="mnu_export">Export</string>
+	<string name="mnu_save">Save</string>
+	<string name="mnu_cancel">Cancel</string>
+	<string name="mnu_delete">Delete</string>
 
 </resources>
