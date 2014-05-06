@@ -79,7 +79,7 @@ public class AuflistungActivity extends ListActivity {
         Cursor exportData = getContentResolver().query(ZeitContracts.Zeit.CONTENT_URI, null, null, null, null);
 
         // Exporter initialisieren
-        CsvAsyncTaskExporter exporter = new CsvAsyncTaskExporter();
+        CsvAsyncTaskExporter exporter = new CsvAsyncTaskExporter(this);
 
         // Export starten
         exporter.execute(exportData);

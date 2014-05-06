@@ -66,6 +66,17 @@ public final class ZeitContracts {
 			 * Spaltenname für die Ende-Spalte
 			 */
 			public final static String END = "end_time";
+
+			/**
+			 * Spaltenname für die Pausen-Spalte (Standardwert ist 0), Anzahl
+			 * der Minuten
+			 */
+			public final static String PAUSE = "pause";
+
+			/**
+			 * Spaltenname für die Kommentar-Spalte
+			 */
+			public final static String COMMENT = "comment";
 		}
 
 		/**

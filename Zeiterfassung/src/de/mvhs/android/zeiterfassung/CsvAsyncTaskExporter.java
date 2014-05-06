@@ -5,92 +5,141 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Environment;
 
 public class CsvAsyncTaskExporter extends AsyncTask<Cursor, Integer, Void> {
+  private final Context  _context;
+  private ProgressDialog _dialog = null;
 
-	@Override
-	protected Void doInBackground(Cursor... params) {
-		if (params != null && params.length == 1) {
-			Cursor exportData = params[0];
+  // Steuerung der Fortschrittsanzeige
+  public CsvAsyncTaskExporter(Context context) {
+    _context = context;
+  }
 
-			// Datei für den Export definieren
-			File sdcardDirectory = Environment.getExternalStorageDirectory();
-			File exportDirectory = new File(sdcardDirectory, "export");
-			File exportFile = new File(exportDirectory, "zeit.csv");
+  @Override
+  protected void onPreExecute() {
+    // Initialisierung der Fortschrittsanzeige
+    _dialog = new ProgressDialog(_context);
+    _dialog.setTitle("CSV Export ...");
+    _dialog.setMessage("Daten werden als CSV exportiert!");
+    _dialog.setIcon(R.drawable.ic_menu_set_as);
+    _dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL); // Anzeige mit Fortschrittsbalken
+    _dialog.show();
 
-			if (!exportDirectory.exists()) {
-				exportDirectory.mkdirs();
-			}
+    super.onPreExecute();
+  }
 
-			BufferedWriter writer = null;
+  @Override
+  protected void onPostExecute(Void result) {
+    super.onPostExecute(result);
 
-			try {
-				// Writer initialisiern
-				writer = new BufferedWriter(new FileWriter(exportFile));
+    if (_dialog != null) {
+      _dialog.dismiss();
+      _dialog = null;
+    }
+  }
 
-				// Lesen der Spalten Namen aus Cursor
-				String[] columnNames = exportData.getColumnNames();
+  @Override
+  protected void onProgressUpdate(Integer... values) {
+    if (values != null && values.length == 1 && _dialog != null) {
+      _dialog.setProgress(values[0]);
+    }
+    super.onProgressUpdate(values);
+  }
 
-				// Puffer für eine CSV zeile
-				StringBuilder line = new StringBuilder();
+  @Override
+  protected Void doInBackground(Cursor... params) {
+    if (params != null && params.length == 1) {
+      Cursor exportData = params[0];
 
-				for (String columnName : columnNames) {
-					if (line.length() > 0) {
-						line.append(';');
-					}
-					line.append(columnName);
-				}
+      // Datei für den Export definieren
+      File sdcardDirectory = Environment.getExternalStorageDirectory();
+      File exportDirectory = new File(sdcardDirectory, "export");
+      File exportFile = new File(exportDirectory, "zeit.csv");
 
-				line.append('\n');
+      if (!exportDirectory.exists()) {
+        exportDirectory.mkdirs();
+      }
 
-				// Schreiben der Zeile in die Datei
-				writer.append(line);
+      BufferedWriter writer = null;
 
-				// Vor dem ersten Datensatz platzieren
-				exportData.moveToPosition(-1);
+      try {
+        // Writer initialisiern
+        writer = new BufferedWriter(new FileWriter(exportFile));
 
-				// Solange lesen, solange die Daten da sind
-				while (exportData.moveToNext()) {
-					// Zurücksetzen des Puffers
-					line.delete(0, line.length());
+        // Lesen der Spalten Namen aus Cursor
+        String[] columnNames = exportData.getColumnNames();
 
-					// Spaltenwerte auslesen
-					for (int i = 0; i < columnNames.length; i++) {
-						if (line.length() > 0) {
-							line.append(';');
-						}
+        _dialog.setMax(exportData.getCount());
 
-						// Prüfen, ob Wert in der Spalte da ist
-						if (exportData.isNull(i)) {
-							line.append("<NULL>");
-						} else {
-							line.append(exportData.getString(i));
-						}
-					}
+        // Melden des Fortschritts
+        publishProgress(0);
 
-					// Neue Zeile hinzufügen
-					line.append('\n');
+        // Puffer für eine CSV zeile
+        StringBuilder line = new StringBuilder();
 
-					// Speichern der Daten
-					writer.append(line);
-				}
+        for (String columnName : columnNames) {
+          if (line.length() > 0) {
+            line.append(';');
+          }
+          line.append(columnName);
+        }
 
-			} catch (Exception e) {
-			} finally {
-				if (writer != null) {
-					try {
-						writer.flush();
-						writer.close();
-					} catch (IOException e) {
-					}
-				}
-			}
-		}
+        line.append('\n');
 
-		return null;
-	}
+        // Schreiben der Zeile in die Datei
+        writer.append(line);
+
+        // Vor dem ersten Datensatz platzieren
+        exportData.moveToPosition(-1);
+
+        // Solange lesen, solange die Daten da sind
+        while (exportData.moveToNext()) {
+          // Zurücksetzen des Puffers
+          line.delete(0, line.length());
+
+          // Spaltenwerte auslesen
+          for (int i = 0; i < columnNames.length; i++) {
+            if (line.length() > 0) {
+              line.append(';');
+            }
+
+            // Prüfen, ob Wert in der Spalte da ist
+            if (exportData.isNull(i)) {
+              line.append("<NULL>");
+            } else {
+              line.append(exportData.getString(i));
+            }
+          }
+
+          // Neue Zeile hinzufügen
+          line.append('\n');
+
+          // Speichern der Daten
+          writer.append(line);
+
+          // Fortschritt melden
+          Thread.sleep(5); // Künstliche Pause, um den Fortschritsdialog sehen zu können
+          publishProgress(exportData.getPosition());
+        }
+
+      } catch (Exception e) {
+      } finally {
+        if (writer != null) {
+          try {
+            writer.flush();
+            writer.close();
+          } catch (IOException e) {
+          }
+        }
+      }
+    }
+
+    return null;
+  }
 
 }
