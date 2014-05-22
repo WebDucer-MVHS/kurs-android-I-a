@@ -27,10 +27,8 @@
 		android:layout_alignParentLeft="true"
 		android:layout_below="@+id/StartLabel"
 		android:layout_toLeftOf="@+id/CenterHelper"
-		android:ems="10" >
-
-		<requestFocus />
-	</EditText>
+		android:ems="10"
+		android:inputType="date" />
 
 	<EditText
 		android:id="@+id/StartTime"
@@ -39,7 +37,8 @@
 		android:layout_alignBaseline="@+id/StartDate"
 		android:layout_alignParentRight="true"
 		android:layout_toRightOf="@+id/CenterHelper"
-		android:ems="10" />
+		android:ems="10"
+		android:inputType="time" />
 
 	<TextView
 		android:id="@+id/EndLabel"
@@ -57,7 +56,8 @@
 		android:layout_alignParentLeft="true"
 		android:layout_below="@+id/EndLabel"
 		android:layout_toLeftOf="@+id/CenterHelper"
-		android:ems="10" />
+		android:ems="10"
+		android:inputType="date" />
 
 	<EditText
 		android:id="@+id/EndTime"
@@ -66,7 +66,8 @@
 		android:layout_alignBaseline="@+id/EndDate"
 		android:layout_alignParentRight="true"
 		android:layout_toRightOf="@+id/CenterHelper"
-		android:ems="10" />
+		android:ems="10"
+		android:inputType="time" />
 
 	<TextView
 		android:id="@+id/PauseLabel"
@@ -83,7 +84,8 @@
 		android:layout_height="wrap_content"
 		android:layout_alignParentLeft="true"
 		android:layout_below="@+id/PauseLabel"
-		android:ems="10" />
+		android:ems="10"
+		android:inputType="number" />
 
 	<TextView
 		android:id="@+id/CommentLabel"
@@ -102,6 +104,7 @@
 		android:layout_below="@+id/CommentLabel"
 		android:ems="10"
 		android:gravity="top"
+		android:inputType="textMultiLine"
 		android:minLines="5"
 		android:singleLine="false" />
 

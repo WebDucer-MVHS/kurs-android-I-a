@@ -1,8 +1,13 @@
 package de.mvhs.android.zeiterfassung;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.ContentUris;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -43,7 +48,8 @@ public class AuflistungActivity extends ListActivity {
             0);
 
     // Laden der Daten
-    Cursor data = getContentResolver().query(ZeitContracts.Zeit.CONTENT_URI, null, null, null, null);
+    Cursor data = getContentResolver().query(ZeitContracts.Zeit.CONTENT_URI, null, null, null, ZeitContracts.Zeit.Columns.START + " DESC");
+    data.setNotificationUri(getContentResolver(), ZeitContracts.Zeit.CONTENT_URI);
 
     // Zuordnung des Adapters zur Liste
     getListView().setAdapter(adapter);
@@ -102,11 +108,11 @@ public class AuflistungActivity extends ListActivity {
 
   @Override
   public boolean onContextItemSelected(MenuItem item) {
+    // Bestimmen des ausgewählten Eintrages
+    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+
     switch (item.getItemId()) {
       case R.id.mnu_edit:
-        // Bestimmen des ausgewählten Eintrages
-        AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-
         Intent editIntent = new Intent(this, EditActivity.class);
         // ID an das Intent mit übergeben
         editIntent.putExtra(EditActivity.ID_KEY, info.id);
@@ -114,9 +120,40 @@ public class AuflistungActivity extends ListActivity {
 
         return true;
 
+      case R.id.mnu_delete:
+        delete(info.id);
+
+        return true;
+
       default:
         return super.onContextItemSelected(item);
     }
+  }
+
+  private void delete(final long id) {
+
+    // Aufbau eines Dialoges
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    builder.setTitle("Löschen ...") // Titel des Dialoges setzen
+            .setMessage("Wollen Sie den Datensatz wirklich löschen?") // Nachricht
+            // für
+            // den
+            // Benutzer
+            .setIcon(R.drawable.ic_menu_delete) // Icopn für das Dialog
+            .setPositiveButton("Löschen", new OnClickListener() {
+
+              @Override
+              public void onClick(DialogInterface dialog, int which) {
+                Uri deleteUri = ContentUris.withAppendedId(ZeitContracts.Zeit.CONTENT_URI, id);
+                getContentResolver().delete(deleteUri, null, null);
+              }
+            }) // Button für die positive
+               // Antwort
+            .setNegativeButton("Abbrechen", null); // Button zum Abbrechen
+    // der Aktion
+
+    // Dialog anzeigen
+    builder.create().show();
   }
 
 }

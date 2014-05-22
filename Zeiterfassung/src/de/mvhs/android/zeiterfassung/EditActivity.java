@@ -2,13 +2,16 @@ package de.mvhs.android.zeiterfassung;
 
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.util.Date;
+import java.util.Calendar;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
+import android.app.TimePickerDialog;
+import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
@@ -20,191 +23,321 @@ import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import de.mvhs.android.zeiterfassung.db.ZeitContracts;
+import de.mvhs.android.zeiterfassung.db.ZeitContracts.Converters;
+import de.mvhs.android.zeiterfassung.db.ZeitContracts.Zeit;
+import de.mvhs.android.zeiterfassung.db.ZeitContracts.Zeit.Columns;
 
 public class EditActivity extends Activity {
-	public final static String ID_KEY = "ID";
-	private long _Id = -1;
+  public final static String ID_KEY         = "ID";
+  private long               _Id            = -1;
 
-	private Date _startDate;
-	private Date _endDate;
+  private Calendar           _startDate;
+  private Calendar           _endDate;
 
-	private final DateFormat _DateFormatter = DateFormat
-			.getDateInstance(DateFormat.SHORT);
-	private final DateFormat _TimeFormatter = DateFormat
-			.getTimeInstance(DateFormat.SHORT);
+  private final DateFormat   _DateFormatter = DateFormat.getDateInstance(DateFormat.SHORT);
+  private final DateFormat   _TimeFormatter = DateFormat.getTimeInstance(DateFormat.SHORT);
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+  private EditText           _StartDateField;
+  private EditText           _StartTimeField;
+  private EditText           _EndDateFiled;
+  private EditText           _EndTimeField;
+  private EditText           _PauseField;
+  private EditText           _CommentField;
 
-		setContentView(R.layout.activity_edit);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setDisplayShowHomeEnabled(true);
+    setContentView(R.layout.activity_edit);
 
-		// Auslesen der ID, falls diese übergeben wurde
-		if (getIntent().getExtras() != null) {
-			_Id = getIntent().getLongExtra(ID_KEY, -1);
-		}
+    getActionBar().setDisplayHomeAsUpEnabled(true);
+    getActionBar().setDisplayShowHomeEnabled(true);
 
-		if (_Id > 0) {
-			loadData();
-		}
-	}
+    // Auslesen der ID, falls diese übergeben wurde
+    if (getIntent().getExtras() != null) {
+      _Id = getIntent().getLongExtra(ID_KEY, -1);
+    }
+  }
 
-	@Override
-	protected void onStart() {
-		super.onStart();
+  @Override
+  protected void onStart() {
+    super.onStart();
 
-		// Registrierung des Events / Listeners
-		EditText startDate = (EditText) findViewById(R.id.StartDate);
-		startDate.setOnLongClickListener(new OnLongClickListener() {
+    // Registrierung des Events / Listeners
+    _StartDateField = (EditText) findViewById(R.id.StartDate);
+    _StartTimeField = (EditText) findViewById(R.id.StartTime);
+    _EndDateFiled = (EditText) findViewById(R.id.EndDate);
+    _EndTimeField = (EditText) findViewById(R.id.EndTime);
+    _PauseField = (EditText) findViewById(R.id.PauseDuration);
+    _CommentField = (EditText) findViewById(R.id.CommentText);
 
-			@Override
-			public boolean onLongClick(View v) {
-				if (_startDate == null) {
-					_startDate = new Date();
-				}
+    _StartDateField.setOnLongClickListener(new OnStartDateLongClicked());
+    _StartDateField.setKeyListener(null);
+    _StartTimeField.setOnLongClickListener(new OnStartTimeLongClicked());
+    _StartTimeField.setKeyListener(null);
+    _EndDateFiled.setOnLongClickListener(new OnEndDateLongClicked());
+    _EndDateFiled.setKeyListener(null);
+    _EndTimeField.setOnLongClickListener(new OnEndTimeLongClicked());
+    _EndTimeField.setKeyListener(null);
 
-				DatePickerDialog dp = new DatePickerDialog(EditActivity.this,
-						new OnDateSelected(), _startDate.getYear() + 1900,
-						_startDate.getMonth(), _startDate.getDate());
+    if (_Id > 0) {
+      loadData();
+    }
+  }
 
-				dp.show();
+  @Override
+  protected void onStop() {
+    _StartDateField.setOnLongClickListener(null);
+    _StartTimeField.setOnLongClickListener(null);
+    _EndDateFiled.setOnLongClickListener(null);
+    _EndTimeField.setOnLongClickListener(null);
 
-				return true;
-			}
-		});
-	}
+    super.onStop();
+  }
 
-	@Override
-	protected void onStop() {
-		EditText startDate = (EditText) findViewById(R.id.StartDate);
-		startDate.setOnLongClickListener(null);
-		super.onStop();
-	}
+  private class OnStartDateLongClicked implements OnLongClickListener {
 
-	private class OnDateSelected implements OnDateSetListener {
+    @Override
+    public boolean onLongClick(View v) {
+      if (_startDate == null) {
+        _startDate = Calendar.getInstance();
+      }
 
-		@Override
-		public void onDateSet(DatePicker view, int year, int monthOfYear,
-				int dayOfMonth) {
-			_startDate = new Date(year - 1900, monthOfYear, dayOfMonth,
-					_startDate.getHours(), _startDate.getMinutes());
+      DatePickerDialog dp = new DatePickerDialog(EditActivity.this, new OnStartDateSelected(), _startDate.get(Calendar.YEAR), _startDate.get(Calendar.MONTH),
+              _startDate.get(Calendar.DAY_OF_MONTH));
 
-			EditText startDate = (EditText) findViewById(R.id.StartDate);
-			startDate.setText(_DateFormatter.format(_startDate));
-		}
+      dp.show();
 
-	}
+      return true;
+    }
+  }
 
-	private void loadData() {
-		Uri dataUri = ContentUris.withAppendedId(
-				ZeitContracts.Zeit.CONTENT_URI, _Id);
-		Cursor data = getContentResolver().query(dataUri, null, null, null,
-				null);
+  private class OnStartDateSelected implements OnDateSetListener {
 
-		if (data != null && data.moveToFirst()) {
-			String startValue = data.getString(data
-					.getColumnIndex(ZeitContracts.Zeit.Columns.START));
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+      _startDate.set(year, monthOfYear, dayOfMonth);
 
-			EditText startDate = (EditText) findViewById(R.id.StartDate);
-			EditText startTime = (EditText) findViewById(R.id.StartTime);
-			EditText endDate = (EditText) findViewById(R.id.EndDate);
-			EditText endTime = (EditText) findViewById(R.id.EndTime);
+      _StartDateField.setText(_DateFormatter.format(_startDate.getTime()));
+    }
 
-			// Konvertieren der Startzeit
-			try {
-				_startDate = ZeitContracts.Converters.DB_FORMATTER
-						.parse(startValue);
-				startDate.setText(_DateFormatter.format(_startDate));
-				startTime.setText(_TimeFormatter.format(_startDate));
+  }
 
-			} catch (ParseException e) {
-				startDate.setText("");
-				startTime.setText("");
-			}
+  private class OnEndDateLongClicked implements OnLongClickListener {
 
-			// Prüfen, ob die Endzeit eingertagen ist
-			if (!data.isNull(data
-					.getColumnIndex(ZeitContracts.Zeit.Columns.END))) {
-				String endValue = data.getString(data
-						.getColumnIndex(ZeitContracts.Zeit.Columns.END));
+    @Override
+    public boolean onLongClick(View v) {
+      if (_endDate == null) {
+        _endDate = Calendar.getInstance();
+      }
 
-				try {
-					_endDate = ZeitContracts.Converters.DB_FORMATTER
-							.parse(endValue);
-					endDate.setText(_DateFormatter.format(_endDate));
-					endTime.setText(_TimeFormatter.format(_endDate));
-				} catch (ParseException e) {
-					endDate.setText("");
-					endTime.setText("");
-				}
-			} else {
-				endDate.setText("");
-				endTime.setText("");
-			}
-		}
-	}
+      DatePickerDialog dp = new DatePickerDialog(EditActivity.this, new OnEndDateSelected(), _endDate.get(Calendar.YEAR), _endDate.get(Calendar.MONTH),
+              _endDate.get(Calendar.DAY_OF_MONTH));
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.edit_menu, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
+      dp.show();
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-		case R.id.mnu_cancel:
-			this.finish();
-			break;
+      return true;
+    }
+  }
 
-		case R.id.mnu_delete:
-			if (_Id > 0) {
-				delete();
-			}
-			// this.finish();
-			break;
+  private class OnEndDateSelected implements OnDateSetListener {
 
-		case R.id.mnu_save:
-			// TO DO
-			break;
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+      _endDate.set(year, monthOfYear, dayOfMonth);
 
-		default:
-			break;
-		}
-		return super.onOptionsItemSelected(item);
-	}
+      _EndDateFiled.setText(_DateFormatter.format(_endDate.getTime()));
+    }
 
-	private void delete() {
+  }
 
-		// Aufbau eines Dialoges
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Löschen ...") // Titel des Dialoges setzen
-				.setMessage("Wollen Sie den Datensatz wirklich löschen?") // Nachricht
-																			// für
-																			// den
-																			// Benutzer
-				.setIcon(R.drawable.ic_menu_delete) // Icopn für das Dialog
-				.setPositiveButton("Löschen", new OnClickListener() {
+  private class OnStartTimeLongClicked implements OnLongClickListener {
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						Uri deleteUri = ContentUris.withAppendedId(
-								ZeitContracts.Zeit.CONTENT_URI, _Id);
-						getContentResolver().delete(deleteUri, null, null);
+    @Override
+    public boolean onLongClick(View v) {
+      if (_startDate == null) {
+        _startDate = Calendar.getInstance();
+      }
 
-						EditActivity.this.finish();
-					}
-				}) // Button für die positive
-					// Antwort
-				.setNegativeButton("Abbrechen", null); // Button zum Abbrechen
-														// der Aktion
+      boolean is24 = android.text.format.DateFormat.is24HourFormat(EditActivity.this);
 
-		// Dialog anzeigen
-		builder.create().show();
-	}
+      TimePickerDialog tp = new TimePickerDialog(EditActivity.this, new OnStatTimeSelected(), _startDate.get(Calendar.HOUR_OF_DAY),
+              _startDate.get(Calendar.MINUTE), is24);
+
+      tp.show();
+
+      return true;
+    }
+  }
+
+  private class OnStatTimeSelected implements OnTimeSetListener {
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+      _startDate.set(Calendar.HOUR_OF_DAY, hourOfDay);
+      _startDate.set(Calendar.MINUTE, minute);
+
+      _StartTimeField.setText(_TimeFormatter.format(_startDate.getTime()));
+    }
+  }
+
+  private class OnEndTimeLongClicked implements OnLongClickListener {
+
+    @Override
+    public boolean onLongClick(View v) {
+      if (_endDate == null) {
+        _endDate = Calendar.getInstance();
+      }
+
+      boolean is24 = android.text.format.DateFormat.is24HourFormat(EditActivity.this);
+
+      TimePickerDialog tp = new TimePickerDialog(EditActivity.this, new OnEndTimeSelected(), _endDate.get(Calendar.HOUR_OF_DAY), _endDate.get(Calendar.MINUTE),
+              is24);
+
+      tp.show();
+
+      return true;
+    }
+  }
+
+  private class OnEndTimeSelected implements OnTimeSetListener {
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+      _endDate.set(Calendar.HOUR_OF_DAY, hourOfDay);
+      _endDate.set(Calendar.MINUTE, minute);
+
+      _EndTimeField.setText(_TimeFormatter.format(_endDate.getTime()));
+    }
+  }
+
+  private void loadData() {
+    Uri dataUri = ContentUris.withAppendedId(Zeit.CONTENT_URI, _Id);
+    Cursor data = getContentResolver().query(dataUri, null, null, null, null);
+
+    if (data != null && data.moveToFirst()) {
+      String startValue = data.getString(data.getColumnIndex(Columns.START));
+
+      // Konvertieren der Startzeit
+      try {
+        _startDate = Calendar.getInstance();
+        _startDate.setTime(ZeitContracts.Converters.DB_FORMATTER.parse(startValue));
+        _StartDateField.setText(_DateFormatter.format(_startDate.getTime()));
+        _StartTimeField.setText(_TimeFormatter.format(_startDate.getTime()));
+
+      } catch (ParseException e) {
+        _StartDateField.setText("");
+        _StartTimeField.setText("");
+      }
+
+      // Prüfen, ob die Endzeit eingertagen ist
+      if (!data.isNull(data.getColumnIndex(Columns.END))) {
+        String endValue = data.getString(data.getColumnIndex(Columns.END));
+
+        try {
+          _endDate = Calendar.getInstance();
+          _endDate.setTime(ZeitContracts.Converters.DB_FORMATTER.parse(endValue));
+          _EndDateFiled.setText(_DateFormatter.format(_endDate.getTime()));
+          _EndTimeField.setText(_TimeFormatter.format(_endDate.getTime()));
+        } catch (ParseException e) {
+          _EndDateFiled.setText("");
+          _EndTimeField.setText("");
+        }
+      } else {
+        _EndDateFiled.setText("");
+        _EndTimeField.setText("");
+      }
+
+      if (!data.isNull(data.getColumnIndex(Columns.PAUSE))) {
+        _PauseField.setText(String.valueOf(data.getInt(data.getColumnIndex(Columns.PAUSE))));
+      }
+
+      if (!data.isNull(data.getColumnIndex(Columns.COMMENT))) {
+        _CommentField.setText(data.getString(data.getColumnIndex(Columns.COMMENT)));
+      }
+    }
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.edit_menu, menu);
+    return super.onCreateOptionsMenu(menu);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case android.R.id.home:
+      case R.id.mnu_cancel:
+        this.finish();
+        break;
+
+      case R.id.mnu_delete:
+        if (_Id > 0) {
+          delete();
+        }
+        break;
+
+      case R.id.mnu_save:
+        save();
+        break;
+
+      default:
+        break;
+    }
+    return super.onOptionsItemSelected(item);
+  }
+
+  private void delete() {
+
+    // Aufbau eines Dialoges
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    builder.setTitle("Löschen ...") // Titel des Dialoges setzen
+            .setMessage("Wollen Sie den Datensatz wirklich löschen?") // Nachricht
+            // für
+            // den
+            // Benutzer
+            .setIcon(R.drawable.ic_menu_delete) // Icopn für das Dialog
+            .setPositiveButton("Löschen", new OnClickListener() {
+
+              @Override
+              public void onClick(DialogInterface dialog, int which) {
+                Uri deleteUri = ContentUris.withAppendedId(Zeit.CONTENT_URI, _Id);
+                getContentResolver().delete(deleteUri, null, null);
+
+                EditActivity.this.finish();
+              }
+            }) // Button für die positive
+               // Antwort
+            .setNegativeButton("Abbrechen", null); // Button zum Abbrechen
+    // der Aktion
+
+    // Dialog anzeigen
+    builder.create().show();
+  }
+
+  private void save() {
+    int pause = 0;
+    pause = Integer.parseInt(_PauseField.getText().toString());
+    String comment = _CommentField.getText().toString();
+
+    ContentValues values = new ContentValues();
+    values.put(Columns.START, Converters.DB_FORMATTER.format(_startDate.getTime()));
+    values.put(Columns.END, Converters.DB_FORMATTER.format(_endDate.getTime()));
+    values.put(Columns.PAUSE, pause);
+    values.put(Columns.COMMENT, comment);
+
+    if (_Id > 0) {
+      // Aktualisierung des Eintrages
+      Uri updateUri = ContentUris.withAppendedId(Zeit.CONTENT_URI, _Id);
+      getContentResolver().update(updateUri, values, null, null);
+    } else {
+      // Neuer eintrag
+      getContentResolver().insert(Zeit.CONTENT_URI, values);
+    }
+
+    finish();
+  }
 }
