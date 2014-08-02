@@ -43,7 +43,7 @@ Links
 - [Eclipse](http://www.eclipse.org/downloads/)
 
 ### Blogbeisträge
-- [Android: Eclipse installieren und einrichten](http://wp.me/pNSaO-2o)
+- [Eclipse Installieren und Einrichten für Android Entwicklung](http://webducer.de/de/tutorials/android/eclipse-und-adt.html)
 - [Android: Neues Android Projekt anlegen](http://wp.me/pNSaO-2m)
 - [Android: Erste App (Währungsrechner) - Teil 1](http://wp.me/pNSaO-2l)
 - [Android: Erste App (Währungsrechner) – Teil 2](http://wp.me/pNSaO-3N)
