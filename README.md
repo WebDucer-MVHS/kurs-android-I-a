@@ -34,7 +34,7 @@ Bücher
 - [Android 4: Apps entwickeln mit dem Android SDK](http://bit.ly/AndGal4)
 - [Android-Apps entwickeln für Einsteiger](http://bit.ly/AndEinst)
 - [Eclipse IDE 3.7 (Kindle Edition)](http://amzn.to/QtZNhH)
-- Java ist auch eine Insel [Online](http://openbook.galileocomputing.de/javainsel/) oder als [Buch](http://bit.ly/JaInsel)
+- Java ist auch eine Insel ([Online](http://openbook.galileocomputing.de/javainsel/) oder als [Buch](http://bit.ly/JaInsel))
 
 Links
 -----
@@ -46,7 +46,8 @@ Links
 - [Eclipse](http://www.eclipse.org/downloads/)
 
 ### Blogbeisträge
-- Android: Eclipse installieren und einrichten <http://j.mp/AndEclipse>
+- [Android: Eclipse installieren und einrichten](http://j.mp/AndEclipse)
+- [Android: Einrichtung des Intel Hardware Acceleration eXecution Managers (HAXM)](http://j.mp/AndHAXM)
 - [Android: Neues Android Projekt anlegen](http://wp.me/pNSaO-2m)
 - [Android: Erste App (Währungsrechner) - Teil 1](http://wp.me/pNSaO-2l)
 - [Android: Erste App (Währungsrechner) – Teil 2](http://wp.me/pNSaO-3N)
