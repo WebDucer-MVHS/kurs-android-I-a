@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Time Tracking</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="StartLabel">Start Time:</string>
-    <string name="EndLabel">End Time:</string>
-    <string name="StartCommand">Start</string>
-    <string name="EndCommand">End</string>
+	<string name="app_name">Time Tracking</string>
+	<string name="hello_world">Hello world!</string>
+	<string name="action_settings">Settings</string>
+	<string name="StartLabel">Start Time:</string>
+	<string name="EndLabel">End Time:</string>
+	<string name="StartCommand">Start</string>
+	<string name="EndCommand">End</string>
+	<string name="PauseLabel">Pause:</string>
+	<string name="CommentLabel">Comment:</string>
 
 </resources>
