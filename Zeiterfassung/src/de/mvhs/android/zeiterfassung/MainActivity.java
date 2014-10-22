@@ -3,13 +3,14 @@ package de.mvhs.android.zeiterfassung;
 import java.util.Date;
 
 import android.app.Activity;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.ContentValues;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import de.mvhs.android.zeiterfassung.db.DBHelper;
+import de.mvhs.android.zeiterfassung.db.Contract;
+import de.mvhs.android.zeiterfassung.db.Contract.Zeiten;
 
 public class MainActivity extends Activity {
 
@@ -45,8 +46,13 @@ public class MainActivity extends Activity {
 
 				edStart.setText(jetzt.toString());
 
-				DBHelper dbHelper = new DBHelper(getApplicationContext());
-				SQLiteDatabase db = dbHelper.getReadableDatabase();
+				ContentValues values = new ContentValues();
+				values.put(Zeiten.Columns.START_TIME,
+						Contract.Converters.DB_DATE_TIME_FORMATTER
+								.format(jetzt));
+
+				getContentResolver()
+						.insert(Contract.Zeiten.CONTENT_URI, values);
 			}
 		});
 		cmdEnd.setOnClickListener(new OnClickListener() {

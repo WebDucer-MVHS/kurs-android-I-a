@@ -7,6 +7,8 @@ public final class ZeitenTabelle {
 	private static final String _CREATE_TABLE = "CREATE TABLE zeiten (_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
 			+ "Startzeit TEXT NOT NULL, Endzeit TEXT)";
 
+	public final static String TABLE_NAME = "zeiten";
+
 	public static final void onCreateTable(SQLiteDatabase db) {
 		db.execSQL(_CREATE_TABLE);
 	}
