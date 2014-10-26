@@ -1,9 +1,9 @@
 Programme entwickeln für Android- Geräte
 =================================================
 
-    **!!! Am 29.10.2014 findet kein Kurs statt.**
-    **!!! Wir sehen uns wieder am 5.11.2014 im Kurs.**
-    **!!! Für Fragen stehe ich die ganze Zeit per E-Mail oder telefonisch zur Verfügung.**
+    !!! Am 29.10.2014 findet kein Kurs statt.
+    !!! Wir sehen uns wieder am 5.11.2014 im Kurs.
+    !!! Für Fragen stehe ich die ganze Zeit per E-Mail oder telefonisch zur Verfügung.
 
 Voraussetzung
 -------------
