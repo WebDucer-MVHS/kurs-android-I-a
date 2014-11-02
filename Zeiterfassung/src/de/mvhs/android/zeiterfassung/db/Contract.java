@@ -42,10 +42,21 @@ public final class Contract {
 		public final static String CONTENT_DIRECTORY = "zeiten";
 
 		/**
+		 * Relativer Pfad zum offenen Datensatz
+		 */
+		public final static String NOT_ENDED_DIRECTORY = "empy_end_item";
+
+		/**
 		 * Uri für den Zugriff auf die Daten der Tabelle Zeiten
 		 */
 		public final static Uri CONTENT_URI = Uri.withAppendedPath(
 				AUTHORITY_URI, CONTENT_DIRECTORY);
+
+		/**
+		 * Uri für den Zugriff auf einen offenen Datensatz
+		 */
+		public final static Uri NOT_ENDED_URI = Uri.withAppendedPath(
+				AUTHORITY_URI, NOT_ENDED_DIRECTORY);
 
 		/**
 		 * Dytepentyp für die Auflistung der Zeiten (mime-type)

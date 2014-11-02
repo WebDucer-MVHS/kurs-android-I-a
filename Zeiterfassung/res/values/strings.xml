@@ -10,5 +10,7 @@
 	<string name="EndCommand">End</string>
 	<string name="PauseLabel">Pause:</string>
 	<string name="CommentLabel">Comment:</string>
+	<string name="TextPlaceHolder" translatable="false">---</string>
+	<string name="WrongStartTimeFormat">Wrong format for start time in database</string>
 
 </resources>
