@@ -7,8 +7,11 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -107,6 +110,37 @@ public class MainActivity extends Activity {
 		// Deregistrieren der Listener
 		_startButton.setOnClickListener(null);
 		_endButton.setOnClickListener(null);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.main, menu);
+
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		switch (item.getItemId()) {
+		case R.id.action_list:
+			Intent listActivity = new Intent(this, RecordListActivity.class);
+
+			startActivity(listActivity);
+
+			break;
+
+		case R.id.action_add:
+			Intent addActivity = new Intent(this, EditRecordActivity.class);
+
+			startActivity(addActivity);
+			break;
+
+		default:
+			break;
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 
 	private class OnStartButtonClicked implements View.OnClickListener {

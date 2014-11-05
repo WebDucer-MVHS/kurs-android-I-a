@@ -24,6 +24,8 @@
         </activity>
         <provider android:authorities="de.mvhs.android.zeiterfassung.zeitprovider"
             android:name=".db.ZeitProvider" />
+        <activity android:name="RecordListActivity"></activity>
+        <activity android:name="EditRecordActivity"></activity>
     </application>
 
 </manifest>
