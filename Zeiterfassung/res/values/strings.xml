@@ -2,7 +2,6 @@
 <resources>
 
 	<string name="app_name">Time Tracking</string>
-	<string name="hello_world">Hello world!</string>
 	<string name="action_list">List</string>
 	<string name="action_add">Add</string>
 	<string name="StartLabel">Start Time:</string>
@@ -13,5 +12,9 @@
 	<string name="CommentLabel">Comment:</string>
 	<string name="TextPlaceHolder" translatable="false">---</string>
 	<string name="WrongStartTimeFormat">Wrong format for start time in database</string>
+
+	<!-- List View -->
+	<string name="StartHeader">Start Time</string>
+	<string name="EndHeader">End Time</string>
 
 </resources>

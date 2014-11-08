@@ -8,6 +8,9 @@ import android.widget.SimpleCursorAdapter;
 import de.mvhs.android.zeiterfassung.db.Contract.Zeiten;
 
 public class RecordListActivity extends ListActivity {
+	private final static String _NOT_EMPTY = "IFNULL("
+			+ Zeiten.Columns.END_TIME + ",'')<>''";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -15,8 +18,8 @@ public class RecordListActivity extends ListActivity {
 		setContentView(R.layout.activity_list);
 
 		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, // Context
-				android.R.layout.simple_list_item_2, // layout für die Zeile in
-														// der Liste
+				R.layout.list_row_two_values, // layout für die Zeile in
+												// der Liste
 				null, // Daten => Cursor
 				new String[] { Zeiten.Columns.START_TIME,
 						Zeiten.Columns.END_TIME }, // Welche Spalten?
@@ -28,7 +31,7 @@ public class RecordListActivity extends ListActivity {
 		getListView().setAdapter(adapter);
 
 		Cursor data = getContentResolver().query(Zeiten.CONTENT_URI, null,
-				null, null, Zeiten.Columns.START_TIME + " DESC");
+				_NOT_EMPTY, null, Zeiten.Columns.START_TIME + " DESC");
 
 		adapter.swapCursor(data);
 

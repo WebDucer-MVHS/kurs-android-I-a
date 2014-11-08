@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content" >
+
+	<View
+		android:id="@+id/CenterHelper"
+		android:layout_width="@dimen/list_column_rule_width"
+		android:layout_height="0dp"
+		android:layout_above="@+id/ColumnRuleHelper"
+		android:layout_alignParentTop="true"
+		android:layout_centerHorizontal="true"
+		android:background="@color/list_rule_color" />
+
+	<TextView
+		android:id="@android:id/text1"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentStart="true"
+		android:layout_alignParentTop="true"
+		android:layout_marginBottom="@dimen/list_item_vertical_marin"
+		android:layout_marginLeft="@dimen/list_item_horizontal_margin"
+		android:layout_marginRight="@dimen/list_item_horizontal_margin"
+		android:layout_marginTop="@dimen/list_item_vertical_marin"
+		android:layout_toLeftOf="@+id/CenterHelper"
+		android:layout_toStartOf="@+id/CenterHelper"
+		android:gravity="center_horizontal"
+		android:text="@string/TextPlaceHolder"
+		android:textAppearance="?android:attr/textAppearance" />
+
+	<TextView
+		android:id="@android:id/text2"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_alignParentEnd="true"
+		android:layout_alignParentRight="true"
+		android:layout_alignParentTop="true"
+		android:layout_marginBottom="@dimen/list_item_vertical_marin"
+		android:layout_marginLeft="@dimen/list_item_horizontal_margin"
+		android:layout_marginRight="@dimen/list_item_horizontal_margin"
+		android:layout_marginTop="@dimen/list_item_vertical_marin"
+		android:layout_toEndOf="@+id/CenterHelper"
+		android:layout_toRightOf="@+id/CenterHelper"
+		android:gravity="center_horizontal"
+		android:text="@string/TextPlaceHolder"
+		android:textAppearance="?android:attr/textAppearance" />
+
+	<View
+		android:id="@+id/ColumnRuleHelper"
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_below="@android:id/text1"
+		android:background="@color/list_rule_color" />
+
+</RelativeLayout>
