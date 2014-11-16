@@ -1,6 +1,8 @@
 package de.mvhs.android.zeiterfassung;
 
 import android.app.ListActivity;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -120,8 +122,7 @@ public class RecordListActivity extends ListActivity {
 
 		case R.id.action_export:
 			// Eportieren der Daten
-			CsvExporter exporter = new CsvExporter(this);
-			exporter.execute();
+			csvExport();
 
 			break;
 
@@ -130,5 +131,25 @@ public class RecordListActivity extends ListActivity {
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void csvExport() {
+		ProgressDialog dialog = new ProgressDialog(this);
+		final CsvExporter exporter = new CsvExporter(this, dialog);
+
+		dialog.setTitle(R.string.ExportTitle);
+		dialog.setMessage(getString(R.string.ExportMessage));
+		dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		dialog.setButton(ProgressDialog.BUTTON_NEGATIVE,
+				getString(R.string.CancelButtonText),
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						exporter.cancel(false);
+					}
+				});
+
+		exporter.execute();
 	}
 }

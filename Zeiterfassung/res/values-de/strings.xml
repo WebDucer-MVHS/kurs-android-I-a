@@ -4,6 +4,8 @@
 	<string name="app_name">Zeiterfassung</string>
 	<string name="action_list">Liste</string>
 	<string name="action_add">Neu</string>
+	<string name="action_edit">Bearbeiten</string>
+	<string name="action_export">Export</string>
 	<string name="StartLabel">Startzeit:</string>
 	<string name="EndLabel">Endzeit:</string>
 	<string name="StartCommand">Starten</string>
@@ -15,5 +17,17 @@
 	<!-- List View -->
 	<string name="StartHeader">Startzeit</string>
 	<string name="EndHeader">Endzeit</string>
+
+	<!-- Exporter -->
+	<string name="ExportErrorNoSdCard">Extern verfügbares Speicher ist nicht verfügbar</string>
+	<string name="ExportSuccessful">Export erfolgreich!</string>
+	<string name="ExportErrorFileSystem">Unerwarteter Fehler beim Export!</string>
+	<string name="ExportSuccessTitle">Export OK</string>
+	<string name="ExportTitle">Export …</string>
+	<string name="ExportMessage">Daten werden als CSV exportiert!</string>
+	<string name="OkButtonText">OK</string>
+	<string name="ExportCanceled">Abgebrochen</string>
+	<string name="CancelButtonText">Abbrechen</string>
+	<string name="ExportCanceledMessage">Export abgebrochen!</string>
 
 </resources>

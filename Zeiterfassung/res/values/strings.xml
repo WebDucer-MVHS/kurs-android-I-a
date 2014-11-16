@@ -4,6 +4,8 @@
 	<string name="app_name">Time Tracking</string>
 	<string name="action_list">List</string>
 	<string name="action_add">Add</string>
+	<string name="action_edit">Edit</string>
+	<string name="action_export">Export</string>
 	<string name="StartLabel">Start Time:</string>
 	<string name="EndLabel">End Time:</string>
 	<string name="StartCommand">Start</string>
@@ -16,5 +18,18 @@
 	<!-- List View -->
 	<string name="StartHeader">Start Time</string>
 	<string name="EndHeader">End Time</string>
+
+	<!-- Exporter -->
+	<string name="ExportErrorNoSdCard">External storage is not available!</string>
+	<string name="ExportSuccessful">Export successful!</string>
+	<string name="ExportErrorFileSystem">Unexpected error by export!</string>
+	<string name="ExportSuccessTitle">Export OK</string>
+	<string name="ExportTitle">Export …</string>
+	<string name="ExportMessage">Data exported as CSV!</string>
+	<string name="OkButtonText">OK</string>
+	<string name="ExportCanceled">Canceled</string>
+	<string name="CancelButtonText">Cancel</string>
+	<string name="ExportCanceledMessage">Export canceled!</string>
+	<string name="action_delete">Delete</string>
 
 </resources>
