@@ -1,10 +1,14 @@
 package de.mvhs.android.zeiterfassung;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.ContentUris;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -86,17 +90,47 @@ public class RecordListActivity extends ListActivity {
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 
+		// Auslesen der ID
+		final AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
+				.getMenuInfo();
+
 		switch (item.getItemId()) {
 		case R.id.action_edit:
 			Intent editIntent = new Intent(this, EditRecordActivity.class);
 
-			// Auslesen der ID
-			AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
-					.getMenuInfo();
-
 			editIntent.putExtra("ID", info.id);
 
 			startActivity(editIntent);
+			break;
+
+		case R.id.action_delete:
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle("Datensatz löschen...")
+					.setMessage("Wollen Sie den Datensatz wirklich löschen?")
+					// Fall Löschen
+					.setPositiveButton("Löschen", new OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// Uri erzeugen
+							Uri deleteUri = ContentUris.withAppendedId(
+									Zeiten.CONTENT_URI, info.id);
+
+							getContentResolver().delete(deleteUri, null, null);
+						}
+					})
+
+					// Fall Abbrechen
+					.setNegativeButton("Abbrechen", new OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.dismiss();
+						}
+					});
+
+			builder.create().show();
+
 			break;
 
 		default:

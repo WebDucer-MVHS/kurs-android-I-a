@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBHelper extends SQLiteOpenHelper {
 	// Klassenvariablen
-	private static final int _DB_VERSION = 1;
+	private static final int _DB_VERSION = 3;
 	private static final String _DB_NAME = "zeiterfassung.db";
 
 	public DBHelper(Context context) {
