@@ -2,7 +2,7 @@
     <string name="app_name">Zeiterfassung</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Einstellungen</string>
     <string name="StartLabel">Startzeit:</string>
     <string name="EndLabel">Endzeit:</string>
     <string name="StartButton">Starten</string>

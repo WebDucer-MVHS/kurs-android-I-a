@@ -1,5 +1,6 @@
 package de.mvhs.android.zeiterfassung;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -7,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import java.util.Date;
+
+import de.mvhs.android.zeiterfassung.db.DBHelper;
 
 
 public class TimeTrackingActivity extends ActionBarActivity {
@@ -62,6 +65,14 @@ public class TimeTrackingActivity extends ActionBarActivity {
       public void onClick(View v) {
          // Deaktivieren des Buttons
          _startCommand.setEnabled(false);
+
+
+          // Datenbank erzwingen
+          DBHelper dbHelper = new DBHelper(getApplicationContext());
+          SQLiteDatabase db = dbHelper.getReadableDatabase();
+          db.close();
+          dbHelper.close();
+
 
          // Logik nach dem Klicken des Buttons
          _startTime.setText(String.valueOf(new Date()));
