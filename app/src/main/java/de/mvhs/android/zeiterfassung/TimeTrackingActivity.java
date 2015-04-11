@@ -7,9 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.util.Date;
-
 import de.mvhs.android.zeiterfassung.db.DBHelper;
+import de.mvhs.android.zeiterfassung.utils.Converter;
 
 
 public class TimeTrackingActivity extends ActionBarActivity {
@@ -75,7 +74,7 @@ public class TimeTrackingActivity extends ActionBarActivity {
 
 
          // Logik nach dem Klicken des Buttons
-         _startTime.setText(String.valueOf(new Date()));
+         _startTime.setText(Converter.toDateTimeString(null));
 
          // Aktivieren des Ende Buttons
          _endCommand.setEnabled(true);
@@ -90,7 +89,7 @@ public class TimeTrackingActivity extends ActionBarActivity {
          _endCommand.setEnabled(false);
 
          // Logik nach dem Klicken des Buttons
-         _endTime.setText(String.valueOf(new Date()));
+         _endTime.setText(Converter.toDateTimeString(null));
 
          // Aktivieren des Start Buttons
          _startCommand.setEnabled(true);

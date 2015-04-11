@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">Zeiterfassung</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Einstellungen</string>
     <string name="StartLabel">Startzeit:</string>
     <string name="EndLabel">Endzeit:</string>
     <string name="StartButton">Starten</string>
     <string name="EndButton">Beenden</string>
+   <string name="PauseLabel">Pause:</string>
+   <string name="CommentLabel">Kommentar:</string>
 </resources>

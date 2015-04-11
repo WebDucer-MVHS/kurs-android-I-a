@@ -19,7 +19,8 @@
    <EditText
       android:id="@+id/StartTime"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content" />
+      android:layout_height="wrap_content"
+      android:inputType="datetime" />
 
    <TextView
       android:layout_width="match_parent"
@@ -31,7 +32,8 @@
       android:id="@+id/EndTime"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_gravity="center_horizontal" />
+      android:layout_gravity="center_horizontal"
+      android:inputType="datetime" />
 
    <Button
       android:id="@+id/StartCommand"

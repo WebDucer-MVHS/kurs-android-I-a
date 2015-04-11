@@ -6,4 +6,6 @@
     <string name="StartButton">Start</string>
     <string name="StartLabel">Start Time:</string>
     <string name="action_settings">Settings</string>
+   <string name="CommentLabel">Comment:</string>
+   <string name="PauseLabel">Pause:</string>
 </resources>
