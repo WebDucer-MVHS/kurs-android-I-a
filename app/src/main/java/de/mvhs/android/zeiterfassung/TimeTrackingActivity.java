@@ -1,5 +1,6 @@
 package de.mvhs.android.zeiterfassung;
 
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -7,7 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.Calendar;
+
 import de.mvhs.android.zeiterfassung.db.DBHelper;
+import de.mvhs.android.zeiterfassung.db.ZeitContract;
 import de.mvhs.android.zeiterfassung.utils.Converter;
 
 
@@ -65,16 +69,16 @@ public class TimeTrackingActivity extends ActionBarActivity {
          // Deaktivieren des Buttons
          _startCommand.setEnabled(false);
 
+          Calendar jetzt = Calendar.getInstance();
 
-          // Datenbank erzwingen
-          DBHelper dbHelper = new DBHelper(getApplicationContext());
-          SQLiteDatabase db = dbHelper.getReadableDatabase();
-          db.close();
-          dbHelper.close();
+          ContentValues values = new ContentValues();
+          values.put(ZeitContract.ZeitDaten.Columns.START_TIME,
+                  ZeitContract.Converters.DB_DATE_TIME_FORMATTER.format(jetzt.getTime()));
 
+          getContentResolver().insert(ZeitContract.ZeitDaten.CONTENT_URI, values);
 
          // Logik nach dem Klicken des Buttons
-         _startTime.setText(Converter.toDateTimeString(null));
+         _startTime.setText(Converter.toDateTimeString(jetzt.getTime()));
 
          // Aktivieren des Ende Buttons
          _endCommand.setEnabled(true);

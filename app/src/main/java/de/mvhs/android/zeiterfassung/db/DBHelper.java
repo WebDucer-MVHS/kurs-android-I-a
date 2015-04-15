@@ -12,7 +12,7 @@ public class DBHelper extends SQLiteOpenHelper {
     // - Name der Datenbank-Datei
     private final static String _DB_NAME = "Zeiten.db";
     // - Benötigte Version der Datenbank
-    private final static int _DB_VERSION = 1;
+    private final static int _DB_VERSION = 3;
 
     public DBHelper(Context context) {
         super(context, _DB_NAME, null, _DB_VERSION);
