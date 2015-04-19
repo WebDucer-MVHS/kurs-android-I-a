@@ -8,4 +8,5 @@
     <string name="EndButton">Beenden</string>
    <string name="PauseLabel">Pause:</string>
    <string name="CommentLabel">Kommentar:</string>
+   <string name="start_date_invalid_format">Startdatum liegt im falschen Format vor. Datenbank ist korrumpiert.</string>
 </resources>

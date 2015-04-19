@@ -1,16 +1,18 @@
 package de.mvhs.android.zeiterfassung;
 
 import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Date;
 
-import de.mvhs.android.zeiterfassung.db.DBHelper;
 import de.mvhs.android.zeiterfassung.db.ZeitContract;
 import de.mvhs.android.zeiterfassung.utils.Converter;
 
@@ -49,6 +51,28 @@ public class TimeTrackingActivity extends ActionBarActivity {
 
       // Ende Button nach dem Start deaktivieren
       _endCommand.setEnabled(false);
+
+      // Daten aus der Datenbank lesen
+      initData();
+   }
+
+   private void initData() {
+      Cursor data = getContentResolver().query(ZeitContract.ZeitDaten.EMPTY_CONTENT_URI, new String[] {ZeitContract.ZeitDaten.Columns.START_TIME}, null, null, null);
+
+      // Offener Datensatz vorhanden
+      if (data != null && data.moveToFirst()) {
+         String startDateString = data.getString(0); // weil wir nur eine Spalte abfragen
+         try {
+            Date startDate = ZeitContract.Converters.DB_DATE_TIME_FORMATTER.parse(startDateString);
+
+            _startTime.setText(Converter.toDateTimeString(startDate));
+            _startCommand.setEnabled(false);
+            _endCommand.setEnabled(true);
+         } catch (ParseException e) {
+            // Startdatum liegt im falschen Format vor.
+            Toast.makeText(this, R.string.start_date_invalid_format, Toast.LENGTH_LONG).show();
+         }
+      }
    }
 
    @Override
@@ -69,13 +93,12 @@ public class TimeTrackingActivity extends ActionBarActivity {
          // Deaktivieren des Buttons
          _startCommand.setEnabled(false);
 
-          Calendar jetzt = Calendar.getInstance();
+         Calendar jetzt = Calendar.getInstance();
 
-          ContentValues values = new ContentValues();
-          values.put(ZeitContract.ZeitDaten.Columns.START_TIME,
-                  ZeitContract.Converters.DB_DATE_TIME_FORMATTER.format(jetzt.getTime()));
+         ContentValues values = new ContentValues();
+         values.put(ZeitContract.ZeitDaten.Columns.START_TIME, ZeitContract.Converters.DB_DATE_TIME_FORMATTER.format(jetzt.getTime()));
 
-          getContentResolver().insert(ZeitContract.ZeitDaten.CONTENT_URI, values);
+         getContentResolver().insert(ZeitContract.ZeitDaten.CONTENT_URI, values);
 
          // Logik nach dem Klicken des Buttons
          _startTime.setText(Converter.toDateTimeString(jetzt.getTime()));
@@ -92,8 +115,15 @@ public class TimeTrackingActivity extends ActionBarActivity {
          // Dekativieren des Buttons
          _endCommand.setEnabled(false);
 
+         Calendar jetzt = Calendar.getInstance();
+
+         ContentValues values = new ContentValues();
+         values.put(ZeitContract.ZeitDaten.Columns.END_TIME, ZeitContract.Converters.DB_DATE_TIME_FORMATTER.format(jetzt.getTime()));
+
+         getContentResolver().update(ZeitContract.ZeitDaten.EMPTY_CONTENT_URI, values, null, null);
+
          // Logik nach dem Klicken des Buttons
-         _endTime.setText(Converter.toDateTimeString(null));
+         _endTime.setText(Converter.toDateTimeString(jetzt.getTime()));
 
          // Aktivieren des Start Buttons
          _startCommand.setEnabled(true);
