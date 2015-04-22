@@ -23,6 +23,15 @@
             android:enabled="true"
             android:exported="true" >
         </provider>
+
+        <activity
+            android:name=".RecordListActivity"
+            android:label="@string/title_activity_record_list"
+            android:parentActivityName=".TimeTrackingActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.mvhs.android.zeiterfassung.TimeTrackingActivity" />
+        </activity>
     </application>
 
 </manifest>
