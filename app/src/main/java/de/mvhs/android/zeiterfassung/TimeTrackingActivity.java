@@ -114,6 +114,13 @@ public class TimeTrackingActivity extends ActionBarActivity {
 
                 handled = true;
                 break;
+
+           case R.id.action_new:
+              // Starten manueller Eintrag
+              Intent newIntent = new Intent(this, EditRecordActivity.class);
+              startActivity(newIntent);
+              break;
+
             default:
                 handled = super.onOptionsItemSelected(item);
                 break;

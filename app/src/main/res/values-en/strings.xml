@@ -9,4 +9,10 @@
    <string name="PauseLabel">Pause:</string>
    <string name="start_date_invalid_format">Start date has invalid format in database.</string>
     <string name="action_list">List</string>
+   <string name="EndTimeColumn">End Time</string>
+   <string name="StartTimeColumn">Start Time</string>
+   <string name="action_settings">Settings</string>
+   <string name="title_activity_record_list">List</string>
+   <string name="action_new">New</string>
+   <string name="title_activity_edit_record">New record</string>
 </resources>

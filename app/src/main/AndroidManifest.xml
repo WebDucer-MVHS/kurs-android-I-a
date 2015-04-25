@@ -32,6 +32,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.mvhs.android.zeiterfassung.TimeTrackingActivity" />
         </activity>
+        <activity
+            android:name=".EditRecordActivity"
+            android:label="@string/title_activity_edit_record"
+            android:parentActivityName=".TimeTrackingActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.mvhs.android.zeiterfassung.TimeTrackingActivity" />
+        </activity>
     </application>
 
 </manifest>
