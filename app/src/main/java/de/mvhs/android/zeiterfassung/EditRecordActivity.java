@@ -10,5 +10,7 @@ public class EditRecordActivity extends ActionBarActivity {
    protected void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_edit_record);
+
+       long id = getIntent().getLongExtra("ID", -1);
    }
 }

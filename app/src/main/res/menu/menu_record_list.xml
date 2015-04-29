@@ -4,4 +4,8 @@
     tools:context="de.mvhs.android.zeiterfassung.RecordListActivity">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
+
+    <!-- Export -->
+    <item android:id="@+id/action_export" android:title="@string/action_export"
+        android:orderInCategory="100" app:showAsAction="always" />
 </menu>
