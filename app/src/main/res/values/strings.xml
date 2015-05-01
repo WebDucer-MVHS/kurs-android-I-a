@@ -17,4 +17,12 @@
    <string name="title_activity_edit_record">Neuer Eintrag</string>
     <string name="action_delete">Löschen</string>
     <string name="action_export">Export</string>
+   <string name="export_dialog_title">CSV Export ...</string>
+   <string name="export_dialog_message">Alle Datensätze werden in CSV-Datei exportiert.</string>
+   <string name="button_cancel">Abbrechen</string>
+   <string name="export_dialog_cancel_message">Export wird abgebrochen!</string>
+   <string name="button_delete">Löschen</string>
+   <string name="delete_dialog_message">Wollen Sie den Datensatz wirklich löschen?</string>
+   <string name="action_cancel">Abbrechen</string>
+   <string name="activity_title_edit">Datensatz bearbeiten</string>
 </resources>

@@ -114,7 +114,7 @@ public class RecordListActivity extends ActionBarActivity implements LoaderManag
         }
 
         if (id == R.id.action_export){
-            CsvExporter exporter = new CsvExporter(this);
+            CsvExporter exporter = new CsvExporter(getApplicationContext());
             exporter.execute();
         }
 
@@ -140,9 +140,9 @@ public class RecordListActivity extends ActionBarActivity implements LoaderManag
 
                 // Abfragedialog erstellen
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Löschen")
-                        .setMessage("Wollen Sie den Datensatz wirklich löschen?")
-                        .setPositiveButton("Löschen", new DialogInterface.OnClickListener() {
+                builder.setTitle(getString(R.string.button_delete))
+                        .setMessage(getString(R.string.delete_dialog_message))
+                        .setPositiveButton(R.string.button_delete, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // Löschlogik
@@ -150,7 +150,7 @@ public class RecordListActivity extends ActionBarActivity implements LoaderManag
                                 getContentResolver().delete(uri, null, null);
                             }
                         })
-                        .setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(getString(R.string.button_cancel), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // Abbrechen

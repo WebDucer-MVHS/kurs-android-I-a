@@ -78,6 +78,16 @@ public final class ZeitContract {
           * Endzeit Spalte in ISO-8601 Format ("2015-10-25T23:45")
           */
          public final static String END_TIME = "end_time";
+
+         /**
+          * Pausenspalte (Anzahl der Minuten)
+          */
+         public final static String PAUSE = "pause";
+
+         /**
+          * Kommentarspalte
+          */
+         public final static String COMMENT = "comment";
       }
    }
 

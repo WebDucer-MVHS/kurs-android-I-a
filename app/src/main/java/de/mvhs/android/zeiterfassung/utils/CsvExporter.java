@@ -1,6 +1,8 @@
 package de.mvhs.android.zeiterfassung.utils;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -10,6 +12,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import de.mvhs.android.zeiterfassung.R;
 import de.mvhs.android.zeiterfassung.db.ZeitContract;
 
 /**
@@ -17,10 +20,77 @@ import de.mvhs.android.zeiterfassung.db.ZeitContract;
  */
 public class CsvExporter extends AsyncTask<Void, Integer, Void> {
     private Context _context;
+    private ProgressDialog _dialog;
 
     public CsvExporter(Context context){
-
         _context = context;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+
+        _dialog = new ProgressDialog(_context);
+        _dialog.setTitle(R.string.export_dialog_title);
+        _dialog.setMessage(_context.getString(R.string.export_dialog_message));
+        _dialog.setCancelable(false);
+        _dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        _dialog.setButton(ProgressDialog.BUTTON_NEGATIVE, _context.getString(R.string.button_cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                cancel(false);
+            }
+        });
+
+        // Dialog anzeigen
+        _dialog.show();
+    }
+
+    @Override
+    protected void onProgressUpdate(Integer... values) {
+        super.onProgressUpdate(values);
+
+        if(_dialog == null || values == null || values.length != 1){
+            return;
+        }
+
+        // Fortschritt melden
+        _dialog.setProgress(values[0]);
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+
+        if (_dialog == null){
+            return;
+        }
+
+        // Dialog schließen
+        _dialog.dismiss();
+        _dialog = null;
+    }
+
+    @Override
+    protected void onCancelled() {
+        super.onCancelled();
+
+        // Daten werden aufgeräumt
+        if(_dialog != null){
+            _dialog.setMessage(_context.getString(R.string.export_dialog_cancel_message));
+        }
+
+        // Datei löschen
+        File exportFileName = new File(new File(Environment.getExternalStorageDirectory(), "export"), "ZeitDaten.csv");
+        if(exportFileName.exists()){
+            exportFileName.delete();
+        }
+
+        // Dialog schließen
+        if(_dialog != null){
+            _dialog.dismiss();
+            _dialog = null;
+        }
     }
 
     @Override
@@ -30,12 +100,16 @@ public class CsvExporter extends AsyncTask<Void, Integer, Void> {
                 .query(ZeitContract.ZeitDaten.CONTENT_URI, null, null, null, ZeitContract.ZeitDaten.Columns.START_TIME + " DESC");
 
         // Prüfen, ob Daten vorhanden sind
-        if(data == null || data.getCount() == 0){
+        if(data == null || data.getCount() == 0 || isCancelled()){
             if(data != null){
                 data.close();
             }
 
             return null;
+        }
+
+        if(_dialog != null){
+            _dialog.setMax(data.getCount() + 1); // +1 für Spaltennamen-Zeile
         }
 
         // Export-Datei definieren
@@ -79,7 +153,9 @@ public class CsvExporter extends AsyncTask<Void, Integer, Void> {
             // Zeile wegschreiben
             writer.append(line);
 
-            while (data.moveToNext()){
+            publishProgress(1); // Spaltennamen geschrieben
+
+            while (data.moveToNext() && !isCancelled()){
                 // Zeile zurücksetzen
                 line.delete(0, line.length());
 
@@ -100,13 +176,17 @@ public class CsvExporter extends AsyncTask<Void, Integer, Void> {
 
                 // Wegschreiben der zeile
                 writer.append(line);
+
+                publishProgress(data.getPosition() + 2); // Aktuelle Zeile geschrieben
+                Thread.sleep(10l);
             }
 
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
             if(writer != null){
                 try {
                     writer.flush();
