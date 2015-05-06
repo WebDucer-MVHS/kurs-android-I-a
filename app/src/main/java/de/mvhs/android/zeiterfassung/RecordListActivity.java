@@ -114,7 +114,7 @@ public class RecordListActivity extends ActionBarActivity implements LoaderManag
         }
 
         if (id == R.id.action_export){
-            CsvExporter exporter = new CsvExporter(getApplicationContext());
+            CsvExporter exporter = new CsvExporter(this);
             exporter.execute();
         }
 
