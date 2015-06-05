@@ -1,11 +1,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="de.mvhs.android.zeiterfassung.RecordListActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context="de.mvhs.android.zeiterfassung.RecordListActivity">
 
-    <!-- Export -->
-    <item android:id="@+id/action_export" android:title="@string/action_export"
-        android:orderInCategory="100" app:showAsAction="always" />
+   <!-- Export -->
+   <item
+      android:id="@+id/action_export"
+      android:icon="@drawable/ic_menu_share"
+      android:orderInCategory="100"
+      android:title="@string/action_export"
+      app:showAsAction="always" />
 </menu>
