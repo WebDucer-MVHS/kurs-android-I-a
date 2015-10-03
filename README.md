@@ -21,9 +21,6 @@ Eigene Laptops können gern für den Kurs eingesetzt werden.
 #### Dauer
 - 12 Doppelstunden (6 x 180 Minuten)
 
-#### Nächster Termin
-- 18.03.2015
-
 ## Links
 ### Community
 - Google+ Community: [bit.ly/WDAndroidKurse](http://bit.ly/WDAndroidKurse "Google+ Community des Kurses")
