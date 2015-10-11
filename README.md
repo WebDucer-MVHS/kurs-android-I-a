@@ -23,7 +23,7 @@ Eigene Laptops können gern für den Kurs eingesetzt werden.
 
 ## Links
 ### Community
-- Google+ Community: [bit.ly/WDAndroidKurse](http://bit.ly/WDAndroidKurse "Google+ Community des Kurses")
+- Google+ Community: [wdurl.de/WDAndKurseGPlus](http://wdurl.de/WDAndKurseGPlus "Google+ Community des Kurses")
 
 ## Bücher
 - Android 5: Apps entwickeln mit Android Studio [wdurl.de/RWAnd5Buch](http://wdurl.de/RWAnd5Buch "Android 5: Apps entwickeln mit Android Studio")
