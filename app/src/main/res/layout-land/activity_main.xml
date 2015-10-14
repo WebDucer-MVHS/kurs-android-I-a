@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Relativ Layout Version -->
-<!--<RelativeLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -18,7 +18,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"/>
 
-    &lt;!&ndash; Erste Zeile &ndash;&gt;
+    <!-- Erste Zeile -->
     <TextView
         android:id="@+id/StartTimeLabel"
         android:layout_width="0dp"
@@ -42,7 +42,7 @@
         android:layout_toRightOf="@+id/CenterHelper"
         android:inputType="datetime"/>
 
-    &lt;!&ndash; Zweite Zeile &ndash;&gt;
+    <!-- Zweite Zeile -->
     <TextView
         android:id="@+id/EndTimeLabel"
         android:layout_width="0dp"
@@ -66,7 +66,7 @@
         android:layout_toRightOf="@+id/CenterHelper"
         android:inputType="datetime"/>
 
-    &lt;!&ndash; Dritte Zeile &ndash;&gt;
+    <!-- Dritte Zeile -->
     <Button
         android:id="@+id/StartCommand"
         android:layout_width="0dp"
@@ -88,9 +88,10 @@
         android:layout_toEndOf="@+id/CenterHelper"
         android:layout_toRightOf="@+id/CenterHelper"
         android:text="@string/End"/>
-</RelativeLayout>-->
+</RelativeLayout>
 
 <!-- Linear Layout Version -->
+<!--
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -102,7 +103,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".TimeTrackingActivity">
-    <!-- Erste Zeile -->
+    &lt;!&ndash; Erste Zeile &ndash;&gt;
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -122,7 +123,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"/>
     </LinearLayout>
-    <!-- Zweite Zeile -->
+    &lt;!&ndash; Zweite Zeile &ndash;&gt;
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -143,7 +144,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_weight="2"/>
     </LinearLayout>
-    <!-- Drite Zeile -->
+    &lt;!&ndash; Drite Zeile &ndash;&gt;
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -166,4 +167,4 @@
             android:layout_weight="1"
             android:text="@string/End"/>
     </LinearLayout>
-</LinearLayout>
+</LinearLayout>-->
