@@ -1,7 +1,9 @@
 package de.mvhs.android.zeiterfassung;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.EditText;
 import java.util.Date;
 
 import de.mvhs.android.zeiterfassung.db.DbHelper;
+import de.mvhs.android.zeiterfassung.db.ZeitContract;
 
 public class MainActivity extends AppCompatActivity {
     // Klassenvaribalen
@@ -31,16 +34,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 _startField.setText(new Date().toString());
 
-                DbHelper dbHelper = new DbHelper(getBaseContext());
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
-
                 ContentValues values = new ContentValues();
                 values.put("StartZeit", new Date().toString());
 
-                db.insert("zeit", null, values);
+                // Einfügen über Content Provider
+                Uri neuerDatensatz = getContentResolver().insert(ZeitContract.ZeitDaten.CONTENT_URI, values);
 
-                db.close();
-                dbHelper.close();
+                long id = ContentUris.parseId(neuerDatensatz);
             }
         });
     }
