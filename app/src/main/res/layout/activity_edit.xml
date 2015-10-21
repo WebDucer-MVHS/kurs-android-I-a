@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Relativ Layout Version -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin">
+
+   <View
+      android:id="@+id/CenterHelper"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      android:layout_alignParentTop="true"
+      android:layout_centerHorizontal="true" />
+
+   <!-- Erste Zeile -->
+   <TextView
+      android:id="@+id/StartTimeLabel"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentLeft="true"
+      android:layout_alignParentStart="true"
+      android:layout_alignParentTop="true"
+      android:text="@string/StartLabel"
+      android:textAppearance="?android:attr/textAppearanceMedium" />
+
+   <!-- Zweite Zeile -->
+   <EditText
+      android:id="@+id/StartDate"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_alignParentLeft="true"
+      android:layout_alignParentStart="true"
+      android:layout_below="@+id/StartTimeLabel"
+      android:layout_toLeftOf="@+id/CenterHelper"
+      android:layout_toStartOf="@+id/CenterHelper"
+      android:inputType="date" />
+
+   <EditText
+      android:id="@+id/StartTime"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_alignParentEnd="true"
+      android:layout_alignParentRight="true"
+      android:layout_below="@+id/StartTimeLabel"
+      android:layout_toEndOf="@+id/CenterHelper"
+      android:layout_toRightOf="@+id/CenterHelper"
+      android:inputType="time" />
+
+   <!-- Dritte Zeile -->
+   <TextView
+      android:id="@+id/EndTimeLabel"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentLeft="true"
+      android:layout_alignParentStart="true"
+      android:layout_below="@+id/StartDate"
+      android:text="@string/EndLabel"
+      android:textAppearance="?android:attr/textAppearanceMedium" />
+
+   <!-- Vierte Zeile -->
+   <EditText
+      android:id="@+id/EndDate"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_alignParentLeft="true"
+      android:layout_alignParentStart="true"
+      android:layout_below="@+id/EndTimeLabel"
+      android:layout_toLeftOf="@+id/CenterHelper"
+      android:layout_toStartOf="@+id/CenterHelper"
+      android:inputType="date" />
+
+   <EditText
+      android:id="@+id/EndTime"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_alignParentEnd="true"
+      android:layout_alignParentRight="true"
+      android:layout_below="@+id/EndTimeLabel"
+      android:layout_toEndOf="@+id/CenterHelper"
+      android:layout_toRightOf="@+id/CenterHelper"
+      android:inputType="time" />
+
+   <!-- Fünfte Zeile -->
+   <TextView
+      android:id="@+id/PauseLabel"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentLeft="true"
+      android:layout_alignParentStart="true"
+      android:layout_below="@+id/EndDate"
+      android:text="@string/PauseLabel"
+      android:textAppearance="?android:attr/textAppearanceMedium" />
+
+   <!-- Sechste Zeile -->
+   <EditText
+      android:id="@+id/Pause"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentLeft="true"
+      android:layout_alignParentStart="true"
+      android:layout_below="@+id/PauseLabel"
+      android:inputType="number" />
+
+   <!-- Siebte Zeile -->
+   <TextView
+      android:id="@+id/CommentLabel"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentLeft="true"
+      android:layout_alignParentStart="true"
+      android:layout_below="@+id/Pause"
+      android:text="@string/CommentLabel"
+      android:textAppearance="?android:attr/textAppearanceMedium" />
+
+   <!-- Achte Zeile -->
+   <EditText
+      android:id="@+id/Comment"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_alignParentLeft="true"
+      android:layout_alignParentStart="true"
+      android:layout_below="@+id/CommentLabel"
+      android:gravity="top"
+      android:inputType="textMultiLine"
+      android:singleLine="false" />
+</RelativeLayout>
+
+<!-- LinearLayout Version -->
+<!--
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
+
+    &lt;!&ndash; Erste Zeile &ndash;&gt;
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/StartLabel"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    &lt;!&ndash; Zweite Zeile &ndash;&gt;
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <EditText
+            android:id="@+id/StartDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="date" />
+
+        <EditText
+            android:id="@+id/StartTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="time" />
+    </LinearLayout>
+
+    &lt;!&ndash; Dritte Zeile &ndash;&gt;
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/EndLabel"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    &lt;!&ndash; Vierte Zeile &ndash;&gt;
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <EditText
+            android:id="@+id/EndDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="date" />
+
+        <EditText
+            android:id="@+id/EndTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="time" />
+    </LinearLayout>
+
+    &lt;!&ndash; Fünfte Zeile &ndash;&gt;
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/PauseLabel"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    &lt;!&ndash; Sechste Zeile &ndash;&gt;
+    <EditText
+        android:id="@+id/Pause"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number" />
+
+    &lt;!&ndash; Siebte Zeile &ndash;&gt;
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/CommentLabel"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    &lt;!&ndash; Achte Zeile &ndash;&gt;
+    <EditText
+        android:id="@+id/Comment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="top"
+        android:inputType="textMultiLine"
+        android:singleLine="false" />
+</LinearLayout>-->
