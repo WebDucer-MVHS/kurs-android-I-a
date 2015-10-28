@@ -7,6 +7,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.provider.BaseColumns;
 import android.support.annotation.Nullable;
 
 /**
@@ -15,8 +16,9 @@ import android.support.annotation.Nullable;
 public class ZeitProvider extends ContentProvider {
   /* Klassenvariablen */
   private DbHelper _dbHelper;
-  public static final String _WHERE_ID = "_id=?";
-  public static final String _EMPTY_WHERE = "IFNULL(EndZeit,'')=''";
+  public static final String _WHERE_ID = BaseColumns._ID + "=?";
+  public static final String _EMPTY_WHERE = "IFNULL("
+          + ZeitContract.ZeitDaten.Columns.END + ",'')=''";
 
   private final static UriMatcher _URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
 

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="de.mvhs.android.zeiterfassung" >
+    package="de.mvhs.android.zeiterfassung">
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
-        <activity android:name=".MainActivity" >
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -16,10 +16,16 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".RecordListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
         <provider
-            android:authorities="de.mvhs.android.zeiterfassung.provider"
             android:name=".db.ZeitProvider"
-            android:enabled="true"/>
+            android:authorities="de.mvhs.android.zeiterfassung.provider"
+            android:enabled="true" />
     </application>
 
 </manifest>
