@@ -15,6 +15,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:authorities="de.mvhs.android.zeiterfassung.provider"
+            android:name=".db.ZeitProvider"
+            android:enabled="true"/>
     </application>
 
 </manifest>
