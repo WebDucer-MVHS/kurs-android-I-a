@@ -1,3 +1,7 @@
+---
+# !!! Am 4. November findet kein Kurs statt (Ferien)
+---
+
 # Grundkurs: Android-Programmierung
 ## Erstellung einer Datenbankbasierten App
 
