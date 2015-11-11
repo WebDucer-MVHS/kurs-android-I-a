@@ -8,4 +8,5 @@
     <string name="CommentLabel">Kommentar:</string>
     <string name="StartColumn">Startzeit</string>
     <string name="EndColumn">Endzeit</string>
+    <string name="menu_item_export">Export</string>
 </resources>
