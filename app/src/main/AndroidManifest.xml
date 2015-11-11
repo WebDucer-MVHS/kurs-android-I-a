@@ -22,6 +22,12 @@
                 android:value=".MainActivity" />
         </activity>
 
+        <activity android:name=".EditActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
         <provider
             android:name=".db.ZeitProvider"
             android:authorities="de.mvhs.android.zeiterfassung.provider"
