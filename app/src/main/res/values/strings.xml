@@ -9,4 +9,8 @@
     <string name="StartColumn">Startzeit</string>
     <string name="EndColumn">Endzeit</string>
     <string name="menu_item_export">Export</string>
+    <string name="eaxort_dialog_title">CSV Export ...</string>
+    <string name="export_dialog_message">Daten werden in CSV Format exportiert!</string>
+    <string name="export_dialog_cancel">Abbrechen</string>
+    <string name="export_dialog_cancel_message">Export wird abgebrochen!</string>
 </resources>

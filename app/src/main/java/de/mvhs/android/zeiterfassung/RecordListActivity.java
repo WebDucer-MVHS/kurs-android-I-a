@@ -89,7 +89,7 @@ public class RecordListActivity extends AppCompatActivity implements LoaderManag
                         null, // Spalten (NULL = alle)
                         null, // Filter (WHERE Bedingung)
                         null, // Filter Argumente
-                        null); // Sortierung
+                        ZeitContract.ZeitDaten.Columns.START + " DESC"); // Sortierung
                 break;
         }
 
@@ -128,7 +128,7 @@ public class RecordListActivity extends AppCompatActivity implements LoaderManag
         // Klick auf Menüeintrag verarbeiten
         switch (item.getItemId()) {
             case R.id.ExportAction:
-                CsvExporter exporter = new CsvExporter(getBaseContext());
+                CsvExporter exporter = new CsvExporter(this);
                 exporter.execute();
                 return true;
         }
