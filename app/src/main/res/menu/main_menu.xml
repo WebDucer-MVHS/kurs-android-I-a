@@ -5,4 +5,6 @@
         android:id="@+id/RecordList"
         android:title="Liste"
         app:showAsAction="always" />
+    <item android:id="@+id/NewRecord"
+        android:title="@string/new_entry" />
 </menu>

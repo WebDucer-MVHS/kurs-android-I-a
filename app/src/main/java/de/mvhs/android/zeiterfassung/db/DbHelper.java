@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DbHelper extends SQLiteOpenHelper {
     // Klassenvariablen
     private static final String _DB_NAME = "zeiterfassung.db";
-    private static final int _DB_VERSION = 1;
+    private static final int _DB_VERSION = 2;
 
     public DbHelper(Context context) {
         super(context, _DB_NAME, null, _DB_VERSION);

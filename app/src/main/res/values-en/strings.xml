@@ -7,4 +7,12 @@
     <string name="StartLabel">Start Time:</string>
     <string name="CommentLabel">Comment:</string>
     <string name="PauseLabel">Pause:</string>
+    <string name="EndColumn">Endtime</string>
+    <string name="StartColumn">Startime</string>
+    <string name="eaxort_dialog_title">CSV Export ...</string>
+    <string name="export_dialog_cancel">Cancel</string>
+    <string name="export_dialog_cancel_message">Export will be canceled!</string>
+    <string name="export_dialog_message">Data will be exported as CSV file!</string>
+    <string name="menu_item_export">Export</string>
+    <string name="new_entry">New</string>
 </resources>

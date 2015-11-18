@@ -13,4 +13,5 @@
     <string name="export_dialog_message">Daten werden in CSV Format exportiert!</string>
     <string name="export_dialog_cancel">Abbrechen</string>
     <string name="export_dialog_cancel_message">Export wird abgebrochen!</string>
+    <string name="new_entry">Neu</string>
 </resources>

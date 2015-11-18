@@ -171,7 +171,7 @@ public class CsvExporter extends AsyncTask<Void, Integer, Void> {
 
       publishProgress(1); // Spaltenüberschriften
 
-      while (data.moveToNext()) {
+      while (data.moveToNext() && !isCancelled()) {
         // Zeile zurücksetzen
         line.delete(0, line.length());
 

@@ -1,12 +1,9 @@
 package de.mvhs.android.zeiterfassung;
 
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.BaseColumns;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -82,6 +79,13 @@ public class MainActivity extends AppCompatActivity {
         Intent listActivity = new Intent(getBaseContext(), RecordListActivity.class);
 
         startActivity(listActivity);
+        return true;
+
+      case R.id.NewRecord:
+        Intent editIntent = new Intent(getBaseContext(), EditActivity.class);
+
+        startActivity(editIntent);
+
         return true;
     }
 

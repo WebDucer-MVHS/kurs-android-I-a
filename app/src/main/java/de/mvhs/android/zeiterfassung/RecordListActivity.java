@@ -1,5 +1,6 @@
 package de.mvhs.android.zeiterfassung;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -75,6 +77,22 @@ public class RecordListActivity extends AppCompatActivity implements LoaderManag
         _list.setAdapter(_adapter);
 
         getSupportLoaderManager().restartLoader(_LOADER_ID, null, this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        _list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent editIntent = new Intent(RecordListActivity.this, EditActivity.class);
+
+                editIntent.putExtra(EditActivity.ID_KEY, id);
+
+                startActivity(editIntent);
+            }
+        });
     }
 
     @Override

@@ -82,14 +82,24 @@ public final class ZeitContract {
      */
     public interface Columns extends BaseColumns{
       /**
-       * Startzeitspalte in ISO-8061 (z.B.: '2015-10-27T18:17')
+       * Startzeitspalte in ISO-8601 (z.B.: '2015-10-27T18:17')
        */
       String START = "StartZeit";
 
       /**
-       * Endzeitspalte in ISO-8061 (z.B.: '2015-10-27T18:17')
+       * Endzeitspalte in ISO-8601 (z.B.: '2015-10-27T18:17')
        */
       String END = "EndZeit";
+
+      /**
+       * Pause in Minuten
+       */
+      String PAUSE = "Pause";
+
+      /**
+       * Kommentar
+       */
+      String COMMENT = "Comment";
     }
   }
 }
