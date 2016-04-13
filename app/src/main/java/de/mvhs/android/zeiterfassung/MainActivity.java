@@ -1,5 +1,7 @@
 package de.mvhs.android.zeiterfassung;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -7,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import java.util.Date;
+
+import db.DbHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,6 +27,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startTime.setText(String.valueOf(new Date()));
+
+                DbHelper helper = new DbHelper(MainActivity.this);
+                SQLiteDatabase db = helper.getWritableDatabase();
+
+                ContentValues value = new ContentValues();
+                value.put("start_time", new Date().toString());
+
+                db.insert("timelog", null, value);
+
+                db.close();
+                helper.close();
             }
         });
     }
