@@ -5,4 +5,6 @@
     <string name="EndTimeLabel">End Time:</string>
     <string name="StartCommand">Start</string>
     <string name="EndCommand">End</string>
+    <string name="BreakTimeLabel">Break</string>
+    <string name="CommentLabel">Comment</string>
 </resources>

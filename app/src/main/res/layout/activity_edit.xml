@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textAppearance="?android:attr/textAppearanceMedium"
+    android:text="@string/StartTimeLabel"
+    android:id="@+id/StartTimeLabel"/>
+
+    <DatePicker
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/StartDatePicker"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+        android:spinnersShown="true"/>
+
+    <TimePicker
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/StartTimePicker"
+    android:timePickerMode="spinner"
+        />
+
+    <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textAppearance="?android:attr/textAppearanceMedium"
+    android:text="@string/EndTimeLabel"
+    android:id="@+id/EndTimeLabel"
+    />
+
+    <DatePicker
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/EndDatePicker"
+        android:datePickerMode="spinner"
+        android:spinnersShown="true"
+        android:clickable="false"
+        />
+
+    <TimePicker
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/EndTimePicker"
+        android:timePickerMode="spinner"
+        android:clickable="true"
+        android:longClickable="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/BreakTimeLabel"
+        android:text="@string/BreakTimeLabel"/>
+
+    <NumberPicker
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/BreakTimePicker"
+        android:clickable="true"
+        android:longClickable="true"
+        android:scrollIndicators="bottom|top"/>
+
+    <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textAppearance="?android:attr/textAppearanceMedium"
+    android:text="@string/CommentLabel"
+    android:id="@+id/CommentLabel"/>
+
+<EditText
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:inputType="textMultiLine"
+    android:ems="10"
+    android:id="@+id/CommentEditField"
+    android:enabled="true"/>

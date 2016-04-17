@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/StartTimeLabel"
+        android:id="@+id/StartTimeLabel"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_centerHorizontal="true"
+        android:layout_toLeftOf="@+id/StartDatePicker"
+        android:layout_alignTop="@+id/StartTimePicker"
+        android:layout_alignBottom="@+id/StartTimePicker"/>
+
+    <DatePicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/StartDatePicker"
+        android:datePickerMode="spinner"
+        android:layout_alignParentTop="true"
+        android:clickable="false"
+        android:calendarViewShown="false"
+        android:spinnersShown="true"
+        android:focusable="false"
+        android:layout_alignTop="@+id/StartTimePicker"
+        android:layout_alignBottom="@+id/StartTimePicker"
+        android:layout_toLeftOf="@+id/StartTimePicker"/>
+
+    <TimePicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/StartTimePicker"
+        android:timePickerMode="spinner"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:scrollIndicators="bottom|top"
+        android:clickable="true"
+        android:longClickable="true"
+        android:measureAllChildren="false"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/EndTimeLabel"
+        android:id="@+id/EndTimeLabel"
+        android:layout_below="@+id/StartTimeLabel"
+        android:layout_alignParentLeft="false"
+        android:layout_alignTop="@+id/EndTimePicker"
+        android:layout_alignBottom="@+id/EndTimePicker"
+        android:layout_toLeftOf="@+id/EndDatePicker"
+        android:layout_alignLeft="@+id/StartTimeLabel"/>
+
+    <DatePicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/EndDatePicker"
+        android:spinnersShown="true"
+        android:datePickerMode="spinner"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/StartDatePicker"
+        android:calendarViewShown="false"
+        android:layout_alignTop="@+id/EndTimePicker"
+        android:layout_alignBottom="@+id/EndTimePicker"
+        android:layout_toLeftOf="@+id/EndTimePicker"/>
+
+    <TimePicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/EndTimePicker"
+        android:timePickerMode="spinner"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/StartTimePicker"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/BreakTimeLabel"
+        android:id="@+id/BreakTimeLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/EndTimeLabel"
+        android:layout_alignLeft="@+id/EndTimeLabel"
+        android:layout_alignRight="@+id/EndTimeLabel"/>
+
+    <NumberPicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/BreakTimePicker"
+        android:clickable="true"
+        android:layout_alignParentRight="false"
+        android:longClickable="true"
+        android:layout_below="@+id/EndTimePicker"
+        android:layout_alignRight="@+id/EndTimePicker"
+        android:layout_alignLeft="@+id/EndDatePicker"
+        android:layout_toRightOf="@+id/BreakTimeLabel"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/CommentLabel"
+        android:id="@+id/CommentLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/BreakTimePicker"
+        android:layout_alignParentRight="false"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/CommentEditField"
+        android:layout_below="@+id/CommentLabel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:editable="true"
+        android:enabled="true"
+        android:gravity="start|top"/>
+</RelativeLayout>
