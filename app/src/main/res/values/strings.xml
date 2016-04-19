@@ -4,4 +4,6 @@
     <string name="EndTimeLabel">Endzeit:</string>
     <string name="StartCommand">Staren</string>
     <string name="EndCommand">Beenden</string>
+    <string name="PauseLabel">Pause:</string>
+    <string name="CommentLabel">Kommentar:</string>
 </resources>
