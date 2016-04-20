@@ -4,11 +4,16 @@ import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 /**
  * Created by kurs on 13.04.16.
  */
 public class TimelogContract {
     /**
+     *
      * Eindeutiger Name für den ContentProvider
      */
     public final static String AUTHORITY = "de.mvhs.android.zeiterfassung.provider";
@@ -17,6 +22,21 @@ public class TimelogContract {
      * URI zu dem ContentProvider
      */
     public final static Uri AUTHORITY_URI = Uri.parse("content://" + AUTHORITY);
+
+    /**
+     * Converter für die Datenbank
+     */
+    public static class Converter{
+        private final static String _DB_DATE_TIME_PATTERN =
+                "yyyy-MM-dd'T'HH:mm";
+
+        /**
+         * Konverter für die Speicherng des Datums
+         * und der Uhrzeit in der Datenbank nach ISO 8601
+         */
+        public final static DateFormat DB_DATE_TIME_FORMATTER =
+                new SimpleDateFormat(_DB_DATE_TIME_PATTERN, Locale.GERMANY);
+    }
 
     public static class Timelog{
         /**
