@@ -131,11 +131,52 @@ public class TimelogProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        return 0;
+        final int uriType = _URI_MATCHER.match(uri);
+        int deletedRows = 0;
+
+        switch( uriType ) {
+            case TimelogTable.ITEM_LIST_ID:
+                SQLiteDatabase db = _dbHelper.getWritableDatabase();
+                deletedRows = db.delete( TimelogTable.TABLE_NAME, selection, selectionArgs );
+                break;
+
+            case TimelogTable.ITEM_ID:
+                long id = ContentUris.parseId(uri);
+                final String whereCondition = BaseColumns._ID + "= ?";
+                final String[] whereArgs = new String[]{String.valueOf(id)};
+
+                SQLiteDatabase db = _dbHelper.getWritableDatabase();
+                deletedRows = db.delete( TimelogTable.TABLE_NAME, whereCondition, whereArgs );
+
+                break;
+            default:
+                throw new IllegalArgumentException( "Unbekannte URI: " + uri );
+        }
+        return deletedRows;
     }
 
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        return 0;
+        final int uriType = _URI_MATCHER.match(uri);
+        int updatedRows = 0;
+        switch( uriType )  {
+            case TimelogTable.ITEM_LIST_ID:
+                SQLiteDatabase db = _dbHelper.getWritableDatabase();
+                updatedRows = db.update( TimelogTable.TABLE_NAME, values, selection, selectionArgs );
+                break;
+
+            case TimelogTable.ITEM_ID:
+                SQLiteDatabase db = _dbHelper.getWritableDatabase();
+                long id = ContentUris.parseId( uri );
+                final String whereCondition = BaseColumns._ID + "= ?";
+                final String[] whereArgs = new String[]{ String.valueOf( id )};
+
+                updatedRows = db.update( TimelogTable.TABLE_NAME, values, whereCondition, whereArgs );
+                break;
+
+            default:
+                throw new IllegalArgumentException( "Unbekannte URI: " + uri );
+        }
+        return updatedRows;
     }
 }
