@@ -1,182 +1,123 @@
 package db;
 
 import android.content.ContentProvider;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.provider.BaseColumns;
 import android.support.annotation.Nullable;
-import android.widget.ZoomControls;
 
-/**
- * Created by kurs on 20.04.16.
- */
+import java.sql.Time;
+
 public class TimelogProvider extends ContentProvider {
-    // Klassenvariablen
-    private DbHelper _dbHelper;
+  // Klassenvariablen
+  private DbHelper _dbHelper;
 
-    private final static UriMatcher _URI_MATCHER =
-            new UriMatcher(UriMatcher.NO_MATCH);
+  private final static UriMatcher _URI_MATCHER =
+      new UriMatcher( UriMatcher.NO_MATCH );
 
-    // Initialisierung des URI Matchers
-    static {
-        // URI für die Auflistung
-        _URI_MATCHER.addURI(TimelogContract.AUTHORITY, // Provider Basis-URI
-                TimelogContract.Timelog.CONTENT_DIRECTORY, // Unterordner
-                TimelogTable.ITEM_LIST_ID); // Integer-ID
-        // URI für einen Eintrag
-        _URI_MATCHER.addURI(TimelogContract.AUTHORITY,
-                TimelogContract.Timelog.CONTENT_DIRECTORY + "/#",
-                TimelogTable.ITEM_ID);
+  // Initialisierung des URI Matchers
+  static {
+    // URI für die Auflistung
+    _URI_MATCHER.addURI( TimelogContract.AUTHORITY, // Provider Basis-URI
+        TimelogContract.Timelog.CONTENT_DIRECTORY, // Unterordner
+        TimelogTable.ITEM_LIST_ID ); // Integer-ID
+    // URI für einen Eintrag
+    _URI_MATCHER.addURI( TimelogContract.AUTHORITY,
+        TimelogContract.Timelog.CONTENT_DIRECTORY + "/#",
+        TimelogTable.ITEM_ID );
+  }
+
+  @Override
+  public boolean onCreate() {
+    _dbHelper = new DbHelper( getContext() );
+    return true;
+  }
+
+  @Nullable
+  @Override
+  public Cursor query( Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder ) {
+    Cursor returnData = null;
+    TimelogProviderActionHandler actionHandler = buildActionHandler( uri );
+
+    if( actionHandler != null ) {
+      returnData = actionHandler.query( projection, selection, selectionArgs, sortOrder );
     }
 
-    @Override
-    public boolean onCreate() {
-        _dbHelper = new DbHelper(getContext());
-        return true;
+    return returnData;
+  }
+
+  @Nullable
+  @Override
+  public String getType( Uri uri ) {
+    final int uriType = _URI_MATCHER.match( uri );
+
+    String returnType = null;
+
+    switch( uriType ) {
+      case TimelogTable.ITEM_LIST_ID:
+        returnType = TimelogProviderList.contentType;
+        break;
+
+      case TimelogTable.ITEM_ID:
+        returnType = TimelogProviderListItem.contentType;
+        break;
     }
 
-    @Nullable
-    @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        final int uriType = _URI_MATCHER.match(uri);
+    return returnType;
+  }
 
-        Cursor returnData = null;
+  @Nullable
+  @Override
+  public Uri insert( Uri uri, ContentValues values ) {
+    TimelogProviderActionHandler actionHandler = buildOrRaiseActionHandler( uri  );;
+    Uri returnUri = actionHandler.insert( values );
 
-        switch (uriType){
-            case TimelogTable.ITEM_LIST_ID:
-                SQLiteDatabase listDb = _dbHelper.getReadableDatabase();
-                returnData = listDb.query(
-                        TimelogTable.TABLE_NAME, // Tabelenname
-                        projection, // Spalten, die interessant sind
-                        selection, // Filter (WHERE)
-                        selectionArgs, // Filter Parameter
-                        null, // Gruppierung
-                        null, // Having
-                        sortOrder); // Sortierung
-                break;
-
-            case TimelogTable.ITEM_ID:
-                long id = ContentUris.parseId(uri);
-                String where = BaseColumns._ID + "=?";
-                String[] whereArgs = new String[]{String.valueOf(id)};
-                SQLiteDatabase singleDb = _dbHelper.getReadableDatabase();
-                returnData = singleDb.query(
-                        TimelogTable.TABLE_NAME, // Tabellenname
-                        projection, // Spalten
-                        where, // Filter für eine bestimmte ID
-                        whereArgs, // ID als Parameter
-                        null, // Gruppierung
-                        null, // Having
-                        null); // Sortierung
-                break;
-        }
-
-        return returnData;
+    if( returnUri != null ) {
+      // Benachrichtigen, dass neuer Datensatz hinzugefügt wurde
+      getContext().getContentResolver().notifyChange( returnUri, null );
     }
 
-    @Nullable
-    @Override
-    public String getType(Uri uri) {
-        final int uriType = _URI_MATCHER.match(uri);
+    return returnUri;
+  }
 
-        String returnType = null;
+  @Override
+  public int delete( Uri uri, String selection, String[] selectionArgs ) {
+    TimelogProviderActionHandler actionHandler = buildOrRaiseActionHandler( uri );
 
-        switch (uriType) {
-            case TimelogTable.ITEM_LIST_ID:
-                returnType = TimelogContract.Timelog.CONTENT_TYPE;
-                break;
+    return actionHandler.delete( null, null );
+  }
 
-            case TimelogTable.ITEM_ID:
-                returnType = TimelogContract.Timelog.CONTENT_ITEM_TYPE;
-                break;
-        }
+  @Override
+  public int update( Uri uri, ContentValues values, String selection, String[] selectionArgs ) {
+    TimelogProviderActionHandler actionHandler = buildOrRaiseActionHandler(  uri  );
 
-        return returnType;
+    return actionHandler.update( values, selection, selectionArgs );
+  }
+
+  @Nullable
+  private TimelogProviderActionHandler buildActionHandler( Uri uri ) {
+    final int uriType = _URI_MATCHER.match( uri );
+    TimelogProviderActionHandler actionHandler = null;
+
+    switch( uriType ) {
+      case TimelogTable.ITEM_LIST_ID:
+        actionHandler = new TimelogProviderList( _dbHelper, uri );
+        break;
+
+      case TimelogTable.ITEM_ID:
+        actionHandler = new TimelogProviderListItem( _dbHelper, uri );
+        break;
     }
+    return actionHandler;
+  }
 
-    @Nullable
-    @Override
-    public Uri insert(Uri uri, ContentValues values) {
-        final int uriType = _URI_MATCHER.match(uri);
+  private TimelogProviderActionHandler buildOrRaiseActionHandler( Uri uri ) {
+    TimelogProviderActionHandler handler = buildActionHandler( uri );
 
-        Uri returnUri = null;
-        long id = -1;
+    if( handler == null )
+      throw new IllegalArgumentException( "Unbekannte URI: " + uri );
 
-        switch (uriType) {
-            case TimelogTable.ITEM_LIST_ID:
-            case TimelogTable.ITEM_ID:
-                SQLiteDatabase db = _dbHelper.getWritableDatabase();
-                id = db.insert(TimelogTable.TABLE_NAME, null, values);
-                break;
-
-            default:
-                throw new IllegalArgumentException("Unbekannte URI: " + uri);
-        }
-
-        if (id != -1){
-            // URI generieren
-            returnUri = ContentUris.withAppendedId(
-                    TimelogContract.Timelog.CONTENT_URI, id);
-
-            // Benachrichtigen, dass neuer Datensatz hinzugefügt wurde
-            getContext().getContentResolver().notifyChange(returnUri, null);
-        }
-
-        return returnUri;
-    }
-
-    @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
-        final int uriType = _URI_MATCHER.match(uri);
-        int deletedRows = 0;
-
-        switch( uriType ) {
-            case TimelogTable.ITEM_LIST_ID:
-                SQLiteDatabase db = _dbHelper.getWritableDatabase();
-                deletedRows = db.delete( TimelogTable.TABLE_NAME, selection, selectionArgs );
-                break;
-
-            case TimelogTable.ITEM_ID:
-                long id = ContentUris.parseId(uri);
-                final String whereCondition = BaseColumns._ID + "= ?";
-                final String[] whereArgs = new String[]{String.valueOf(id)};
-
-                SQLiteDatabase db = _dbHelper.getWritableDatabase();
-                deletedRows = db.delete( TimelogTable.TABLE_NAME, whereCondition, whereArgs );
-
-                break;
-            default:
-                throw new IllegalArgumentException( "Unbekannte URI: " + uri );
-        }
-        return deletedRows;
-    }
-
-    @Override
-    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        final int uriType = _URI_MATCHER.match(uri);
-        int updatedRows = 0;
-        switch( uriType )  {
-            case TimelogTable.ITEM_LIST_ID:
-                SQLiteDatabase db = _dbHelper.getWritableDatabase();
-                updatedRows = db.update( TimelogTable.TABLE_NAME, values, selection, selectionArgs );
-                break;
-
-            case TimelogTable.ITEM_ID:
-                SQLiteDatabase db = _dbHelper.getWritableDatabase();
-                long id = ContentUris.parseId( uri );
-                final String whereCondition = BaseColumns._ID + "= ?";
-                final String[] whereArgs = new String[]{ String.valueOf( id )};
-
-                updatedRows = db.update( TimelogTable.TABLE_NAME, values, whereCondition, whereArgs );
-                break;
-
-            default:
-                throw new IllegalArgumentException( "Unbekannte URI: " + uri );
-        }
-        return updatedRows;
-    }
+    return handler;
+  }
 }
