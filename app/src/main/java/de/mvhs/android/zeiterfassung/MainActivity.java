@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     final Button endButton = (Button) findViewById( R.id.EndCommand );
 
     if( emptyEndDateRecords != null && emptyEndDateRecords.getCount() > 0 ) {
+      Log.i( "MainActivity", "Got " + emptyEndDateRecords.getCount() + " entries without an end date");
       int startDateColumnIndex = emptyEndDateRecords.getColumnIndex( TimelogContract.Timelog.Columns.START );
       emptyEndDateRecords.moveToFirst();
       String startDateValue = emptyEndDateRecords.getString( startDateColumnIndex);
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         String start = _UI_DATE_FORMATTER.format( startTime );
 
         final EditText startTimeText = (EditText) findViewById( R.id.StartTime );
-        startTimeText.setText( startDateValue );
+        startTimeText.setText( start );
 
       } catch( ParseException e ) {
         e.printStackTrace();
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
       endButton.setEnabled( true );
     } else {
+      Log.i( "MainActivity", "Found no records without an end date");
       startButton.setEnabled( true );
     }
   }
