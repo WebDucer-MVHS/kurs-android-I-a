@@ -19,9 +19,11 @@ import java.util.Date;
 
 import db.DbHelper;
 import db.TimelogContract;
+import db.TimelogEntryModel;
 
 public class MainActivity extends AppCompatActivity {
   private Uri recordUriWithEndDateMissing = null;
+  private TimelogEntryModel currentTimelogEntry = null;
 
   private DateFormat _UI_DATE_FORMATTER = DateFormat.getDateTimeInstance(
       DateFormat.SHORT,
@@ -31,43 +33,47 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onStart() {
     super.onStart();
-    final String whereEndDateIsNull = TimelogContract.Timelog.Columns.END + " IS NULL";
-    final String orderByIdDesc = BaseColumns._ID + " DESC";
 
-    final Cursor emptyEndDateRecords = getContentResolver().query( TimelogContract.Timelog.CONTENT_URI, null, whereEndDateIsNull, null, orderByIdDesc );
+    TimelogEntryModel.setContentResolver( getContentResolver() );
 
     final Button startButton = (Button) findViewById( R.id.StartCommand );
     final Button endButton = (Button) findViewById( R.id.EndCommand );
+    final Cursor emptyEndDateRecord = findRecordWithEmptyEndDate();
 
-    if( emptyEndDateRecords != null && emptyEndDateRecords.getCount() > 0 ) {
-      Log.i( "MainActivity", "Got " + emptyEndDateRecords.getCount() + " entries without an end date");
-      int startDateColumnIndex = emptyEndDateRecords.getColumnIndex( TimelogContract.Timelog.Columns.START );
-      emptyEndDateRecords.moveToFirst();
-      String startDateValue = emptyEndDateRecords.getString( startDateColumnIndex);
+    if( emptyEndDateRecord == null ) {
+      startButton.setEnabled( true );
 
-      int idColumnIndex = emptyEndDateRecords.getColumnIndex( BaseColumns._ID );
-      long recordId = emptyEndDateRecords.getLong( idColumnIndex );
-      this.recordUriWithEndDateMissing = ContentUris.withAppendedId( TimelogContract.Timelog.CONTENT_URI, recordId );
-
+    } else {
       try {
-        Date startTime = TimelogContract.Converter.DB_DATE_TIME_FORMATTER
-            .parse( startDateValue );
-
-        String start = _UI_DATE_FORMATTER.format( startTime );
-
+        this.currentTimelogEntry = new TimelogEntryModel( emptyEndDateRecord );
         final EditText startTimeText = (EditText) findViewById( R.id.StartTime );
-        startTimeText.setText( start );
+        startTimeText.setText( currentTimelogEntry.getUiStartDateString() );
 
       } catch( ParseException e ) {
-        e.printStackTrace();
+        Log.w( "MainActivity", "Error while creating TimelogEntryModel from record with empty end date: " + String.valueOf( emptyEndDateRecord ));
       }
 
-
       endButton.setEnabled( true );
-    } else {
-      Log.i( "MainActivity", "Found no records without an end date");
-      startButton.setEnabled( true );
     }
+  }
+
+  private Cursor findRecordWithEmptyEndDate() {
+    final String whereEndDateIsNull = TimelogContract.Timelog.Columns.END + " IS NULL";
+    final String orderByIdDesc = BaseColumns._ID + " DESC";
+
+    final Cursor records = getContentResolver().query( TimelogContract.Timelog.CONTENT_URI, null, whereEndDateIsNull, null, orderByIdDesc );
+    Cursor returnRecord = null;
+
+    if( records == null || records.getCount() == 0 ) {
+      Log.i( "MainActivity", "Found no records without an end date");
+
+    } else {
+      Log.i( "MainActivity", "Got " + records.getCount() + " entries without an end date");
+      records.moveToFirst();
+      returnRecord = records;
+    }
+
+    return returnRecord;
   }
 
 
@@ -96,18 +102,15 @@ public class MainActivity extends AppCompatActivity {
       @Override
       public void onClick( View v ) {
         button.setEnabled( false );
-        Date now = new Date();
-        startTime.setText( _UI_DATE_FORMATTER.format( now ) );
+        MainActivity.this.currentTimelogEntry = new TimelogEntryModel( new Date(), null, null );
 
-        ContentValues value = new ContentValues();
-        value.put( TimelogContract.Timelog.Columns.START,
-            TimelogContract.Converter.DB_DATE_TIME_FORMATTER
-                .format( now ) );
+        startTime.setText( MainActivity.this.currentTimelogEntry.getUiStartDateString() );
+        MainActivity.this.currentTimelogEntry.save();
 
-        MainActivity.this.recordUriWithEndDateMissing = getContentResolver().insert( TimelogContract.Timelog.CONTENT_URI,
-            value );
-
-        Log.i( "MainActivity", "Inserted start time record " + String.valueOf( MainActivity.this.recordUriWithEndDateMissing + " with start time " + String.valueOf( now )));
+        Log.i( "MainActivity", "Inserted start time record " +
+                                String.valueOf( MainActivity.this.currentTimelogEntry.getUri() ) +
+                                " with start time " +
+                                String.valueOf( MainActivity.this.currentTimelogEntry.getStartDate() ));
 
         endButton.setEnabled( true );
       }
@@ -123,20 +126,19 @@ public class MainActivity extends AppCompatActivity {
       @Override
       public void onClick( View v ) {
         button.setEnabled( false );
-        Date now = new Date();
-        endTime.setText( _UI_DATE_FORMATTER.format( now ));
 
-        if( MainActivity.this.recordUriWithEndDateMissing == null ) {
-          // uhoh, this should never happen.
-          throw new RuntimeException( "Missing end time record uri is null..." );
-        }
+        MainActivity.this.currentTimelogEntry.setEndDate( new Date() );
+        endTime.setText( MainActivity.this.currentTimelogEntry.getUiEndDateString() );
 
-        ContentValues value = new ContentValues();
-        value.put( TimelogContract.Timelog.Columns.END, TimelogContract.Converter.DB_DATE_TIME_FORMATTER.format( now ) );
-        if( getContentResolver().update( MainActivity.this.recordUriWithEndDateMissing, value, null, null ) != 1 ) {
-          throw new RuntimeException( "Something went wrong with updating " + String.valueOf( MainActivity.this.recordUriWithEndDateMissing  ) + "...");
+        if( !MainActivity.this.currentTimelogEntry.save() ) {
+          throw new RuntimeException( "Something went wrong with updating " +
+                                       String.valueOf( MainActivity.this.currentTimelogEntry.getUri()  ) +
+                                       "...");
         }
-        Log.i( "MainActivity", "Updated end time record " + String.valueOf( MainActivity.this.recordUriWithEndDateMissing + " with end time " + String.valueOf( now )));
+        Log.i( "MainActivity", "Updated end time record " +
+                                String.valueOf( MainActivity.this.currentTimelogEntry.getUri() ) +
+                                " with end time " +
+                                MainActivity.this.currentTimelogEntry.getUiEndDateString());
 
         startButton.setEnabled( true );
       }
