@@ -7,4 +7,5 @@
     <string name="EndCommand">End</string>
     <string name="PauseLabel">Pause:</string>
     <string name="CommentLabel">Comment:</string>
+    <string name="error_on_save">Error on Save!</string>
 </resources>

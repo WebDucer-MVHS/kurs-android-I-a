@@ -6,4 +6,5 @@
     <string name="EndCommand">Beenden</string>
     <string name="PauseLabel">Pause:</string>
     <string name="CommentLabel">Kommentar:</string>
+    <string name="error_on_save">Fehler beim Speichern!</string>
 </resources>

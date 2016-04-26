@@ -12,10 +12,11 @@ public class TimelogTable {
 
     public final static int ITEM_LIST_ID = 100;
     public final static int ITEM_ID = 101;
+    public final static int NOT_FINISHED_ITEM_ID = 102;
 
     public final static String TABLE_NAME = "timelog";
 
-    public static void createTable(SQLiteDatabase db){
+    public static void createTable(SQLiteDatabase db) {
         db.execSQL(_CREATE_TABLE);
     }
 }
