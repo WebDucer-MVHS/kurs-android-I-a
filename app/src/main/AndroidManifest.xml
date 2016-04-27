@@ -16,6 +16,13 @@
             </intent-filter>
         </activity>
 
+        <!-- Auflistungs- Activity -->
+        <activity android:name=".TimeListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
         <!-- Provider -->
         <provider
             android:authorities="de.mvhs.android.zeiterfassung.provider"

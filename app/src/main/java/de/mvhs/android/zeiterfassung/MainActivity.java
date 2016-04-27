@@ -1,11 +1,14 @@
 package de.mvhs.android.zeiterfassung;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -56,6 +59,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Menü aus XML laden
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.TimelogListAction){
+            // Starten der neuen Activity
+            Intent listIntent = new Intent(getBaseContext(),
+                    TimeListActivity.class);
+
+            startActivity(listIntent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
 
@@ -89,7 +114,8 @@ public class MainActivity extends AppCompatActivity {
             Calendar startTime = Calendar.getInstance();
             String startString = notFinishedData.getString(_INIT_START_COLUMN_INDEX);
             try {
-                startTime.setTime(TimelogContract.Converter.DB_DATE_TIME_FORMATTER.parse(startString));
+                startTime.setTime(
+                        TimelogContract.Converter.DB_DATE_TIME_FORMATTER.parse(startString));
                 _startTime.setText(_UI_DATE_FORMATTER.format(startTime.getTime()));
             } catch (ParseException e) {
                 Log.e(_TAG, "Wert konnte nicht in ein Datum umgewandelt werden!", e);
@@ -115,7 +141,8 @@ public class MainActivity extends AppCompatActivity {
             values.put(TimelogContract.Timelog.Columns.START,
                     TimelogContract.Converter.DB_DATE_TIME_FORMATTER.format(now.getTime()));
 
-            Uri insertUri = getContentResolver().insert(TimelogContract.Timelog.CONTENT_URI, values);
+            Uri insertUri = getContentResolver().insert(
+                    TimelogContract.Timelog.CONTENT_URI, values);
             if (insertUri != null) { // Wert konnte gespeichert werden
                 _startTime.setText(_UI_DATE_FORMATTER.format(now.getTime()));
                 setButtonState(true);
@@ -133,7 +160,8 @@ public class MainActivity extends AppCompatActivity {
             values.put(TimelogContract.Timelog.Columns.END,
                     TimelogContract.Converter.DB_DATE_TIME_FORMATTER.format(now.getTime()));
 
-            int updatedItems = getContentResolver().update(TimelogContract.Timelog.NOT_FINISHED_URI, values, null, null);
+            int updatedItems = getContentResolver().update(
+                    TimelogContract.Timelog.NOT_FINISHED_URI, values, null, null);
             if (updatedItems == 1) { // Wert konnte gespeichert werden
                 _endTime.setText(_UI_DATE_FORMATTER.format(now.getTime()));
                 setButtonState(false);
