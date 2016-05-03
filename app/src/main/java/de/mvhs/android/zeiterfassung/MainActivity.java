@@ -68,16 +68,25 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.TimelogListAction){
-            // Starten der neuen Activity
-            Intent listIntent = new Intent(getBaseContext(),
-                    TimeListActivity.class);
+        switch (item.getItemId()) {
+            case R.id.TimelogListAction:
+                // Starten der neuen Activity
+                Intent listIntent = new Intent(getBaseContext(),
+                        TimeListActivity.class);
 
-            startActivity(listIntent);
-            return true;
+                startActivity(listIntent);
+                return true;
+
+            case R.id.NewTimeLogAction:
+                Intent editIntent = new Intent(getBaseContext(),
+                        EditActivity.class);
+
+                startActivity(editIntent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

@@ -2,6 +2,7 @@ package de.mvhs.android.zeiterfassung;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.BaseColumns;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -15,8 +16,22 @@ import db.TimelogContract;
  * Created by kurs on 27.04.16.
  */
 public class TimeListActivity extends AppCompatActivity
-    implements LoaderManager.LoaderCallbacks<Cursor>
-{
+        implements LoaderManager.LoaderCallbacks<Cursor> {
+    private final static String _ONLY_FINISHED = "IFNULL("
+            + TimelogContract.Timelog.Columns.END
+            + ",'')<>''";
+    private final static String[] _COLUMNS = {
+            BaseColumns._ID,
+            TimelogContract.Timelog.Columns.START,
+            TimelogContract.Timelog.Columns.END};
+    private final static String[] _UI_COLUMNS = {
+            TimelogContract.Timelog.Columns.START,
+            TimelogContract.Timelog.Columns.END
+    };
+    private final static int[] _ROW_VIEWS = {
+            R.id.StartValue,
+            R.id.EndValue
+    };
     private ListView _list;
     private SimpleCursorAdapter _adapter;
     private final static int _LOADER_ID = 100;
@@ -32,12 +47,13 @@ public class TimeListActivity extends AppCompatActivity
         // Initialisierung des Adapters
         _adapter = new SimpleCursorAdapter(
                 getBaseContext(), // Context
-                android.R.layout.simple_list_item_2, // View für die Darstellung der Daten
+                //android.R.layout.simple_list_item_2, // View für die Darstellung der Daten
+                R.layout.list_row_layout, // Eigenes Layout für die Zeile
                 null, // Daten
-                new String[]{TimelogContract.Timelog.Columns.START,
-                    TimelogContract.Timelog.Columns.END}, // Spalten für die Darstellung
-                new int[]{android.R.id.text1,
-                    android.R.id.text2}, // Views für die Darstellung
+                _UI_COLUMNS, // Spalten für die Darstellung
+                //new int[]{android.R.id.text1,
+                //    android.R.id.text2}, // Views für die Darstellung
+                _ROW_VIEWS, // IDs aus eigenem Layout
                 SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER // Auf Änderungen registrieren
         );
 
@@ -59,15 +75,15 @@ public class TimeListActivity extends AppCompatActivity
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         CursorLoader loader = null;
 
-        switch (id){
+        switch (id) {
             case _LOADER_ID:
                 loader = new CursorLoader(
                         getBaseContext(), // Context
                         TimelogContract.Timelog.CONTENT_URI, // URI für ContentProvider
-                        null, // Spalten
-                        null, // Filter (WHERE)
+                        _COLUMNS, // Spalten
+                        _ONLY_FINISHED, // Filter (WHERE)
                         null, // Parameter für Filter
-                        null); // Soriterung
+                        TimelogContract.Timelog.Columns.START + " DESC"); // Soriterung
                 break;
         }
 
@@ -76,7 +92,7 @@ public class TimeListActivity extends AppCompatActivity
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        switch (loader.getId()){
+        switch (loader.getId()) {
             case _LOADER_ID:
                 _adapter.swapCursor(data);
                 break;
@@ -85,7 +101,7 @@ public class TimeListActivity extends AppCompatActivity
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        switch (loader.getId()){
+        switch (loader.getId()) {
             case _LOADER_ID:
                 _adapter.swapCursor(null);
                 break;

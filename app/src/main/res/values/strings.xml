@@ -7,4 +7,8 @@
     <string name="PauseLabel">Pause:</string>
     <string name="CommentLabel">Kommentar:</string>
     <string name="error_on_save">Fehler beim Speichern!</string>
+    <string name="action_list">Auflistung</string>
+    <string name="action_new">Neu</string>
+    <string name="column_start">Start</string>
+    <string name="column_end">Ende</string>
 </resources>
