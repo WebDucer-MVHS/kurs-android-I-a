@@ -4,10 +4,12 @@
     <item
         android:id="@+id/TimelogListAction"
         android:title="@string/action_list"
+        android:icon="@drawable/ic_menu_sort_by_size"
         app:showAsAction="always"/>
 
     <item
         android:id="@+id/NewTimeLogAction"
         android:title="@string/action_new"
+        android:icon="@drawable/ic_menu_add"
         app:showAsAction="ifRoom"/>
 </menu>

@@ -8,7 +8,15 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.Date;
 
 import db.TimelogContract;
 
@@ -35,6 +43,8 @@ public class TimeListActivity extends AppCompatActivity
     private ListView _list;
     private SimpleCursorAdapter _adapter;
     private final static int _LOADER_ID = 100;
+    private DateFormat _UI_DATE_CONVERTER = DateFormat
+            .getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +67,53 @@ public class TimeListActivity extends AppCompatActivity
                 SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER // Auf Änderungen registrieren
         );
 
+        // Formatieren der Daten aus der Datenbank
+        _adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
+            @Override
+            public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+                if ((view instanceof TextView) == false) {
+                    return false;
+                }
+
+                // NULL Prüfung aus der Datenbank
+                if (cursor.isNull(columnIndex)) {
+                    ((TextView) view).setText("---");
+                } else {
+                    try {
+                        Date date = TimelogContract.Converter
+                                .DB_DATE_TIME_FORMATTER.parse(
+                                        cursor.getString(columnIndex));
+
+                        ((TextView) view).setText(_UI_DATE_CONVERTER.format(date));
+                    } catch (ParseException e) {
+                        ((TextView) view).setText("PARSE ERROR");
+                    }
+                }
+
+                return true;
+            }
+        });
+
         // Adapter mit Liste verbinden
         _list.setAdapter(_adapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_list, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.ExportAction){
+            CsvExporter exporter = new CsvExporter(TimeListActivity.this);
+            exporter.execute();
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
