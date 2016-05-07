@@ -11,4 +11,7 @@
     <string name="action_new">Neu</string>
     <string name="column_start">Start</string>
     <string name="column_end">Ende</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="export_message">Datensätze werden exportiert</string>
+    <string name="export_title">CSV Export</string>
 </resources>

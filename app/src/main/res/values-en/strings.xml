@@ -10,4 +10,7 @@
     <string name="error_on_save">Error on Save!</string>
     <string name="action_list">List</string>
     <string name="action_new">New</string>
+    <string name="cancel">Cancel</string>
+    <string name="export_message">Exporting records</string>
+    <string name="export_title">CSV Export</string>
 </resources>

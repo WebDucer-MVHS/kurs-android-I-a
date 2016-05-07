@@ -1,9 +1,14 @@
 package de.mvhs.android.zeiterfassung;
 
+import android.support.v4.app.DialogFragment;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -15,148 +20,186 @@ import db.TimelogContract;
 /**
  * Created by kurs on 04.05.16.
  */
-public class CsvExporter extends AsyncTask<Void, Void, Void> {
-    private Context _context;
+public class CsvExporter extends AsyncTask<Void, Long, Void> {
+  private Context _context;
+  private DialogFragment progressDialog;
+  private File _exportFile;
 
-    public CsvExporter(Context context){
-        _context = context;
+  public CsvExporter( Context context ) {
+    _context = context;
+    progressDialog = null;
+  }
+
+  @Override
+  protected void onPreExecute() {
+    super.onPreExecute();
+
+    progressDialog = new ExportProgressDialog();
+    progressDialog.show( ((FragmentActivity)_context).getSupportFragmentManager(), "progressDialog" );
+    // Ausführung vor der Hintergrundaufgabe (in UI Thread)
+  }
+
+  @Override
+  protected void onPostExecute( Void aVoid ) {
+    super.onPostExecute( aVoid );
+    if( progressDialog != null ) {
+      progressDialog.dismissAllowingStateLoss();
+      progressDialog = null;
     }
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
+    ((TimeListActivity)_context).exportDone();
+    _exportFile = null;
 
-        // Ausführung vor der Hintergrundaufgabe (in UI Thread)
+    String toastMessage = null;
+    if( isCancelled() ) {
+      toastMessage = "Export cancelled";
+    } else {
+      toastMessage = "Export complete";
+    }
+    Log.i( "exporter", "Toast: " + toastMessage );
+    Toast.makeText( ( (TimeListActivity) _context ).getBaseContext(),
+                       toastMessage, 3000 ).
+          show();
+
+    // Ausführung nach Beendigung der Hintergrundaufgabe (in UI Thread)
+  }
+
+  @Override
+  protected void onProgressUpdate( final Long... values ) {
+    super.onProgressUpdate( values );
+    String message = String.valueOf( values[0] ) + "/" + String.valueOf( values[1] );
+
+    Log.i( "exporter", "Progress: " + message );
+    if( progressDialog != null ) {
+      ((AlertDialog)progressDialog.getDialog()).setMessage( message );
     }
 
-    @Override
-    protected void onPostExecute(Void aVoid) {
-        super.onPostExecute(aVoid);
+    // Zwischenstand der Hintergrundaufgabe (in UI Thread)
+  }
 
-        // Ausführung nach Beendigung der Hintergrundaufgabe (in UI Thread)
+  @Override
+  protected void onCancelled() {
+    super.onCancelled();
+    Log.i( "exporter", "Cancelled" );
+    if( _exportFile != null ) {
+      _exportFile.delete();
+    }
+    // Abbruch durch den Benutzer
+    // Aufräumarbeiten !!!
+  }
+
+  @Override
+  protected Void doInBackground( Void... params ) {
+    // Laden der Daten aus der Datenbank
+    Cursor data = _context.getContentResolver().query(
+        TimelogContract.Timelog.CONTENT_URI,
+        null,
+        null,
+        null,
+        null
+    );
+
+    // Prüfen der Daten
+    if( data == null || data.getCount() == 0 ) {
+      return null;
     }
 
-    @Override
-    protected void onProgressUpdate(Void... values) {
-        super.onProgressUpdate(values);
+    // Verzeichnis der SD-Karte bestimmen
+    File sdCardPath = Environment.getExternalStorageDirectory();
 
-        // Zwischenstand der Hintergrundaufgabe (in UI Thread)
+    // Prüfen auf die Schreibrechte / Beschreibbarkeit
+    if( !Environment.MEDIA_MOUNTED.equals( Environment.getExternalStorageState() ) ) {
+      return null;
     }
 
-    @Override
-    protected void onCancelled() {
-        super.onCancelled();
+    // Export-Unterverzeichnis
+    File exportPath = new File( sdCardPath, "export" );
 
-        // Abbruch durch den Benutzer
-        // Aufräumarbeiten !!!
+    // Export Datei
+    _exportFile = new File( exportPath, "Timelog.csv" );
+
+    // Prüfen, ob alle Unterverzeichnisse bereits da sind
+    if( !exportPath.exists() ) {
+      exportPath.mkdirs();
     }
 
-    @Override
-    protected Void doInBackground(Void... params) {
-        // Laden der Daten aus der Datenbank
-        Cursor data = _context.getContentResolver().query(
-                TimelogContract.Timelog.CONTENT_URI,
-                null,
-                null,
-                null,
-                null
-        );
+    // Writer für die Datei
+    BufferedWriter writer = null;
+    long recordsProcessed = 0;
 
-        // Prüfen der Daten
-        if (data == null || data.getCount() == 0) {
-            return null;
+    try {
+      // Writer initialisieren
+      writer = new BufferedWriter( new FileWriter( _exportFile ) );
+
+      // Lesen der Spalten Namen
+      String[] columns = data.getColumnNames();
+
+      // Eine Zeile für CSV
+      StringBuilder line = new StringBuilder();
+
+      // Zusammensetzen der Zeile mit Spaltennamen
+      for( String column : columns ) {
+        if( line.length() > 0 ) {
+          line.append( ";" );
         }
 
-        // Verzeichnis der SD-Karte bestimmen
-        File sdCardPath = Environment.getExternalStorageDirectory();
+        line.append( column );
+      }
 
-        // Prüfen auf die Schreibrechte / Beschreibbarkeit
-        if (!Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-            return null;
+      // Neue Zeile hinzufügen
+      line.append( "\n" );
+
+      // Zeile in die Datei schreiben
+      writer.append( line );
+
+      while( data.moveToNext() && !isCancelled() ) {
+        // Leeren der Zeileninhalte
+        line.delete( 0, line.length() );
+
+        // Spaltenwerte auslesen
+        for( int columnIndex = 0; columnIndex < columns.length; columnIndex++ ) {
+          if( line.length() > 0 ) {
+            line.append( ";" );
+          }
+
+          if( data.isNull( columnIndex ) ) {
+            line.append( "<NULL>" );
+          } else {
+            line.append( data.getString( columnIndex ) );
+          }
         }
 
-        // Export-Unterverzeichnis
-        File exportPath = new File(sdCardPath, "export");
+        // Neue Zeile
+        line.append( "\n" );
 
-        // Export Datei
-        File exportFile = new File(exportPath, "Timelog.csv");
+        // In die Datei speichern
+        writer.append( line );
 
-        // Prüfen, ob alle Unterverzeichnisse bereits da sind
-        if (!exportPath.exists()) {
-            exportPath.mkdirs();
+        if( data.getPosition() % 10 == 0 ) {
+          publishProgress( (long)data.getPosition(), (long)data.getCount() );
         }
+      }
 
-        // Writer für die Datei
-        BufferedWriter writer = null;
-
+    } catch( IOException e ) {
+      e.printStackTrace();
+    } finally {
+      // Resourcen für Writer freigeben
+      if( writer != null ) {
         try {
-            // Writer initialisieren
-            writer = new BufferedWriter(new FileWriter(exportFile));
-
-            // Lesen der Spalten Namen
-            String[] columns = data.getColumnNames();
-
-            // Eine Zeile für CSV
-            StringBuilder line = new StringBuilder();
-
-            // Zusammensetzen der Zeile mit Spaltennamen
-            for (String column : columns) {
-                if (line.length() > 0){
-                    line.append(";");
-                }
-
-                line.append(column);
-            }
-
-            // Neue Zeile hinzufügen
-            line.append("\n");
-
-            // Zeile in die Datei schreiben
-            writer.append(line);
-
-            while (data.moveToNext()){
-                // Leeren der Zeileninhalte
-                line.delete(0, line.length());
-
-                // Spaltenwerte auslesen
-                for (int columnIndex = 0; columnIndex < columns.length; columnIndex++){
-                    if (line.length() > 0){
-                        line.append(";");
-                    }
-
-                    if(data.isNull(columnIndex)){
-                        line.append("<NULL>");
-                    } else {
-                        line.append(data.getString(columnIndex));
-                    }
-                }
-
-                // Neue Zeile
-                line.append("\n");
-
-                // In die Datei speichern
-                writer.append(line);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            // Resourcen für Writer freigeben
-            if (writer != null){
-                try {
-                    writer.flush();
-                    writer.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            // Cursor freigeben
-            if (data != null){
-                data.close();
-            }
+          writer.flush();
+          writer.close();
+        } catch( IOException e ) {
+          e.printStackTrace();
         }
+      }
 
-        return null;
+      // Cursor freigeben
+      if( data != null ) {
+        data.close();
+      }
     }
+
+    return null;
+  }
+
 }
