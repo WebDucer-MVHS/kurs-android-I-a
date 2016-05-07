@@ -22,41 +22,38 @@ import db.TimelogContract;
  */
 public class CsvExporter extends AsyncTask<Void, Long, Void> {
   private Context _context;
-  private DialogFragment progressDialog;
+  private DialogFragment cancelDialog;
   private File _exportFile;
 
   public CsvExporter( Context context ) {
     _context = context;
-    progressDialog = null;
+    cancelDialog = null;
   }
 
   @Override
   protected void onPreExecute() {
     super.onPreExecute();
 
-    progressDialog = new ExportProgressDialog();
-    progressDialog.show( ((FragmentActivity)_context).getSupportFragmentManager(), "progressDialog" );
+    cancelDialog = new ExportProgressDialog();
+    cancelDialog.show( ((FragmentActivity)_context).getSupportFragmentManager(), "progressDialog" );
     // Ausführung vor der Hintergrundaufgabe (in UI Thread)
   }
 
   @Override
   protected void onPostExecute( Void aVoid ) {
     super.onPostExecute( aVoid );
-    if( progressDialog != null ) {
-      progressDialog.dismissAllowingStateLoss();
-      progressDialog = null;
+    if( cancelDialog != null ) {
+      cancelDialog.dismissAllowingStateLoss();
+      cancelDialog = null;
     }
 
     ((TimeListActivity)_context).exportDone();
     _exportFile = null;
 
-    String toastMessage = null;
-    if( isCancelled() ) {
-      toastMessage = "Export cancelled";
-    } else {
-      toastMessage = "Export complete";
-    }
-    Log.i( "exporter", "Toast: " + toastMessage );
+    int toastMessage = isCancelled() ?
+                         R.string.export_cancelled :
+                         R.string.export_completed;
+
     Toast.makeText( ( (TimeListActivity) _context ).getBaseContext(),
                        toastMessage, 3000 ).
           show();
@@ -70,8 +67,8 @@ public class CsvExporter extends AsyncTask<Void, Long, Void> {
     String message = String.valueOf( values[0] ) + "/" + String.valueOf( values[1] );
 
     Log.i( "exporter", "Progress: " + message );
-    if( progressDialog != null ) {
-      ((AlertDialog)progressDialog.getDialog()).setMessage( message );
+    if( cancelDialog != null ) {
+      ((AlertDialog)cancelDialog.getDialog()).setMessage( message );
     }
 
     // Zwischenstand der Hintergrundaufgabe (in UI Thread)

@@ -14,4 +14,6 @@
     <string name="cancel">Abbrechen</string>
     <string name="export_message">Datensätze werden exportiert</string>
     <string name="export_title">CSV Export</string>
+    <string name="export_completed">Export abgeschlossen</string>
+    <string name="export_cancelled">Export abgebrochen</string>
 </resources>

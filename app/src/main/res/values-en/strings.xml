@@ -13,4 +13,6 @@
     <string name="cancel">Cancel</string>
     <string name="export_message">Exporting records</string>
     <string name="export_title">CSV Export</string>
+    <string name="export_completed">Export complete</string>
+    <string name="export_cancelled">Export cancelled</string>
 </resources>
