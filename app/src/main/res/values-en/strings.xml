@@ -10,4 +10,9 @@
     <string name="error_on_save">Error on Save!</string>
     <string name="action_list">List</string>
     <string name="action_new">New</string>
+    <string name="column_end">End</string>
+    <string name="column_start">Start</string>
+    <string name="export_dialog_cancel">Cancel</string>
+    <string name="export_dialog_message">Data are exporting as CSV file.</string>
+    <string name="export_dialog_title">Export...</string>
 </resources>

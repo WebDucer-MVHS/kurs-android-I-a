@@ -11,4 +11,7 @@
     <string name="action_new">Neu</string>
     <string name="column_start">Start</string>
     <string name="column_end">Ende</string>
+    <string name="export_dialog_title">Export ...</string>
+    <string name="export_dialog_message">Daten werden in CSV Datei exportiert.</string>
+    <string name="export_dialog_cancel">Abbrechen</string>
 </resources>
