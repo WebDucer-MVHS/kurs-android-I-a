@@ -1,9 +1,14 @@
 package de.mvhs.android.zeiterfassung;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.BaseColumns;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
@@ -11,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -40,6 +46,7 @@ public class TimeListActivity extends AppCompatActivity
             R.id.StartValue,
             R.id.EndValue
     };
+    private static final int _PERMISSION_REQUEST_ID = 200;
     private ListView _list;
     private SimpleCursorAdapter _adapter;
     private final static int _LOADER_ID = 100;
@@ -107,13 +114,38 @@ public class TimeListActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.ExportAction){
-            CsvExporter exporter = new CsvExporter(TimeListActivity.this);
-            exporter.execute();
+            // Abfragen, ob Berechtigung vorhanden ist
+            if (ContextCompat.checkSelfPermission(
+                    this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED){
+                // Berechtigung erfragen
+                ActivityCompat.requestPermissions(
+                        this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        _PERMISSION_REQUEST_ID);
+            } else {
+                // Exportieren erlaubt
+                CsvExporter exporter = new CsvExporter(this);
+                exporter.execute();
+            }
 
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode){
+            case _PERMISSION_REQUEST_ID:
+                // Antwort des Benutzers verarbeiten
+                if (grantResults.length == 1
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    CsvExporter exporter = new CsvExporter(this);
+                    exporter.execute();
+                }
+                break;
+        }
     }
 
     @Override
@@ -124,6 +156,26 @@ public class TimeListActivity extends AppCompatActivity
                 _LOADER_ID, // ID des Loaders
                 null, // Zusatzdaten
                 this); // Callback-Implementierung (diese Klasse)
+
+        // Registrieren der Listener
+        _list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent editIntent = new Intent(TimeListActivity.this, EditActivity.class);
+
+                editIntent.putExtra("ID", id);
+
+                startActivity(editIntent);
+            }
+        });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // Deregistrieren der Listener
+        _list.setOnItemClickListener(null);
+        getSupportLoaderManager().destroyLoader(_LOADER_ID);
     }
 
     @Override

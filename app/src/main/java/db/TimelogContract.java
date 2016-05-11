@@ -100,6 +100,11 @@ public class TimelogContract {
              * Kommentar zum Eintrag
              */
             String COMMENT = "comment";
+
+            /**
+             * Pausen-Spalte (DEFAULT-Werte: 0)
+             */
+            String PAUSE = "pause";
         }
     }
 }

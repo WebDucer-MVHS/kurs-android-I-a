@@ -15,7 +15,7 @@ public class DbHelper extends SQLiteOpenHelper {
     /**
      * Datenbankversion, die zum Arbeiten der App benötigt wird
      */
-    private static final int _DB_VERSION = 1;
+    private static final int _DB_VERSION = 2;
 
     public DbHelper(Context context) {
         super(context, _DB_NAME, null, _DB_VERSION);
@@ -28,6 +28,6 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        TimelogTable.upgradeTable(db, oldVersion, newVersion);
     }
 }
