@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Zeiterfassung</string>
+    <string name="LabelStartTime">Startzeit:</string>
+    <string name="LabelEndTimes">Endzeit:</string>
+    <string name="ButtonStart">Staren</string>
+    <string name="ButtonEnd">Beenden</string>
+</resources>
