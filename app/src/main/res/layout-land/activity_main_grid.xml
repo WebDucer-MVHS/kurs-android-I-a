@@ -37,16 +37,6 @@
     app:layout_gravity="fill_horizontal"
     app:layout_row="0"/>
 
-  <TextView
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:text="@string/LabelEndTimes"
-    android:textAppearance="?android:attr/textAppearanceMedium"
-    app:layout_column="0"
-    app:layout_columnSpan="2"
-    app:layout_gravity="fill_horizontal"
-    app:layout_row="1"/>
-
   <EditText
     android:id="@+id/EndTimeValue"
     android:layout_width="0dp"
@@ -79,5 +69,15 @@
     app:layout_columnWeight="3"
     app:layout_gravity="fill_horizontal"
     app:layout_row="2"/>
+
+  <TextView
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:text="@string/LabelEndTimes"
+    android:textAppearance="?android:attr/textAppearanceMedium"
+    app:layout_column="0"
+    app:layout_columnSpan="2"
+    app:layout_gravity="fill_horizontal"
+    app:layout_row="1"/>
 
 </android.support.v7.widget.GridLayout>
