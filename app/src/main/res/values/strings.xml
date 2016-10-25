@@ -4,4 +4,6 @@
     <string name="LabelEndTimes">Endzeit:</string>
     <string name="ButtonStart">Staren</string>
     <string name="ButtonEnd">Beenden</string>
+    <string name="LabelPause">Pause:</string>
+    <string name="LabelComment">Kommentar:</string>
 </resources>
