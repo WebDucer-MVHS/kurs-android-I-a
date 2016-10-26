@@ -6,4 +6,5 @@
     <string name="ButtonEnd">Beenden</string>
     <string name="LabelPause">Pause:</string>
     <string name="LabelComment">Kommentar:</string>
+    <string name="MenuListData">Auflistung</string>
 </resources>

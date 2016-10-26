@@ -13,7 +13,7 @@ public class TimeDataContract {
     /**
      * Eindeutiger name des Content Providers
      */
-    public final static String AUTHORITY = "de.mvhs.android.zeiterfassung.privider";
+    public final static String AUTHORITY = "de.mvhs.android.zeiterfassung.provider";
 
     /**
      * URL zum Content Provicer (Basis URI)

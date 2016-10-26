@@ -1,17 +1,23 @@
 package de.mvhs.android.zeiterfassung;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.TintContextWrapper;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.Date;
 
 import de.mvhs.android.zeiterfassung.db.DbHelper;
+import de.mvhs.android.zeiterfassung.db.TimeDataContract;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,25 +52,10 @@ public class MainActivity extends AppCompatActivity {
         // Was soll der Button machen
         _startValue.setText(new Date().toString());
 
-        // Daten in die Datenbank speichern
-        DbHelper helper = new DbHelper(MainActivity.this);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        // Rohes SQL
-        String sql = "INSERT INTO [main].[time_data] ([start_time]) VALUES (?1)";
-        db.execSQL(sql, new Object[]{new Date().toString()});
-
-        // Methode
+        // Provider
         ContentValues value = new ContentValues();
-        value.put("start_time", new Date().toString());
-        db.insert("time_data", null, value);
-
-        // Precompiled
-        SQLiteStatement insert = db.compileStatement(sql);
-        insert.bindString(1, new Date().toString());
-        insert.executeInsert();
-
-        db.close();
-        helper.close();
+        value.put(TimeDataContract.TimeData.Columns.START, new Date().toString());
+        getContentResolver().insert(TimeDataContract.TimeData.CONTENT_URI, value);
       }
     });
   }
@@ -75,5 +66,23 @@ public class MainActivity extends AppCompatActivity {
 
     // Event deregistrieren
     _startCommand.setOnClickListener(null);
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_main, menu);
+    return super.onCreateOptionsMenu(menu);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()){
+      case R.id.MenuListData:
+        Intent listIntent = new Intent(this, ListDataActivity.class);
+        startActivity(listIntent);
+        break;
+    }
+
+    return super.onOptionsItemSelected(item);
   }
 }
