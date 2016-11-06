@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:paddingBottom="@dimen/row_vertical_padding"
+              android:paddingEnd="@dimen/row_horizontal_padding"
+              android:paddingLeft="@dimen/row_horizontal_padding"
+              android:paddingRight="@dimen/row_horizontal_padding"
+              android:paddingStart="@dimen/row_horizontal_padding"
+              android:paddingTop="@dimen/row_vertical_padding"
+              android:weightSum="2">
+
+  <TextView
+    android:id="@+id/StartTimeValue"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+  <TextView
+    android:id="@+id/EndTimeValue"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+</LinearLayout>

@@ -15,9 +15,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ListDataActivity">
+        <activity android:name=".ListDataActivity" android:label="@string/ListDataActivityTitle">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
+        </activity>
+        <activity android:name=".EditActivity" android:label="@string/EditDataActivityTitle">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                       android:value=".ListDataActivity" />
         </activity>
 
         <!--Provider -->

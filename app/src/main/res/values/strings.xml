@@ -1,10 +1,14 @@
 <resources>
-    <string name="app_name">Zeiterfassung</string>
-    <string name="LabelStartTime">Startzeit:</string>
-    <string name="LabelEndTimes">Endzeit:</string>
-    <string name="ButtonStart">Staren</string>
-    <string name="ButtonEnd">Beenden</string>
-    <string name="LabelPause">Pause:</string>
-    <string name="LabelComment">Kommentar:</string>
-    <string name="MenuListData">Auflistung</string>
+  <string name="app_name">Zeiterfassung</string>
+  <string name="LabelStartTime">Startzeit:</string>
+  <string name="LabelEndTimes">Endzeit:</string>
+  <string name="ButtonStart">Staren</string>
+  <string name="ButtonEnd">Beenden</string>
+  <string name="LabelPause">Pause:</string>
+  <string name="LabelComment">Kommentar:</string>
+  <string name="MenuListData">Auflistung</string>
+  <string name="ColumnHeaderStartTime">Startzeit</string>
+  <string name="ColumnHeaderEndTime">Endzeit</string>
+  <string name="ListDataActivityTitle">Auflistung</string>
+  <string name="EditDataActivityTitle">Bearbeiten</string>
 </resources>

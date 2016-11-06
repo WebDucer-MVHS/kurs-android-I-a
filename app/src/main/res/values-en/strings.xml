@@ -5,4 +5,11 @@
     <string name="ButtonStart">Start</string>
     <string name="LabelEndTimes">End Time:</string>
     <string name="LabelStartTime">Start Time:</string>
+    <string name="ColumnHeaderEndTime">End Time</string>
+    <string name="ColumnHeaderStartTime">Start Time</string>
+    <string name="LabelComment">Comment:</string>
+    <string name="LabelPause">Pause:</string>
+    <string name="ListDataActivityTitle">Data List</string>
+    <string name="MenuListData">List</string>
+    <string name="EditDataActivityTitle">Edit Data</string>
 </resources>

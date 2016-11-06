@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.provider.BaseColumns;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 /**
@@ -20,6 +21,9 @@ public class TimeDataProvider extends ContentProvider {
 
   // Filter
   private final static String _FILER_BY_ID = BaseColumns._ID + "=?";
+  private final static String _NOT_FINISHED = "IFNULL("
+      + TimeDataContract.TimeData.Columns.END
+      + ",'')=''";
 
   // Mapping der URIs
   private final static UriMatcher _URI_MATCHER =
@@ -35,6 +39,11 @@ public class TimeDataProvider extends ContentProvider {
         TimeDataContract.AUTHORITY, // Basis URI
         TimeDataContract.TimeData.CONTENT_DIRECTORY + "/#", // Unterordner mit ID
         TimeTable.ITEM_ID); // Eindeutige ID
+
+    _URI_MATCHER.addURI(
+        TimeDataContract.AUTHORITY, // Basis URI
+        TimeDataContract.TimeData.NOT_FINISHED_CONTENT_DIRECTORY, // Unterordner für offenen Datensatz
+        TimeTable.NOT_FINISHED_ITEM_ID); // Eindeutige ID
   }
 
 
@@ -46,10 +55,10 @@ public class TimeDataProvider extends ContentProvider {
 
   @Nullable
   @Override
-  public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+  public Cursor query(@NonNull  Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
     final int uriType = _URI_MATCHER.match(uri);
 
-    Cursor data = null;
+    Cursor data;
 
     SQLiteDatabase db = _dbHelper.getReadableDatabase();
 
@@ -62,6 +71,10 @@ public class TimeDataProvider extends ContentProvider {
         long id = ContentUris.parseId(uri);
         String[] idArgs = new String[]{String.valueOf(id)};
         data = db.query(TimeTable.TABLE_NAME, projection, _FILER_BY_ID, idArgs, null, null, null);
+        break;
+
+      case TimeTable.NOT_FINISHED_ITEM_ID:
+        data = db.query(TimeTable.TABLE_NAME, projection, _NOT_FINISHED, null, null, null, null);
         break;
 
       default:
@@ -77,7 +90,7 @@ public class TimeDataProvider extends ContentProvider {
 
   @Nullable
   @Override
-  public String getType(Uri uri) {
+  public String getType(@NonNull Uri uri) {
     final int uriType = _URI_MATCHER.match(uri);
 
     String type = null;
@@ -87,6 +100,7 @@ public class TimeDataProvider extends ContentProvider {
         break;
 
       case TimeTable.ITEM_ID:
+      case TimeTable.NOT_FINISHED_ITEM_ID:
         type = TimeDataContract.TimeData.CONTENT_ITEM_TYPE;
         break;
     }
@@ -96,16 +110,17 @@ public class TimeDataProvider extends ContentProvider {
 
   @Nullable
   @Override
-  public Uri insert(Uri uri, ContentValues values) {
+  public Uri insert(@NonNull Uri uri, ContentValues values) {
     final int uriType = _URI_MATCHER.match(uri);
 
     Uri insertUri = null;
 
-    long id = 0;
+    long id;
 
     switch (uriType) {
       case TimeTable.ITEM_ID:
       case TimeTable.ITEM_LIST_ID:
+      case TimeTable.NOT_FINISHED_ITEM_ID:
         SQLiteDatabase db = _dbHelper.getWritableDatabase();
         id = db.insert(TimeTable.TABLE_NAME, null, values);
         break;
@@ -128,10 +143,10 @@ public class TimeDataProvider extends ContentProvider {
   }
 
   @Override
-  public int delete(Uri uri, String selection, String[] selectionArgs) {
+  public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
     final int uriType = _URI_MATCHER.match(uri);
 
-    int deleted = 0;
+    int deleted;
     SQLiteDatabase db = _dbHelper.getWritableDatabase();
 
     switch (uriType) {
@@ -148,6 +163,10 @@ public class TimeDataProvider extends ContentProvider {
         deleted = db.delete(TimeTable.TABLE_NAME, _FILER_BY_ID, idArgs);
         break;
 
+      case TimeTable.NOT_FINISHED_ITEM_ID:
+        deleted = db.delete(TimeTable.TABLE_NAME, _NOT_FINISHED, null);
+        break;
+
       default:
         throw new IllegalArgumentException("Unbekannte URI: " + uri);
     }
@@ -160,10 +179,10 @@ public class TimeDataProvider extends ContentProvider {
   }
 
   @Override
-  public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+  public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
     final int uriType = _URI_MATCHER.match(uri);
 
-    int updatedItems = 0;
+    int updatedItems;
     SQLiteDatabase db = _dbHelper.getWritableDatabase();
 
     switch (uriType) {
@@ -175,6 +194,10 @@ public class TimeDataProvider extends ContentProvider {
         long id = ContentUris.parseId(uri);
         String[] idArgs = new String[]{String.valueOf(id)};
         updatedItems = db.update(TimeTable.TABLE_NAME, values, _FILER_BY_ID, idArgs);
+        break;
+
+      case TimeTable.NOT_FINISHED_ITEM_ID:
+        updatedItems = db.update(TimeTable.TABLE_NAME, values, _NOT_FINISHED, null);
         break;
 
       default:
