@@ -1,10 +1,15 @@
 package de.mvhs.android.zeiterfassung;
 
+import android.Manifest;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.TintContextWrapper;
@@ -49,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
     _startCommand = (Button) findViewById(R.id.StartCommand);
     _endValue = (EditText) findViewById(R.id.EndTimeValue);
     _endCommand = (Button) findViewById(R.id.EndCommand);
+
+    // Deaktivieren der Tastatureingaben
+    _startValue.setKeyListener(null);
+    _endValue.setKeyListener(null);
   }
 
   @Override
@@ -120,10 +129,42 @@ public class MainActivity extends AppCompatActivity {
       case R.id.MenuListData:
         Intent listIntent = new Intent(this, ListDataActivity.class);
         startActivity(listIntent);
-        break;
+        return true;
+
+      case R.id.MenuExport:
+        // Abfragen, ob Berechtigung vorhanden ist
+        if (ContextCompat.checkSelfPermission(
+            this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            != PackageManager.PERMISSION_GRANTED){
+          // Berechtigung erfragen
+          ActivityCompat.requestPermissions(
+              this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+              200);
+        } else {
+          // Exportieren erlaubt
+          CsvExporter exporter = new CsvExporter(this);
+          exporter.execute();
+        }
+        return true;
     }
 
     return super.onOptionsItemSelected(item);
+  }
+
+  @Override
+  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+    switch (requestCode){
+      case 200:
+        // Antwort des Benutzers verarbeiten
+        if (grantResults.length == 1
+            && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+          CsvExporter exporter = new CsvExporter(this);
+          exporter.execute();
+        }
+        break;
+    }
   }
 
   class OnStartButtonClicked implements View.OnClickListener {

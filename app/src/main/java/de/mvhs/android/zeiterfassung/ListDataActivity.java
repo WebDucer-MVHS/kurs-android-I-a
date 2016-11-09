@@ -12,6 +12,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.Calendar;
 
 import de.mvhs.android.zeiterfassung.db.TimeDataContract;
 
@@ -34,6 +39,8 @@ public class ListDataActivity extends AppCompatActivity
       R.id.EndTimeValue
   };
 
+  private DateFormat _UI_DATE_TIME_FORMATTER = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -50,6 +57,35 @@ public class ListDataActivity extends AppCompatActivity
         _LAYOUT_VIEW_IDS, // IDs der Views im Layout
         SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER // Benachrichtigung
     );
+
+    // Verarbeitung der Datum und Uhrzeit Werte
+    _adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
+      @Override
+      public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+        if ((view instanceof TextView) == false) {
+          return false;
+        }
+
+        TextView textView = (TextView) view;
+
+        // NULL Prüfung aus der Datenbank
+        if (cursor.isNull(columnIndex)) {
+          textView.setText("---");
+        } else {
+          try {
+            // Konvertierung aus der Datenbank
+            String dateString = cursor.getString(columnIndex);
+            Calendar date = TimeDataContract.Converter.parseFromDb(dateString);
+
+            textView.setText(_UI_DATE_TIME_FORMATTER.format(date.getTime()));
+          } catch (ParseException e) {
+            textView.setText("PARSE ERROR");
+          }
+        }
+
+        return true;
+      }
+    });
 
     // Adpter zuordnen
     _dataList.setAdapter(_adapter);
