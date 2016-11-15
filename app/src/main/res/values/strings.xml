@@ -11,4 +11,8 @@
   <string name="ColumnHeaderEndTime">Endzeit</string>
   <string name="ListDataActivityTitle">Auflistung</string>
   <string name="EditDataActivityTitle">Bearbeiten</string>
+  <string name="ExportDialogTitle">Export ...</string>
+  <string name="ExportDialogMessage">Daten werden exportiert!</string>
+  <string name="CancelButton">Abbrechen</string>
+  <string name="MenuItemExport">Export</string>
 </resources>

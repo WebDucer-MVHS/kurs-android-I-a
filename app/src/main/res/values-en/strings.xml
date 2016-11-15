@@ -12,4 +12,8 @@
     <string name="ListDataActivityTitle">Data List</string>
     <string name="MenuListData">List</string>
     <string name="EditDataActivityTitle">Edit Data</string>
+    <string name="ExportDialogTitle">Export ...</string>
+    <string name="CancelButton">Cancel</string>
+    <string name="ExportDialogMessage">Data are exported!</string>
+    <string name="MenuItemExport">Export</string>
 </resources>

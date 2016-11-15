@@ -1,14 +1,21 @@
 package de.mvhs.android.zeiterfassung;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -26,6 +33,7 @@ import de.mvhs.android.zeiterfassung.db.TimeDataContract;
 
 public class ListDataActivity extends AppCompatActivity
     implements LoaderManager.LoaderCallbacks<Cursor> {
+  public static final int _EXPORT_REQUEST_CODE = 200;
   private ListView _dataList;
   private SimpleCursorAdapter _adapter;
 
@@ -117,6 +125,51 @@ public class ListDataActivity extends AppCompatActivity
         .destroyLoader(_LOADER);
 
     _dataList.setOnItemClickListener(null);
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_list, menu);
+    return super.onCreateOptionsMenu(menu);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.MenuExport:
+        // Abfragen, ob Berechtigung vorhanden ist
+        if (ContextCompat.checkSelfPermission(
+            this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            != PackageManager.PERMISSION_GRANTED) {
+          // Berechtigung erfragen
+          ActivityCompat.requestPermissions(
+              this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+              _EXPORT_REQUEST_CODE);
+        } else {
+          // Exportieren erlaubt
+          CsvExporter exporter = new CsvExporter(this);
+          exporter.execute();
+        }
+        return true;
+      default:
+        return super.onOptionsItemSelected(item);
+    }
+  }
+
+  @Override
+  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+    switch (requestCode) {
+      case _EXPORT_REQUEST_CODE:
+        // Antwort des Benutzers verarbeiten
+        if (grantResults.length == 1
+            && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+          CsvExporter exporter = new CsvExporter(this);
+          exporter.execute();
+        }
+        break;
+    }
   }
 
   @Override

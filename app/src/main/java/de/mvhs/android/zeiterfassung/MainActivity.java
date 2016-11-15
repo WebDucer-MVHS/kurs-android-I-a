@@ -131,39 +131,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(listIntent);
         return true;
 
-      case R.id.MenuExport:
-        // Abfragen, ob Berechtigung vorhanden ist
-        if (ContextCompat.checkSelfPermission(
-            this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED){
-          // Berechtigung erfragen
-          ActivityCompat.requestPermissions(
-              this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-              200);
-        } else {
-          // Exportieren erlaubt
-          CsvExporter exporter = new CsvExporter(this);
-          exporter.execute();
-        }
-        return true;
-    }
-
-    return super.onOptionsItemSelected(item);
-  }
-
-  @Override
-  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-    switch (requestCode){
-      case 200:
-        // Antwort des Benutzers verarbeiten
-        if (grantResults.length == 1
-            && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-          CsvExporter exporter = new CsvExporter(this);
-          exporter.execute();
-        }
-        break;
+      default:
+        return super.onOptionsItemSelected(item);
     }
   }
 
@@ -184,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
 
       // Datum ausgeben
       _startValue.setText(_UI_DATE_TIME_FORMATTER.format(nowDateTime.getTime()));
+      _endValue.setText("");
 
       // Beenden Button aktivieren
       _endCommand.setEnabled(true);
