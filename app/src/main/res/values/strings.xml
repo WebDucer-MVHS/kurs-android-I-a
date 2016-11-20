@@ -16,4 +16,10 @@
   <string name="CancelButton">Abbrechen</string>
   <string name="MenuItemExport">Export</string>
   <string name="MenuItemDelete">Löschen</string>
+  <string name="NewDataActivityTitle">Neuer Datansatz</string>
+  <string name="MenuItemAdd">Hinzufügen</string>
+  <string name="DeleteDialogTitle">Löschen</string>
+  <string name="DeleteDialogMessage">Wollen Sie wirklich den Datensatz löschen?</string>
+  <string name="DialogCancelButton">Abbrechen</string>
+  <string name="DialogDeleteButton">Löschen</string>
 </resources>

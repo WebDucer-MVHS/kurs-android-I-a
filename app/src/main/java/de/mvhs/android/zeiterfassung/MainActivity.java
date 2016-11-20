@@ -131,6 +131,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(listIntent);
         return true;
 
+      case R.id.MenuAddNew:
+        Intent addIntent = new Intent(this, EditActivity.class);
+        startActivity(addIntent);
+        return true;
+
       default:
         return super.onOptionsItemSelected(item);
     }

@@ -16,4 +16,6 @@
     <string name="CancelButton">Cancel</string>
     <string name="ExportDialogMessage">Data are exported!</string>
     <string name="MenuItemExport">Export</string>
+    <string name="MenuItemDelete">Delete</string>
+    <string name="NewDataActivityTitle">New Data</string>
 </resources>

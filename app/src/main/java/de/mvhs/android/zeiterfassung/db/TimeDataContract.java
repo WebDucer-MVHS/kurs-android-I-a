@@ -72,6 +72,16 @@ public class TimeDataContract {
        * Endzeit in ISO 8601 Format (z.B.: 2016-10-19T18:30)
        */
       String END = "end_time";
+
+      /**
+       * Pausendauer in Minuten (Standard: 0 Minuten)
+       */
+      String PAUSE = "pause_time";
+
+      /**
+       * Kommentar zu der aufgezeichneten Zeit
+       */
+      String COMMENT = "comment";
     }
   }
 

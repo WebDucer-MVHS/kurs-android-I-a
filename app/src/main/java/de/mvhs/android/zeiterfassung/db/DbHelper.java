@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DbHelper extends SQLiteOpenHelper {
     private final static String _DB_NAME = "zeiten.db";
-    private final static int _DB_VERSION = 3;
+    private final static int _DB_VERSION = 4;
 
 
     public DbHelper(Context context) {
