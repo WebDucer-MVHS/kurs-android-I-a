@@ -1,7 +1,11 @@
 package de.mvhs.android.zeiterfassung;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.Uri;
@@ -11,7 +15,10 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -40,13 +47,15 @@ public class EditActivity extends AppCompatActivity {
   private Calendar _startDateTimeValue;
   private Calendar _endDatTimeValue;
   private EditText _startDate;
-  private DateFormat _dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT);
-  private DateFormat _timeFormatter = DateFormat.getTimeInstance(DateFormat.SHORT);
+  private DateFormat _dateFormatter;
+  private DateFormat _timeFormatter;
   private EditText _startTime;
   private EditText _endDate;
   private EditText _endTime;
   private EditText _pause;
   private EditText _comment;
+
+  Dialog _dialog = null;
 
   private boolean _cancelled = false;
 
@@ -54,6 +63,10 @@ public class EditActivity extends AppCompatActivity {
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_edit_grid);
+
+    // Init android formatter
+    _dateFormatter = android.text.format.DateFormat.getDateFormat(this);
+    _timeFormatter = android.text.format.DateFormat.getTimeFormat(this);
 
     // Auslesen der ID aus Metainformationen
     _id = getIntent().getLongExtra(ID_KEY, -1);
@@ -81,17 +94,26 @@ public class EditActivity extends AppCompatActivity {
     } else {
       loadData();
     }
+
+    // Initialisierung für die Dialoge
+    _startDate.setOnLongClickListener(new OnDateDialogShow(this, _startDateTimeValue, _startDate));
+    _startTime.setOnLongClickListener(new OnTimeDialogShow(this, _startDateTimeValue, _startTime));
   }
-
-  // Speichern beim Verlassen der Activity
-
-
   @Override
   protected void onStop() {
     // Speichern, nur wenn nicht abgebrochen
     if (!_cancelled) {
       saveData();
     }
+
+    // Verhindet den Fehler beim Drehen des Bildschirms
+    if(_dialog != null && _dialog.isShowing()){
+      _dialog.dismiss();
+    }
+
+    // Deregister dialogs
+    _startTime.setOnLongClickListener(null);
+    _startTime.setOnClickListener(null);
 
     super.onStop();
   }
@@ -251,6 +273,79 @@ public class EditActivity extends AppCompatActivity {
       // Vorhandenes aktualisieren
       Uri updateUri = ContentUris.withAppendedId(TimeDataContract.TimeData.CONTENT_URI, _id);
       getContentResolver().update(updateUri, values, null, null);
+    }
+  }
+
+  class OnDateDialogShow implements View.OnLongClickListener{
+    private final Context _context;
+    private final Calendar _dateToChenge;
+    private final EditText _textToChange;
+
+    OnDateDialogShow(Context context, Calendar dateToChenge, EditText textToChange){
+
+      _context = context;
+      _dateToChenge = dateToChenge;
+      _textToChange = textToChange;
+    }
+
+
+    @Override
+    public boolean onLongClick(View v) {
+      _dialog = new DatePickerDialog(
+          _context,
+          new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+              _dateToChenge.set(year, month, dayOfMonth);
+
+              _textToChange.setText(_dateFormatter.format(_dateToChenge.getTime()));
+              _dialog = null;
+            }
+          },
+          _dateToChenge.get(Calendar.YEAR),
+          _dateToChenge.get(Calendar.MONTH),
+          _dateToChenge.get(Calendar.DAY_OF_MONTH)
+      );
+      _dialog.show();
+      return true;
+    }
+  }
+
+  class OnTimeDialogShow implements View.OnLongClickListener{
+    private final Context _context;
+    private final Calendar _timeToChange;
+    private final EditText _textToChange;
+
+    OnTimeDialogShow(Context context, Calendar timeToChange, EditText textToChange){
+
+      _context = context;
+      _timeToChange = timeToChange;
+      _textToChange = textToChange;
+    }
+
+
+    @Override
+    public boolean onLongClick(View v) {
+      boolean is24 = android.text.format.DateFormat.is24HourFormat(_context);
+
+      _dialog = new TimePickerDialog(
+          _context,
+          new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+              _timeToChange.set(Calendar.HOUR_OF_DAY, hourOfDay);
+              _timeToChange.set(Calendar.MINUTE, minute);
+
+              _textToChange.setText(_timeFormatter.format(_timeToChange.getTime()));
+              _dialog = null;
+            }
+          },
+          _timeToChange.get(Calendar.HOUR_OF_DAY),
+          _timeToChange.get(Calendar.MINUTE),
+          is24
+      );
+      _dialog.show();
+      return true;
     }
   }
 }
