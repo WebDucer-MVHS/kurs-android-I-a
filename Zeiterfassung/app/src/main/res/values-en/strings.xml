@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Time Tracking</string>
+    <string name="CommandEnd">End</string>
+    <string name="CommandStart">Start</string>
+    <string name="LabelEndTime">End time:</string>
+    <string name="LabelStartTime">Start time:</string>
+</resources>
