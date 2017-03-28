@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:paddingBottom="@dimen/ActivityPaddingVertical"
+              android:paddingEnd="@dimen/ActivityPaddingHorizontal"
+              android:paddingLeft="@dimen/ActivityPaddingHorizontal"
+              android:paddingRight="@dimen/ActivityPaddingHorizontal"
+              android:paddingStart="@dimen/ActivityPaddingHorizontal"
+              android:paddingTop="@dimen/ActivityPaddingVertical"
+              tools:context="de.mvhs.android.zeiterfassung.MainActivity">
+
+  <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/LabelStartTime"
+    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"/>
+
+  <EditText
+    android:id="@+id/StartTimeValue"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:ems="10"
+    android:inputType="datetime"/>
+
+  <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/LabelEndTime"
+    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"/>
+
+  <EditText
+    android:id="@+id/EndTimeValue"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:ems="10"
+    android:inputType="datetime"/>
+
+  <Button
+    android:id="@+id/StartCommand"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/CommandStart"/>
+
+  <Button
+    android:id="@+id/EndCommand"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/CommandEnd"/>
+</LinearLayout>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:paddingBottom="@dimen/ActivityPaddingVertical"
+  android:paddingEnd="@dimen/ActivityPaddingHorizontal"
+  android:paddingLeft="@dimen/ActivityPaddingHorizontal"
+  android:paddingRight="@dimen/ActivityPaddingHorizontal"
+  android:paddingStart="@dimen/ActivityPaddingHorizontal"
+  android:paddingTop="@dimen/ActivityPaddingVertical"
+  tools:context="de.mvhs.android.zeiterfassung.MainActivity">
+
+  <TextView
+    android:id="@+id/StartTimeLabel"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="0dp"
+    android:layout_marginLeft="0dp"
+    android:layout_marginRight="0dp"
+    android:layout_marginStart="0dp"
+    android:layout_marginTop="0dp"
+    android:labelFor="@id/StartTimeValue"
+    android:text="@string/LabelStartTime"
+    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="parent"/>
+
+  <EditText
+    android:id="@+id/StartTimeValue"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="0dp"
+    android:layout_marginLeft="0dp"
+    android:layout_marginRight="0dp"
+    android:layout_marginStart="0dp"
+    android:layout_marginTop="8dp"
+    android:ems="10"
+    android:inputType="date"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/StartTimeLabel"/>
+
+  <TextView
+    android:id="@+id/EndTimeLabel"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="0dp"
+    android:layout_marginLeft="0dp"
+    android:layout_marginRight="0dp"
+    android:layout_marginStart="0dp"
+    android:layout_marginTop="8dp"
+    android:labelFor="@id/EndTimeValue"
+    android:text="@string/LabelEndTime"
+    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/StartTimeValue"/>
+
+  <EditText
+    android:id="@+id/EndTimeValue"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="0dp"
+    android:layout_marginLeft="0dp"
+    android:layout_marginRight="0dp"
+    android:layout_marginStart="0dp"
+    android:layout_marginTop="8dp"
+    android:ems="10"
+    android:inputType="datetime"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/EndTimeLabel"/>
+
+  <Button
+    android:id="@+id/StartCommand"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="0dp"
+    android:layout_marginLeft="0dp"
+    android:layout_marginRight="0dp"
+    android:layout_marginStart="0dp"
+    android:layout_marginTop="8dp"
+    android:text="@string/CommandStart"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/EndTimeValue"/>
+
+  <Button
+    android:id="@+id/EndCommand"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="0dp"
+    android:layout_marginLeft="0dp"
+    android:layout_marginRight="0dp"
+    android:layout_marginStart="0dp"
+    android:layout_marginTop="8dp"
+    android:text="@string/CommandEnd"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/StartCommand"/>
+
+</android.support.constraint.ConstraintLayout>
