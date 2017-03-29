@@ -10,12 +10,12 @@
                 android:paddingStart="@dimen/ActivityPaddingHorizontal"
                 android:paddingTop="@dimen/ActivityPaddingVertical"
                 tools:context="de.mvhs.android.zeiterfassung.MainActivity">
-
   <View
-    android:id="@+id/CenterHelper"
-    android:layout_width="0dp"
-    android:layout_height="0dp"
-    android:layout_centerHorizontal="true"/>
+      android:id="@+id/CenterHelper"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      android:layout_centerHorizontal="true"/>
+
 
   <TextView
     android:id="@+id/LabelStartTime"
