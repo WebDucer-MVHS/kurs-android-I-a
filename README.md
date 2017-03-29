@@ -50,4 +50,4 @@ Der Quellcode unterliegt der [![CC0](http://i.creativecommons.org/p/zero/1.0/88x
 
 ## Fattr
 
-[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=WebDucer&url=https://github.com/WebDucer-MVHS/kurs-android-einblick&title=Einblick in die Programmentwicklung für Android-Smartphones&language=de_DE&tags=github,Android,App&category=software)
+[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=WebDucer&url=https://github.com/WebDucer-MVHS/kurs-android-I-a&title=Grundkurs%3A%20Programme%20entwickeln%20f%C3%BCr%20Android-Ger%C3%A4te&language=de_DE&tags=github,Android,App,MVHS&category=software)
