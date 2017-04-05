@@ -8,6 +8,10 @@ import android.database.sqlite.SQLiteDatabase;
 
 public final class TimeTable {
     // Konstanten
+    public final static int ITEM_LIST_ID = 100;
+    public final static int ITEM_ID = 101;
+    public final static String TABLE_NAME = "time";
+
     private final static String _CREATE_TABLE =
             "CREATE TABLE [time] ([_id] INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , [start_time] TEXT NOT NULL , [end_time] TEXT)";
 
