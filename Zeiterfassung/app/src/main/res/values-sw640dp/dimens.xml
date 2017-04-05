@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <dimen name="ActivityPaddingHorizontal">64dp</dimen>
+  <dimen name="LabelWidth">300dp</dimen>
 </resources>

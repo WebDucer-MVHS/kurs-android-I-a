@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/ActivityPaddingVertical"
+    android:paddingEnd="@dimen/ActivityPaddingHorizontal"
+    android:paddingLeft="@dimen/ActivityPaddingHorizontal"
+    android:paddingRight="@dimen/ActivityPaddingHorizontal"
+    android:paddingStart="@dimen/ActivityPaddingHorizontal"
+    android:paddingTop="@dimen/ActivityPaddingVertical">
+
+    <!-- Start Time -->
+    <TextView
+        android:id="@+id/LabelStartDateTime"
+        android:layout_width="@dimen/LabelWidth"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignBaseline="@+id/StartTimeRow"
+        android:text="@string/LabelStartTime"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
+
+    <RelativeLayout
+        android:id="@+id/StartTimeRow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/LabelStartDateTime">
+
+        <View
+            android:id="@+id/CenterHelperStartTime"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerInParent="true" />
+
+        <EditText
+            android:id="@+id/StartDateValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/CenterHelperStartTime"
+            android:layout_toStartOf="@+id/CenterHelperStartTime"
+            android:ems="10"
+            android:inputType="date" />
+
+        <EditText
+            android:id="@+id/StartTimeValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/CenterHelperStartTime"
+            android:layout_toRightOf="@+id/CenterHelperStartTime"
+            android:ems="10"
+            android:inputType="time" />
+    </RelativeLayout>
+
+    <!-- End Time -->
+    <TextView
+        android:id="@+id/LabelEndDateTime"
+        android:layout_width="@dimen/LabelWidth"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignBaseline="@+id/EndTimeRow"
+        android:text="@string/LabelEndTime"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
+
+    <RelativeLayout
+        android:id="@+id/EndTimeRow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/StartTimeRow"
+        android:layout_toRightOf="@+id/LabelEndDateTime">
+
+        <View
+            android:id="@+id/CenterHelperEndTime"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerInParent="true" />
+
+        <EditText
+            android:id="@+id/EndDateValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/CenterHelperEndTime"
+            android:layout_toStartOf="@+id/CenterHelperEndTime"
+            android:ems="10"
+            android:inputType="date" />
+
+        <EditText
+            android:id="@+id/EndTimeValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_toEndOf="@+id/CenterHelperEndTime"
+            android:layout_toRightOf="@+id/CenterHelperEndTime"
+            android:ems="10"
+            android:inputType="time" />
+    </RelativeLayout>
+
+    <!-- Pause -->
+    <TextView
+        android:id="@+id/LabelPause"
+        android:layout_width="@dimen/LabelWidth"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignBaseline="@+id/PauseValue"
+        android:text="@string/LabelPause"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
+
+    <EditText
+        android:id="@+id/PauseValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/LabelPause"
+        android:layout_below="@+id/EndTimeRow"
+        android:ems="10"
+        android:inputType="number" />
+
+    <!-- Comment -->
+    <TextView
+        android:id="@+id/LabelComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/PauseValue"
+        android:text="@string/LabelComment"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
+
+    <EditText
+        android:id="@+id/CommentValue"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/LabelComment"
+        android:ems="10"
+        android:gravity="top"
+        android:inputType="textMultiLine" />
+</RelativeLayout>

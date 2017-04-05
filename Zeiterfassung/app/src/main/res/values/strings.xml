@@ -4,4 +4,6 @@
     <string name="LabelEndTime">Endzeit:</string>
     <string name="CommandStart">Starten</string>
     <string name="CommandEnd">Beenden</string>
+    <string name="LabelPause">Pause:</string>
+    <string name="LabelComment">Notitz:</string>
 </resources>
