@@ -6,4 +6,5 @@
     <string name="CommandEnd">Beenden</string>
     <string name="LabelPause">Pause:</string>
     <string name="LabelComment">Notitz:</string>
+    <string name="MenuItemList">Auflistung</string>
 </resources>
