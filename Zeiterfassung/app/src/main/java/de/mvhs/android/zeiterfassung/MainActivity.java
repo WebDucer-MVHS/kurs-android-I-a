@@ -2,6 +2,7 @@ package de.mvhs.android.zeiterfassung;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -30,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     private Button _endCommand;
     private EditText _startTime;
     private EditText _endTime;
-    private Uri _data;
 
     private DateFormat _formatter = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
 
@@ -53,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
         // Registrieren der Events
         _startCommand.setOnClickListener(new OnStartClicked());
         _endCommand.setOnClickListener(new OnStopClicked());
+
+        _startCommand.setEnabled(false);
+        _endCommand.setEnabled(false);
+        initFromDb();
     }
 
     @Override
@@ -71,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.MenuItemList:
                 Log.d("MainActivity", "Auflistung!");
                 Intent listIntent = new Intent(this, TimeDataListActivity.class);
@@ -87,24 +92,29 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             Log.d("MainActivity", "Start gecklickt!");
 
+            _startCommand.setEnabled(false);
+
             Calendar currentTime = Calendar.getInstance();
             String currentTimeDb = TimeContract.Converters.formatForDb(currentTime);
             ContentValues values = new ContentValues();
             values.put(TimeContract.TimeData.Columns.START, currentTimeDb);
 
             // Datensatz einfügen
-            _data = getContentResolver().insert(TimeContract.TimeData.CONTENT_URI, values);
-            Log.d("MainActivity", _data.toString());
+            getContentResolver().insert(TimeContract.TimeData.CONTENT_URI, values);
 
             _startTime.setText(_formatter.format(currentTime.getTime()));
+
+            _endCommand.setEnabled(true);
         }
     }
 
-    public class OnStopClicked implements View.OnClickListener{
+    public class OnStopClicked implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
             Log.d("MainActivity", "Ende geklickt!");
+
+            _endCommand.setEnabled(false);
 
             Calendar currentTime = Calendar.getInstance();
             String currentTimeDb = TimeContract.Converters.formatForDb(currentTime);
@@ -112,33 +122,45 @@ public class MainActivity extends AppCompatActivity {
             values.put(TimeContract.TimeData.Columns.END, currentTimeDb);
 
             // Datensatz aktualisieren
-            if(_data != null){
-                int updated = getContentResolver().update(_data, values, null, null);
-
-                Log.d("MainActivity", String.valueOf(updated));
-            }
+            getContentResolver().update(TimeContract.TimeData.OPEN_URI, values, null, null);
 
             _endTime.setText(_formatter.format(currentTime.getTime()));
+
+            _startCommand.setEnabled(true);
         }
     }
 
+    private void initFromDb() {
+        // Offenen Datensatz suchen
+        String[] columns = new String[]{TimeContract.TimeData.Columns.START};
+        Cursor data = getContentResolver().query(
+            TimeContract.TimeData.OPEN_URI, // Spezial-URI
+            columns, // Spalten
+            null, // Filter
+            null, // Filter Argumente
+            null); // Sortierung
 
+        // Mindestens ein Datensatz vorhanden
+        if (data.moveToFirst()){
+            String startDbValue = data.getString(0);
+            try {
+                Calendar startDate = TimeContract.Converters.parseFromDb(startDbValue);
+                _startTime.setText(_formatter.format(startDate.getTime()));
+            } catch (ParseException e) {
+                _startTime.setText(R.string.WrongFormatMessage);
+                e.printStackTrace();
+            }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            _endTime.setText("");
+            // Buttons setzen
+            _endCommand.setEnabled(true);
+        } else {
+            // Kein offener Datensatz da
+            _startTime.setText("");
+            _endTime.setText("");
+            _startCommand.setEnabled(true);
+        }
+    }
 
 
 }

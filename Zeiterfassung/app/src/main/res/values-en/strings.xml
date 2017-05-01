@@ -7,4 +7,8 @@
     <string name="LabelStartTime">Start time:</string>
     <string name="LabelComment">Comment:</string>
     <string name="LabelPause">Pause:</string>
+  <string name="EndColumnHeader">End</string>
+    <string name="MenuItemList">List Data</string>
+    <string name="StartColumnHeader">Start</string>
+    <string name="WrongFormatMessage">WRONG FORMAT</string>
 </resources>

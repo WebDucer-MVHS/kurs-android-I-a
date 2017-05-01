@@ -19,6 +19,7 @@ public class TimeDataProvider extends ContentProvider {
 
   // Filter
   private final String _WHERE_ID = TimeContract.TimeData.Columns._ID + "=?";
+  private final String _OPEN_ITEM_WHERE = "IFNULL(" + TimeContract.TimeData.Columns.END + ",'')=''";
 
   private final static UriMatcher _URI_MATCHER =
       new UriMatcher(UriMatcher.NO_MATCH);
@@ -31,6 +32,10 @@ public class TimeDataProvider extends ContentProvider {
     _URI_MATCHER.addURI(TimeContract.AUTHORITY,
         TimeContract.TimeData.CONTENT_DIRECTORY + "/#",
         TimeTable.ITEM_ID);
+
+    _URI_MATCHER.addURI(TimeContract.AUTHORITY,
+        TimeContract.TimeData.OPEN_DIRECTORY,
+        TimeTable.OPEN_ITEM_ID);
   }
 
   @Override
@@ -49,6 +54,7 @@ public class TimeDataProvider extends ContentProvider {
         return TimeContract.TimeData.CONTENT_TYPE;
 
       case TimeTable.ITEM_ID:
+      case TimeTable.OPEN_ITEM_ID:
         return TimeContract.TimeData.CONTENT_ITEM_TYPE;
     }
 
@@ -67,6 +73,7 @@ public class TimeDataProvider extends ContentProvider {
     switch (uriType) {
       case TimeTable.ITEM_LIST_ID:
       case TimeTable.ITEM_ID:
+      case TimeTable.OPEN_ITEM_ID:
         id = db.insert(TimeTable.TABLE_NAME, null, values);
         break;
 
@@ -107,6 +114,10 @@ public class TimeDataProvider extends ContentProvider {
         deletedItems = db.delete(TimeTable.TABLE_NAME, _WHERE_ID, whereArgs);
         break;
 
+      case TimeTable.OPEN_ITEM_ID:
+        deletedItems = db.delete(TimeTable.TABLE_NAME, _OPEN_ITEM_WHERE, null);
+        break;
+
       default:
         throw new IllegalArgumentException("Unknown URI: " + uri);
     }
@@ -137,6 +148,10 @@ public class TimeDataProvider extends ContentProvider {
         updatedItems = db.update(TimeTable.TABLE_NAME, values, _WHERE_ID, whereArgs);
         break;
 
+      case TimeTable.OPEN_ITEM_ID:
+        updatedItems = db.update(TimeTable.TABLE_NAME, values, _OPEN_ITEM_WHERE, null);
+        break;
+
       default:
         throw new IllegalArgumentException("Unknown URI: " + uri);
     }
@@ -164,6 +179,10 @@ public class TimeDataProvider extends ContentProvider {
         long id = ContentUris.parseId(uri);
         String[] whereArgs = new String[]{String.valueOf(id)};
         data = db.query(TimeTable.TABLE_NAME, projection, _WHERE_ID, whereArgs, null, null, null);
+        break;
+
+      case TimeTable.OPEN_ITEM_ID:
+        data = db.query(TimeTable.TABLE_NAME, projection, _OPEN_ITEM_WHERE, null, null, null, null);
         break;
 
       default:

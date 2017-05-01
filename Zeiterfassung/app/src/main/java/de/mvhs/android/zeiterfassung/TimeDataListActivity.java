@@ -30,12 +30,12 @@ public class TimeDataListActivity extends AppCompatActivity implements LoaderMan
 
         _list = (ListView) findViewById(R.id.TimeDataList);
         _adapter = new SimpleCursorAdapter(this, // Context
-                android.R.layout.simple_list_item_2, // layout für Zeile
+                R.layout.row_time_data_list, // layout für Zeile
                 null, // Daten
                 new String[]{
                         TimeContract.TimeData.Columns.START,
                         TimeContract.TimeData.Columns.END}, // Spalten aus Ergebnis
-                new int[]{android.R.id.text1, android.R.id.text2}, // IDs der Views
+                new int[]{R.id.StartTimeValue, R.id.EndTimeValue}, // IDs der Views
                 CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         _list.setAdapter(_adapter);
     }

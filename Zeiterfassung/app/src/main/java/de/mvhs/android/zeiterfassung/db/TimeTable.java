@@ -10,6 +10,7 @@ public final class TimeTable {
     // Konstanten
     public final static int ITEM_LIST_ID = 100;
     public final static int ITEM_ID = 101;
+    public final static int OPEN_ITEM_ID = 102;
     public final static String TABLE_NAME = "time";
 
     private final static String _CREATE_TABLE =

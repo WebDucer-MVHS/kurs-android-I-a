@@ -7,4 +7,7 @@
     <string name="LabelPause">Pause:</string>
     <string name="LabelComment">Notitz:</string>
     <string name="MenuItemList">Auflistung</string>
+  <string name="StartColumnHeader">Start</string>
+    <string name="EndColumnHeader">Ende</string>
+  <string name="WrongFormatMessage">FALSCHER FORMAT</string>
 </resources>

@@ -3,4 +3,6 @@
   <dimen name="ActivityPaddingHorizontal">16dp</dimen>
   <dimen name="ActivityPaddingVertical">16dp</dimen>
   <dimen name="LabelWidth">200dp</dimen>
+  <dimen name="ColumnHeaderPaddingVertical">8dp</dimen>
+  <dimen name="ColumnHeaderPaddingHorizontal">4dp</dimen>
 </resources>

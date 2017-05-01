@@ -37,10 +37,20 @@ public final class TimeContract {
         public final static String CONTENT_DIRECTORY = "time_data";
 
         /**
-         * Uri für die zeitdaten
+         * Unterverzeichnis für den noch offenen Datensatz
+         */
+        public final static String OPEN_DIRECTORY = CONTENT_DIRECTORY + "/open";
+
+        /**
+         * Uri für die Zeitdaten
          */
         public final static Uri CONTENT_URI =
                 Uri.withAppendedPath(AUTHORITY_BASE_URI, CONTENT_DIRECTORY);
+
+        /**
+         * Uri für den offenen Datensatz
+         */
+        public final static Uri OPEN_URI = Uri.withAppendedPath(AUTHORITY_BASE_URI, OPEN_DIRECTORY);
 
         /**
          * Datentyp für die Auflistung der Zeitdaten
