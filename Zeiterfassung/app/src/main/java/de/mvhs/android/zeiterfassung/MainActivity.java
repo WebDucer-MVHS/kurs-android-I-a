@@ -1,10 +1,15 @@
 package de.mvhs.android.zeiterfassung;
 
+import android.Manifest;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +32,8 @@ import de.mvhs.android.zeiterfassung.db.TimeContract;
 import static android.R.attr.data;
 
 public class MainActivity extends AppCompatActivity {
+
+    private final static int _PERMISSION_REQUEST = 100;
 
     private Button _startCommand;
     private Button _endCommand;
@@ -82,8 +89,35 @@ public class MainActivity extends AppCompatActivity {
                 Intent listIntent = new Intent(this, TimeDataListActivity.class);
                 startActivity(listIntent);
                 return true;
+
+            case R.id.MenuItemExport:
+                //Log.d("MainActivity", "Export gestartet");
+                //new CsvExporter(this).execute();
+
+                // Berechtigung abfragen
+                if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        == PackageManager.PERMISSION_GRANTED){
+                    new CsvExporter(this).execute();
+                } else {
+                    // Berechtigung nachfragen
+                    ActivityCompat.requestPermissions(this, new String[]{
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    }, _PERMISSION_REQUEST);
+                }
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == _PERMISSION_REQUEST){
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                new CsvExporter(this).execute();
+            }
+        } else {
+            return;
+        }
     }
 
     public class OnStartClicked implements View.OnClickListener {

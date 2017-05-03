@@ -10,4 +10,5 @@
   <string name="StartColumnHeader">Start</string>
     <string name="EndColumnHeader">Ende</string>
   <string name="WrongFormatMessage">FALSCHER FORMAT</string>
+    <string name="MenuItemExport">Export</string>
 </resources>

@@ -5,4 +5,8 @@
         android:id="@+id/MenuItemList"
         android:title="@string/MenuItemList"
         app:showAsAction="always" />
+
+    <item android:id="@+id/MenuItemExport"
+        android:title="@string/MenuItemExport"
+        app:showAsAction="never" />
 </menu>
