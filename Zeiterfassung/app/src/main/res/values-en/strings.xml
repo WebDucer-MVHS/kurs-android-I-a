@@ -11,4 +11,8 @@
     <string name="MenuItemList">List Data</string>
     <string name="StartColumnHeader">Start</string>
     <string name="WrongFormatMessage">WRONG FORMAT</string>
+  <string name="ButtonCancel">Cancel</string>
+  <string name="ExportDialogTitle">Export ...</string>
+  <string name="ExportDialogMessage">Data are exporting!</string>
+  <string name="MenuItemExport">Export</string>
 </resources>

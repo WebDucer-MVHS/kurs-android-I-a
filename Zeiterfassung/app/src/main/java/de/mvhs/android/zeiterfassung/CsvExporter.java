@@ -2,6 +2,7 @@ package de.mvhs.android.zeiterfassung;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -31,11 +32,23 @@ public class CsvExporter extends AsyncTask<Void, Integer, Void> {
         super.onPreExecute();
 
         _dialog = new ProgressDialog(_context);
-        _dialog.setTitle("Export ...");
-        _dialog.setMessage("Daten werden exportiert!");
-        _dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        _dialog.setTitle(_context.getString(R.string.ExportDialogTitle));
+        _dialog.setMessage(_context.getString(R.string.ExportDialogMessage));
+        _dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         _dialog.setCanceledOnTouchOutside(false);
-        _dialog.setCancelable(false);
+        _dialog.setCancelable(true);
+        _dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                cancel(false);
+            }
+        });
+        _dialog.setButton(DialogInterface.BUTTON_NEGATIVE, _context.getString(R.string.ButtonCancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                cancel(false);
+            }
+        });
 
         _dialog.show();
     }
@@ -46,8 +59,17 @@ public class CsvExporter extends AsyncTask<Void, Integer, Void> {
 
         if (_dialog != null && _dialog.isShowing()) {
             _dialog.dismiss();
+            _dialog.setOnCancelListener(null);
             _dialog = null;
         }
+    }
+
+    @Override
+    protected void onProgressUpdate(Integer... values) {
+        if (values != null && values.length == 1){
+            _dialog.setProgress(values[0]);
+        }
+        super.onProgressUpdate(values);
     }
 
     @Override
@@ -57,9 +79,13 @@ public class CsvExporter extends AsyncTask<Void, Integer, Void> {
                 .query(TimeContract.TimeData.CONTENT_URI, null, null, null, null);
 
         // Prüfen, ob Daten da sind
-        if (data == null || data.getCount() == 0){
+        int maxCount = data == null ? 0 : data.getCount();
+        if (maxCount == 0){
             return null;
         }
+
+        // Max. in Dialog setzen
+        _dialog.setMax(maxCount + 1); // +1 für Spaltenüberschriften
 
         // Writer für die Datei
         BufferedWriter writer = null;
@@ -106,7 +132,10 @@ public class CsvExporter extends AsyncTask<Void, Integer, Void> {
             // Schreibenin die Datei
             writer.append(line);
 
-            while (data.moveToNext()){
+            // Erste Zeile exportiert
+            publishProgress(1);
+
+            while (data.moveToNext() && !isCancelled()){
                 // Zeile leeren
                 line.delete(0, line.length());
 
@@ -127,6 +156,9 @@ public class CsvExporter extends AsyncTask<Void, Integer, Void> {
 
                 writer.append(line);
 
+                // Datenzeile exportiert
+                publishProgress(data.getPosition() + 2); // +1 für Überschriftenzeile +1 für 0-basierten Index
+
                 Thread.sleep(500);
             }
 
@@ -142,6 +174,11 @@ public class CsvExporter extends AsyncTask<Void, Integer, Void> {
                 data.close();
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+
+            // Löschen der Datei, wenn Abbruch durch den Benutzer
+            if (isCancelled()){
+                exportFile.delete();
             }
         }
 
