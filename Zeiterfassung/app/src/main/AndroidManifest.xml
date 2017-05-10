@@ -25,6 +25,8 @@
                 android:value=".MainActivity" />
         </activity>
 
+        <activity android:name=".EditActivity" />
+
         <!-- Provider -->
         <provider
             android:authorities="de.mvhs.android.zeiterfassung.provider"

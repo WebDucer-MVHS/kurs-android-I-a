@@ -1,5 +1,6 @@
 package de.mvhs.android.zeiterfassung;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +10,10 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import de.mvhs.android.zeiterfassung.db.TimeContract;
@@ -46,12 +51,43 @@ public class TimeDataListActivity extends AppCompatActivity implements LoaderMan
 
         getSupportLoaderManager()
                 .restartLoader(_LOADER_ID, null, this);
+
+        // Event für die Auswahl registrieren
+        _list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent newIntent = new Intent(TimeDataListActivity.this, EditActivity.class);
+                newIntent.putExtra(EditActivity.ID_KEY, id);
+                startActivity(newIntent);
+            }
+        });
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         getSupportLoaderManager().destroyLoader(_LOADER_ID);
+        _list.setOnItemSelectedListener(null);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.list_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.MenuItemNew:
+                Intent newIntent = new Intent(this, EditActivity.class);
+                newIntent.putExtra(EditActivity.ID_KEY, 10L);
+                startActivity(newIntent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
