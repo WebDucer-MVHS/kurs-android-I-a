@@ -15,4 +15,9 @@
   <string name="ExportDialogTitle">Export ...</string>
   <string name="ExportDialogMessage">Data are exporting!</string>
   <string name="MenuItemExport">Export</string>
+  <string name="MenuItemNew">New</string>
+  <string name="SelectEndDateDialogTitle">Select End Date</string>
+  <string name="SelectEndTimeDialogTitle">Select End Time</string>
+  <string name="SelectStartDateDialogTitle">Select Start Date</string>
+  <string name="SelectStartTimeDialogTitle">Select Start Time</string>
 </resources>

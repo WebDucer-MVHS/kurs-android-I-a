@@ -28,6 +28,14 @@ public class TimeDataListActivity extends AppCompatActivity implements LoaderMan
 
     private static final int _LOADER_ID = 100;
 
+    private static final String _FILTER = "IFNULL(" + TimeContract.TimeData.Columns.END + ",'')<>''";
+    private static final String _SORT_ORDER = TimeContract.TimeData.Columns.START + " DESC";
+    private static final String[] _COLUMNS = new String[] {
+        TimeContract.TimeData.Columns._ID,
+            TimeContract.TimeData.Columns.START,
+            TimeContract.TimeData.Columns.END
+    };
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +89,6 @@ public class TimeDataListActivity extends AppCompatActivity implements LoaderMan
         switch (item.getItemId()){
             case R.id.MenuItemNew:
                 Intent newIntent = new Intent(this, EditActivity.class);
-                newIntent.putExtra(EditActivity.ID_KEY, 10L);
                 startActivity(newIntent);
                 return true;
 
@@ -99,10 +106,10 @@ public class TimeDataListActivity extends AppCompatActivity implements LoaderMan
                 loader = new CursorLoader(
                         this, // Context
                         TimeContract.TimeData.CONTENT_URI, // Uri für Provider
-                        null, // Spalten
-                        null, // Filter
+                        _COLUMNS, // Spalten
+                        _FILTER, // Filter
                         null, // Filter Parameter
-                        null); // Sortierung
+                        _SORT_ORDER); // Sortierung
         }
 
         return loader;

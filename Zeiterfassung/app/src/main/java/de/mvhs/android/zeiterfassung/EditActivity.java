@@ -1,24 +1,22 @@
 package de.mvhs.android.zeiterfassung;
 
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.DatePicker;
+import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.TimePicker;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Calendar;
 
 import de.mvhs.android.zeiterfassung.db.TimeContract;
+import de.mvhs.android.zeiterfassung.dialogs.DateLongClick;
+import de.mvhs.android.zeiterfassung.dialogs.TimeLongClick;
 
 public class EditActivity extends AppCompatActivity {
     public final static String ID_KEY = "TimeDataId";
@@ -34,8 +32,9 @@ public class EditActivity extends AppCompatActivity {
     private EditText _startDate = null;
     private EditText _startTime = null;
 
-    private DateFormat _dateFormatter = DateFormat.getDateInstance(DateFormat.SHORT);
-    private DateFormat _timeFormatter = DateFormat.getTimeInstance(DateFormat.SHORT);
+    private EditText _endDate = null;
+    private EditText _endTime = null;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,6 +48,15 @@ public class EditActivity extends AppCompatActivity {
         // Suchen der Elemente
         _startDate = (EditText) findViewById(R.id.StartDateValue);
         _startTime = (EditText) findViewById(R.id.StartTimeValue);
+
+        _endDate = (EditText) findViewById(R.id.EndDateValue);
+        _endTime = (EditText) findViewById(R.id.EndTimeValue);
+
+        // Eingaben per tastatur verhindern
+        _startDate.setKeyListener(null);
+        _startTime.setKeyListener(null);
+        _endDate.setKeyListener(null);
+        _endTime.setKeyListener(null);
     }
 
     @Override
@@ -58,80 +66,59 @@ public class EditActivity extends AppCompatActivity {
         _startDateTime = Calendar.getInstance();
         _endDateTime = Calendar.getInstance();
 
-        if(_id != _NOT_SET){
+        if (_id != _NOT_SET) {
             // Laden der Daten aus der Datenbank
             loadDbData();
         }
 
-        updateUI();
+        _startDate.setOnLongClickListener(new DateLongClick(this, _startDate, _startDateTime, getString(R.string.SelectStartDateDialogTitle)));
+        _endDate.setOnLongClickListener(new DateLongClick(this, _endDate, _endDateTime, getString(R.string.SelectEndDateDialogTitle)));
 
-        _startDate.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                // Starten des Datumsdialoges
-                DatePickerDialog dialog = new DatePickerDialog(
-                        EditActivity.this, // Context
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                _startDateTime.set(year, month, dayOfMonth);
-                                updateUI();
-                            }
-                        }, // Callback
-                        _startDateTime.get(Calendar.YEAR), // Jahr
-                        _startDateTime.get(Calendar.MONTH), // Monat
-                        _startDateTime.get(Calendar.DAY_OF_MONTH)); // Tag im Monat
-                dialog.setTitle("Startdatum auswählen");
-                dialog.show();
-
-                return true;
-            }
-        });
-
-        _startTime.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                boolean is24h = android.text.format.DateFormat.is24HourFormat(EditActivity.this);
-
-                TimePickerDialog dialog = new TimePickerDialog(
-                        EditActivity.this, // Context
-                        new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                _startDateTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                                _startDateTime.set(Calendar.MINUTE, minute);
-                                updateUI();
-                            }
-                        }, // Callback
-                        _startDateTime.get(Calendar.HOUR_OF_DAY), // 24h Stunden
-                        _startDateTime.get(Calendar.MINUTE), // Minuten
-                        is24h // 24h?
-                );
-
-                dialog.show();
-
-                return true;
-            }
-        });
+        _startTime.setOnLongClickListener(new TimeLongClick(this, _startTime, _startDateTime, getString(R.string.SelectStartTimeDialogTitle)));
+        _endTime.setOnLongClickListener(new TimeLongClick(this, _endTime, _endDateTime, getString(R.string.SelectEndTimeDialogTitle)));
     }
 
-    private void updateUI() {
-        _startDate.setText(_dateFormatter.format(_startDateTime.getTime()));
-        _startTime.setText(_timeFormatter.format(_startDateTime.getTime()));
+    @Override
+    protected void onStop() {
+        super.onStop();
+        _startDate.setOnLongClickListener(null);
+        _startTime.setOnLongClickListener(null);
+        _endDate.setOnLongClickListener(null);
+        _endTime.setOnLongClickListener(null);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            // Zurück-Pfeil in der Navigationsleiste
+            case android.R.id.home:
+                saveData();
+                return false;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Hardware-Button
+        saveData();
+        super.onBackPressed();
     }
 
     private void loadDbData() {
         Uri dataUri = ContentUris.withAppendedId(TimeContract.TimeData.CONTENT_URI, _id);
         Cursor data = getContentResolver().query(dataUri, null, null, null, null);
 
-        if (data == null && data.getCount() == 0){
+        if (data == null && data.getCount() == 0) {
             return;
         }
 
         data.moveToFirst();
         // Startzeit
         String startDbValue = data.getString(
-                data.getColumnIndex(TimeContract.TimeData.Columns.START)
+            data.getColumnIndex(TimeContract.TimeData.Columns.START)
         );
         try {
             _startDateTime = TimeContract.Converters.parseFromDb(startDbValue);
@@ -141,7 +128,7 @@ public class EditActivity extends AppCompatActivity {
 
         // Endzeit
         int columnIndex = data.getColumnIndex(TimeContract.TimeData.Columns.END);
-        if(!data.isNull(columnIndex)){
+        if (!data.isNull(columnIndex)) {
             String endDbValue = data.getString(columnIndex);
             try {
                 _endDateTime = TimeContract.Converters.parseFromDb(endDbValue);
@@ -151,19 +138,19 @@ public class EditActivity extends AppCompatActivity {
         }
     }
 
+    private void saveData() {
+        ContentValues values = new ContentValues();
+        values.put(TimeContract.TimeData.Columns.START, TimeContract.Converters.formatForDb(_startDateTime));
+        values.put(TimeContract.TimeData.Columns.END, TimeContract.Converters.formatForDb(_endDateTime));
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+        if (_id == _NOT_SET){
+            // Neuen Datensatz hinzufügen
+            getContentResolver().insert(TimeContract.TimeData.CONTENT_URI, values);
+        } else {
+            // Datensatz aktualisieren
+            Uri updateUri = ContentUris.withAppendedId(TimeContract.TimeData.CONTENT_URI, _id);
+            getContentResolver().update(updateUri, values, null, null);
+        }
+    }
 
 }
