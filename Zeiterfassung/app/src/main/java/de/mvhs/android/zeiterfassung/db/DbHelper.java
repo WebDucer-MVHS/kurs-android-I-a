@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DbHelper extends SQLiteOpenHelper {
     // Konstanten
     private final static String _DB_NAME = "time_data.db";
-    private final static int _DB_VERSION = 1;
+    private final static int _DB_VERSION = 3;
 
     public DbHelper(Context context) {
         super(context, _DB_NAME, null, _DB_VERSION);

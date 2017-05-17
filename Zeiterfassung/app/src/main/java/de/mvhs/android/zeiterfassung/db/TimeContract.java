@@ -78,6 +78,16 @@ public final class TimeContract {
              * Endzeit der Zeiterfassung in ISO 8601 Format (z.B.: 2017-01-28T18:30)
              */
             String END = "end_time";
+
+            /*
+             * Pause in Minuten, Standard: 0
+             */
+            String PAUSE = "pause";
+
+            /*
+             * Notitz zur Arbeitszeit
+             */
+            String COMMENT = "comment";
         }
     }
 

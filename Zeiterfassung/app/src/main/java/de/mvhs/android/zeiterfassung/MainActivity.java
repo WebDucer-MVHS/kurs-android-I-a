@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == _PERMISSION_REQUEST){
+        if (requestCode == _PERMISSION_REQUEST && grantResults.length == 1){
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 new CsvExporter(this).execute();
             }
