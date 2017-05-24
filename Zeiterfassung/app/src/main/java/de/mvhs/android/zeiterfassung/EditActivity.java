@@ -59,6 +59,10 @@ public class EditActivity extends AppCompatActivity {
         _endTime.setKeyListener(null);
     }
 
+    public String getActivityTitle(){
+        return getString(R.string.ExportDialogTitle);
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
