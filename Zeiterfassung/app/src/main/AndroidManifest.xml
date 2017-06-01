@@ -25,7 +25,7 @@
         android:value=".MainActivity"/>
     </activity>
 
-    <activity android:name=".EditActivity">
+    <activity android:name=".BindableEditActivity">
       <meta-data
         android:name="android.support.PARENT_ACTIVITY"
         android:value=".TimeDataListActivity"/>

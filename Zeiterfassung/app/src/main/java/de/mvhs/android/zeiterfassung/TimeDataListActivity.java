@@ -64,7 +64,7 @@ public class TimeDataListActivity extends AppCompatActivity implements LoaderMan
         _list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent newIntent = new Intent(TimeDataListActivity.this, EditActivity.class);
+                Intent newIntent = new Intent(TimeDataListActivity.this, BindableEditActivity.class);
                 newIntent.putExtra(EditActivity.ID_KEY, id);
                 startActivity(newIntent);
             }
@@ -88,7 +88,7 @@ public class TimeDataListActivity extends AppCompatActivity implements LoaderMan
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.MenuItemNew:
-                Intent newIntent = new Intent(this, EditActivity.class);
+                Intent newIntent = new Intent(this, BindableEditActivity.class);
                 startActivity(newIntent);
                 return true;
 
